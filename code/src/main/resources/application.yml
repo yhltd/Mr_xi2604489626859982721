@@ -1,0 +1,23 @@
+server:
+  port: 8095
+spring:
+  profiles:
+    active: dev
+  datasource:
+    druid:
+      max-wait: 10000
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://yhocn.cn/mr_xi2604489626859982721_20220513?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: root
+    password: Lyh07910
+  mvc:
+    view:
+      suffix: .html
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: classpath:/templates/,classpath:/static/
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
