@@ -211,55 +211,82 @@ function setTable(data) {
                 title: '序号',
                 align: 'center',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'chineseName',
                 title: 'INCI名称/中文名称',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'englishName',
                 title: 'INCI名称/英文名称',
                 align: 'left',
                 sortable: true,
                 width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'rinsingProducts',
                 title: '淋洗类产品最高历史使用量（%）',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'residentProducts',
                 title: '驻留类产品最高历史使用量（%）',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'rawRemarks',
                 title: '原料目录备注',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'purpose',
                 title: '主要使用目的',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'riskSubstance',
                 title: '是否可能存在安全性风险物质',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'safetyRisk',
                 title: '安全风险',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }
         ],
         onClickRow: function (row, el) {

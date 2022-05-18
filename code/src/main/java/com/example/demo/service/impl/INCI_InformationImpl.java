@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author wanghui
- * @date 2022/05/13 16:56
+ * @author huchao
+ * @date 2022/05/14 16:56
  */
 @Service
 public class INCI_InformationImpl extends ServiceImpl<INCI_InformationMapper, INCI_Information> implements INCI_InformationService {

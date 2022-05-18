@@ -1,3 +1,4 @@
+
 function getList() {
     $('#query').val('')
     $ajax({
@@ -211,25 +212,38 @@ function setTable(data) {
                 title: '序号',
                 align: 'center',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+
             }, {
                 field: 'chineseName',
                 title: 'INCI名称/中文名称',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'englishName',
                 title: 'INCI名称/英文名称',
                 align: 'left',
                 sortable: true,
                 width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
                 field: 'safetyAssessment',
                 title: 'CIR安全评估',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }
         ],
         onClickRow: function (row, el) {

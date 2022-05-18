@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>主菜单设置</title>
+    <title>化妆品原料信息</title>
     <script type="text/javascript" src="../javascript/Jquery.js"></script>
+    <script type="text/javascript" src="../javascript/jquerysession.js"></script>
 
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
@@ -17,13 +18,13 @@
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
-    <script type="text/javascript" src="../javascript/menuSettings.js"></script>
+    <script type="text/javascript" src="../javascript/cosmeticRaw.js"></script>
 </head>
 
 <body class="pt-2">
 <div class="top-toolbar row">
     <div class="col-md-3 mb-2">
-        <input id="query" type="text" class="form-control" placeholder="供应商/原料品牌/物质分类/物理形态" autocomplete="off">
+        <input id="query" type="text" class="form-control" placeholder="产地" autocomplete="off">
     </div>
     <div class="col-md-2 mb-2">
         <button id="select-btn" class="btn btn-primary">
@@ -51,8 +52,10 @@
             <i class="bi bi-trash icon"></i>
             删除
         </button>
-        <a class="btn btn-primary" style="color: white;padding-top: 8px">当前页：主菜单配置</a>
+        <a class="btn btn-primary" style="color: white;padding-top: 8px">当前页：化妆品原料信息</a>
+        <input type="file" id="file" hidden="hidden">
     </div>
+    <input type="file" id="file" hidden="hidden">
 </div>
 
 <div class="table-div border-top">
@@ -71,20 +74,20 @@
             <div class="modal-body">
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
-                        <label for="add-supplier">供应商</label>
-                        <input id="add-supplier" name="supplier" type="text" class="form-control" autocomplete="off">
+                        <label for="add-brandCode">品牌编码</label>
+                        <input id="add-brandCode" name="brandCode" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                     <div class="form-group">
-                        <label for="add-brand">原料品牌</label>
-                        <input id="add-brand" name="brand" type="text" class="form-control" autocomplete="off">
+                        <label for="add-productionPlace">产地</label>
+                        <input id="add-productionPlace" name="productionPlace" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="add-sort">物质分类</label>
-                        <input id="add-sort" name="sort" type="text" class="form-control" autocomplete="off">
+                        <label for="add-brandName">品牌名称</label>
+                        <input id="add-brandName" name="brandName" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                     <div class="form-group">
-                        <label for="add-shape">物理形态</label>
-                        <input id="add-shape" name="shape" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <label for="add-website">官网网址</label>
+                        <input id="add-website" name="website" type="text" class="form-control" autocomplete="off">
                     </div>
                 </form>
             </div>
@@ -117,20 +120,20 @@
                         <input id="id" name="id" type="hidden">
                     </div>
                     <div class="form-group">
-                        <label for="update-supplier">供应商</label>
-                        <input id="update-supplier" name="supplier" type="text" class="form-control" autocomplete="off">
+                        <label for="update-brandCode">品牌编码</label>
+                        <input id="update-brandCode" name="brandCode" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                     <div class="form-group">
-                        <label for="update-brand">原料品牌</label>
-                        <input id="update-brand" name="brand" type="text" class="form-control" autocomplete="off">
+                        <label for="update-productionPlace">产地</label>
+                        <input id="update-productionPlace" name="productionPlace" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="update-sort">物质分类</label>
-                        <input id="update-sort" name="sort" type="text" class="form-control" autocomplete="off">
+                        <label for="update-brandName">品牌名称</label>
+                        <input id="update-brandName" name="brandName" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                     <div class="form-group">
-                        <label for="update-shape">物理形态</label>
-                        <input id="update-shape" name="shape" type="text" class="form-control" autocomplete="off">
+                        <label for="update-website">官网网址</label>
+                        <input id="update-website" name="website" type="text" class="form-control" autocomplete="off">
                     </div>
                 </form>
             </div>

@@ -150,6 +150,7 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.62" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.19" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.19" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.19" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.19" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.19" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.19" level="project" />

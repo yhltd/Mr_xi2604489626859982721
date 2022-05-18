@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author wanghui
- * @date 2022/05/13 16:55
+ * @author huchao
+ * @date 2022/05/14 16:55
  */
 @Service
 public interface INCI_InformationService extends IService<INCI_Information> {

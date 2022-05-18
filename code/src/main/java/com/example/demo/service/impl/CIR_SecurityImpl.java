@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author wanghui
- * @date 2022/05/13 16:56
+ * @author huchao
+ * @date 2022/05/14 16:56
  */
 @Service
 public class CIR_SecurityImpl extends ServiceImpl<CIR_SecurityMapper, CIR_Security> implements CIR_SecurityService {
