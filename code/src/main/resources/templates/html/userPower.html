@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+    <script type="text/javascript" src="../javascript/Jquery.js"></script>
+    <script type="text/javascript" src="../javascript/jquerysession.js"></script>
+
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
+    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../javascript/main.js"></script>
+    <script type="text/javascript" src="../javascript/userPower.js"></script>
+</head>
+
+<body class="pt-2">
+<div class="top-toolbar row">
+    <div class="col-md-3 mb-2">
+        <input id="query" type="text" class="form-control" placeholder="" autocomplete="off">
+    </div>
+    <div class="col-md-2 mb-2">
+        <button id="select-btn" class="btn btn-primary">
+            <i class="bi bi-search icon"></i>
+            查询
+        </button>
+    </div>
+</div>
+
+<div id="table-toolbar">
+    <div class="btn-group" role="group">
+        <button id="refresh-btn" class="btn btn-primary">
+            <i class="bi bi-arrow-clockwise icon"></i>
+            刷新
+        </button>
+        <button id="add-btn" class="btn btn-primary">
+            <i class="bi bi-plus-square icon"></i>
+            新增
+        </button>
+        <button id="update-btn" class="btn btn-primary">
+            <i class="bi bi-pencil-square icon"></i>
+            修改
+        </button>
+        <button id="delete-btn" class="btn btn-primary">
+            <i class="bi bi-trash icon"></i>
+            删除
+        </button>
+        <a id="biaoqian" class="btn btn-primary" style="color: white;padding-top: 8px">当前页：账号管理</a>
+    </div>
+</div>
+
+<div class="table-div border-top">
+    <table id="userPowerTable"></table>
+</div>
+
+<div id="add-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">录入</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button id="add-user-show" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    选择用户
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="add-form" class="needs-validation">
+                    <div class="form-group">
+                        <input id="userId" name="userId" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-username">用户名</label>
+                        <input id="add-username" type="text" class="form-control" autocomplete="off">
+                        <div class="invalid-feedback">
+                            请输入用户名！
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-viewName">模块</label>
+                        <select id="add-viewName" name="viewName" class="form-control">
+                            <option value="">请选择模块</option>
+                            <option value="供应商">供应商</option>
+                            <option value="原料品牌">原料品牌</option>
+                            <option value="标签">标签</option>
+                            <option value="录入原料商品">录入原料商品</option>
+                            <option value="数据查询">数据查询</option>
+                            <option value="系统设置">系统设置</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            请选择模块！
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-zeng">增</label>
+                        <select id="add-zeng" name="zeng" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-shan">删</label>
+                        <select id="add-shan" name="shan" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-gai">改</label>
+                        <select id="add-gai" name="gai" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-cha">查</label>
+                        <select id="add-cha" name="cha" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="add-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    提交
+                </button>
+                <button id="add-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="update-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">编辑</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button id="update-user-show" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    选择用户
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="update-form" class="needs-validation">
+                    <div class="form-group">
+                        <input id="id" name="id" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <input id="update-userId" name="userId" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <label for="update-username">用户名</label>
+                        <input id="update-username" type="text" class="form-control" autocomplete="off">
+                        <div class="invalid-feedback">
+                            请输入用户名！
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-viewName">模块</label>
+                        <select id="update-viewName" name="viewName" class="form-control">
+                            <option value="">请选择模块</option>
+                            <option value="供应商">供应商</option>
+                            <option value="原料品牌">原料品牌</option>
+                            <option value="标签">标签</option>
+                            <option value="录入原料商品">录入原料商品</option>
+                            <option value="数据查询">数据查询</option>
+                            <option value="系统设置">系统设置</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            请选择模块！
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-zeng">增</label>
+                        <select id="update-zeng" name="zeng" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-shan">删</label>
+                        <select id="update-shan" name="shan" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-gai">改</label>
+                        <select id="update-gai" name="gai" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-cha">查</label>
+                        <select id="update-cha" name="cha" class="form-control">
+                            <option value="可操作">可操作</option>
+                            <option value="无权限">无权限</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="update-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    提交
+                </button>
+                <button id="update-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">提示</div>
+            </div>
+            <div id="delete-modal-body" class="modal-body">
+                确定删除吗？
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="delete-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="delete-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    查询基本信息窗体-->
+<div id="show-user-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">选择用户</div>
+            </div>
+            <div class="modal-body">
+                <input id="userInfoId" type="hidden"/>
+                <table id="show-table-user"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="user-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="user-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

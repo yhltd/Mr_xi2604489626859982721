@@ -2,13 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.CosmeticRaw;
 import com.example.demo.service.CosmeticRawService;
-import com.example.demo.util.DecodeUtil;
-import com.example.demo.util.GsonUtil;
-import com.example.demo.util.ResultInfo;
-import com.example.demo.util.StringUtils;
+import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +31,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/getList")
-    public ResultInfo getList(String production_place) {
+    public ResultInfo getList(String production_place, HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CosmeticRaw> getList = cosmeticRawService.getList(production_place);
             return ResultInfo.success("获取成功", getList);
@@ -48,7 +52,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/queryList")
-    public ResultInfo queryList(String query) {
+    public ResultInfo queryList(String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CosmeticRaw> queryList = cosmeticRawService.queryList(query);
             return ResultInfo.success("获取成功", queryList);
@@ -65,7 +73,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/preciseQueryList")
-    public ResultInfo preciseQueryList(String query) {
+    public ResultInfo preciseQueryList(String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CosmeticRaw> queryList = cosmeticRawService.preciseQueryList(query);
             return ResultInfo.success("获取成功", queryList);
@@ -83,7 +95,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/add")
-    public ResultInfo add(@RequestBody HashMap map) {
+    public ResultInfo add(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         try {
             CosmeticRaw cosmeticRaw = GsonUtil.toEntity(gsonUtil.get("addUserInfo"), CosmeticRaw.class);
@@ -111,7 +127,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultInfo update(@RequestBody String menuSettingsJson) {
+    public ResultInfo update(@RequestBody String menuSettingsJson,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         CosmeticRaw cosmeticRaw = null;
         try {
             cosmeticRaw = DecodeUtil.decodeToJson(menuSettingsJson, CosmeticRaw.class);
@@ -134,7 +154,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/up1")
-    public ResultInfo up1(String query,int id,String pdfName) {
+    public ResultInfo up1(String query,int id,String pdfName,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             if (cosmeticRawService.up1(query,id,pdfName)) {
                 return ResultInfo.success("上传成功", query);
@@ -155,7 +179,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/up2")
-    public ResultInfo up2(String query,int id,String pdfName) {
+    public ResultInfo up2(String query, int id, String pdfName, HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             if (cosmeticRawService.up2(query,id,pdfName)) {
                 return ResultInfo.success("上传成功", query);
@@ -177,7 +205,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/delete")
-    public ResultInfo delete(@RequestBody HashMap map) {
+    public ResultInfo delete(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isDelete("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         List<Integer> idList = GsonUtil.toList(gsonUtil.get("idList"), Integer.class);
         try {
@@ -200,7 +232,11 @@ public class CosmeticRawController {
      * @return ResultInfo
      */
     @RequestMapping("/getFile")
-    public ResultInfo getFile(int id) {
+    public ResultInfo getFile(int id,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("原料品牌")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CosmeticRaw> getList = cosmeticRawService.getFile1(id);
             return ResultInfo.success("获取成功", getList);

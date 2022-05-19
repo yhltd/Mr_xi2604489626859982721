@@ -1,9 +1,11 @@
 
 package com.example.demo.util;
 
+import com.example.demo.entity.UserPower;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Session工具类
@@ -23,9 +25,9 @@ public class SessionUtil {
      */
     public static boolean checkToken(HttpSession session) {
         Object token = session.getAttribute("token");
-//        Object power = session.getAttribute("power");
-//        return StringUtils.isNotNull(token) && StringUtils.isNotNull(power);
-        return StringUtils.isNotNull(token);
+        Object power = session.getAttribute("power");
+        return StringUtils.isNotNull(token) && StringUtils.isNotNull(power);
+        //return StringUtils.isNotNull(token);
     }
 
     /**
@@ -39,11 +41,11 @@ public class SessionUtil {
         session.setAttribute("token", data);
     }
 
-//    public static void setPower(HttpSession session, List<UserPower> userPower){
-//        //设置session过期时间
-//        session.setMaxInactiveInterval(MAX_INTERVAL);
-//        session.setAttribute("power", userPower);
-//    }
+    public static void setPower(HttpSession session, List<UserPower> userPower){
+        //设置session过期时间
+        session.setMaxInactiveInterval(MAX_INTERVAL);
+        session.setAttribute("power", userPower);
+    }
 
     /**
      * get
@@ -54,9 +56,9 @@ public class SessionUtil {
         return checkToken(session) ? session.getAttribute("token").toString() : StringUtils.EMPTY;
     }
 
-//    public static List<UserPower> getPower(HttpSession session){
-//        return StringUtils.cast(session.getAttribute("power"));
-//    }
+    public static List<UserPower> getPower(HttpSession session){
+        return StringUtils.cast(session.getAttribute("power"));
+    }
 
     /**
      * 删除某个键

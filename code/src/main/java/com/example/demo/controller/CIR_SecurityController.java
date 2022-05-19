@@ -2,16 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.CIR_Security;
 import com.example.demo.service.CIR_SecurityService;
-import com.example.demo.util.DecodeUtil;
-import com.example.demo.util.GsonUtil;
-import com.example.demo.util.ResultInfo;
-import com.example.demo.util.StringUtils;
+import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +32,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @RequestMapping("/getList")
-    public ResultInfo getList() {
+    public ResultInfo getList(HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CIR_Security> getList = cIR_SecurityService.getList();
             return ResultInfo.success("获取成功", getList);
@@ -51,7 +53,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @RequestMapping("/queryList")
-    public ResultInfo queryList(String query) {
+    public ResultInfo queryList(String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CIR_Security> queryList = cIR_SecurityService.queryList(query);
             return ResultInfo.success("获取成功", queryList);
@@ -68,7 +74,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @RequestMapping("/preciseQueryList")
-    public ResultInfo preciseQueryList(String query) {
+    public ResultInfo preciseQueryList(String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<CIR_Security> queryList = cIR_SecurityService.preciseQueryList(query);
             return ResultInfo.success("获取成功", queryList);
@@ -86,7 +96,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @RequestMapping("/add")
-    public ResultInfo add(@RequestBody HashMap map) {
+    public ResultInfo add(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         try {
             CIR_Security cIR_Security = GsonUtil.toEntity(gsonUtil.get("addUserInfo"), CIR_Security.class);
@@ -112,7 +126,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultInfo update(@RequestBody String menuSettingsJson) {
+    public ResultInfo update(@RequestBody String menuSettingsJson,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         CIR_Security cIR_Security = null;
         try {
             cIR_Security = DecodeUtil.decodeToJson(menuSettingsJson, CIR_Security.class);
@@ -136,7 +154,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @RequestMapping("/delete")
-    public ResultInfo delete(@RequestBody HashMap map) {
+    public ResultInfo delete(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isDelete("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         List<Integer> idList = GsonUtil.toList(gsonUtil.get("idList"), Integer.class);
         try {
@@ -161,7 +183,11 @@ public class CIR_SecurityController {
      * @return ResultInfo
      */
     @PostMapping("/upload")
-    public ResultInfo upload(String excel) {
+    public ResultInfo upload(String excel,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             FileInputStream fis = new FileInputStream(StringUtils.base64ToFile(excel));
             Workbook wb = null;

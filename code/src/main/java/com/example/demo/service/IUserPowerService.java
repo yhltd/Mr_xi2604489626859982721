@@ -1,46 +1,41 @@
 package com.example.demo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.demo.entity.UserInfo;
+import com.example.demo.entity.UserPower;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wanghui
- * @date 2022/05/13 14:30
+ * @date 2022/05/19 14:31
  */
 @Service
-public interface IUserInfoService extends IService<UserInfo> {
+public interface IUserPowerService extends IService<UserPower> {
     /**
-     * 登陆
-     *
-     * @param username 用户名
-     * @param password  密码
-     * @return 转Json后的用户信息
+     * 查询
      */
-    Map<String,Object> login(String username, String password);
+    List<UserPower> getList();
 
     /**
      * 查询
      */
-    List<UserInfo> getList();
+    List<UserPower> getListById(int id);
 
     /**
      * 查询
      */
-    List<UserInfo> queryList(String username);
+    List<UserPower> queryList(String username);
 
     /**
      * 添加
      */
-    UserInfo add(UserInfo userInfo);
+    UserPower add(UserPower userPower);
 
     /**
      * 修改
      */
-    boolean update(UserInfo userInfo);
+    boolean update(UserPower userPower);
 
     /**
      * 删除
@@ -49,4 +44,6 @@ public interface IUserInfoService extends IService<UserInfo> {
      * @return 是否删除成功
      */
     boolean delete(List<Integer> idList);
+
+
 }

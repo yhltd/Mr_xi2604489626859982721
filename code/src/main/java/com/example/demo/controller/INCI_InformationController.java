@@ -3,16 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.entity.CIR_Security;
 import com.example.demo.entity.INCI_Information;
 import com.example.demo.service.INCI_InformationService;
-import com.example.demo.util.DecodeUtil;
-import com.example.demo.util.GsonUtil;
-import com.example.demo.util.ResultInfo;
-import com.example.demo.util.StringUtils;
+import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +33,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @RequestMapping("/getList")
-    public ResultInfo getList() {
+    public ResultInfo getList(HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<INCI_Information> getList = iNCI_InformationService.getList();
             return ResultInfo.success("获取成功", getList);
@@ -52,7 +54,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @RequestMapping("/queryList")
-    public ResultInfo queryList(String query) {
+    public ResultInfo queryList(String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<INCI_Information> queryList = iNCI_InformationService.queryList(query);
             return ResultInfo.success("获取成功", queryList);
@@ -69,7 +75,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @RequestMapping("/preciseQueryList")
-    public ResultInfo preciseQueryList(String query) {
+    public ResultInfo preciseQueryList(String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<INCI_Information> queryList = iNCI_InformationService.preciseQueryList(query);
             return ResultInfo.success("获取成功", queryList);
@@ -87,7 +97,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @RequestMapping("/add")
-    public ResultInfo add(@RequestBody HashMap map) {
+    public ResultInfo add(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         try {
             INCI_Information iNCI_Information = GsonUtil.toEntity(gsonUtil.get("addUserInfo"), INCI_Information.class);
@@ -113,7 +127,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultInfo update(@RequestBody String menuSettingsJson) {
+    public ResultInfo update(@RequestBody String menuSettingsJson,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         INCI_Information iNCI_Information = null;
         try {
             iNCI_Information = DecodeUtil.decodeToJson(menuSettingsJson, INCI_Information.class);
@@ -137,7 +155,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @RequestMapping("/delete")
-    public ResultInfo delete(@RequestBody HashMap map) {
+    public ResultInfo delete(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isDelete("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         List<Integer> idList = GsonUtil.toList(gsonUtil.get("idList"), Integer.class);
         try {
@@ -162,7 +184,11 @@ public class INCI_InformationController {
      * @return ResultInfo
      */
     @PostMapping("/upload")
-    public ResultInfo upload(String excel) {
+    public ResultInfo upload(String excel,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("数据查询")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             FileInputStream fis = new FileInputStream(StringUtils.base64ToFile(excel));
             Workbook wb = null;

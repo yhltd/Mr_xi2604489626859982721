@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.MenuSettings;
-import com.example.demo.entity.UserInfo;
-import com.example.demo.service.IMenuSettingsService;
+import com.example.demo.entity.UserPower;
+import com.example.demo.service.IUserPowerService;
 import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * @author wanghui
- * @date 2022/05/13 17:02
+ * @date 2022/05/19 14:37
  */
 @Slf4j
 @RestController
-@RequestMapping("/menu_settings")
-public class MenuSettingsController {
-
-    @Autowired IMenuSettingsService iMenuSettingsService;
+@RequestMapping("/user_power")
+public class UserPowerController {
+    @Autowired
+    IUserPowerService iUserPowerService;
 
     /**
      * 查询
@@ -38,7 +38,7 @@ public class MenuSettingsController {
             return ResultInfo.error(401, "无权限");
         }
         try {
-            List<MenuSettings> getList = iMenuSettingsService.getList();
+            List<UserPower> getList = iUserPowerService.getList();
             return ResultInfo.success("获取成功", getList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,13 +53,13 @@ public class MenuSettingsController {
      * @return ResultInfo
      */
     @RequestMapping("/queryList")
-    public ResultInfo queryList(String query,HttpSession session) {
+    public ResultInfo queryList(String username, HttpSession session) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
         if (!powerUtil.isSelect("系统设置")) {
             return ResultInfo.error(401, "无权限");
         }
         try {
-            List<MenuSettings> queryList = iMenuSettingsService.queryList(query);
+            List<UserPower> queryList = iUserPowerService.queryList(username);
             return ResultInfo.success("获取成功", queryList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,10 +82,10 @@ public class MenuSettingsController {
         }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         try {
-            MenuSettings menuSettings = GsonUtil.toEntity(gsonUtil.get("addUserInfo"), MenuSettings.class);
-            menuSettings = iMenuSettingsService.add(menuSettings);
-            if (StringUtils.isNotNull(menuSettings)) {
-                return ResultInfo.success("添加成功", menuSettings);
+            UserPower userPower = GsonUtil.toEntity(gsonUtil.get("addInfo"), UserPower.class);
+            userPower = iUserPowerService.add(userPower);
+            if (StringUtils.isNotNull(userPower)) {
+                return ResultInfo.success("添加成功", userPower);
             } else {
                 return ResultInfo.success("添加失败", null);
             }
@@ -97,31 +97,30 @@ public class MenuSettingsController {
         }
     }
 
-
     /**
      * 修改
      *
-     * @param menuSettingsJson
+     * @param updateJson
      * @return ResultInfo
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultInfo update(@RequestBody String menuSettingsJson,HttpSession session) {
+    public ResultInfo update(@RequestBody String updateJson,HttpSession session) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
         if (!powerUtil.isUpdate("系统设置")) {
             return ResultInfo.error(401, "无权限");
         }
-        MenuSettings menuSettings = null;
+        UserPower userPower = null;
         try {
-            menuSettings = DecodeUtil.decodeToJson(menuSettingsJson, MenuSettings.class);
-            if (iMenuSettingsService.update(menuSettings)) {
-                return ResultInfo.success("修改成功", menuSettings);
+            userPower = DecodeUtil.decodeToJson(updateJson, UserPower.class);
+            if (iUserPowerService.update(userPower)) {
+                return ResultInfo.success("修改成功", userPower);
             } else {
-                return ResultInfo.success("修改失败", menuSettings);
+                return ResultInfo.success("修改失败", userPower);
             }
         } catch (Exception e) {
             e.printStackTrace();
             log.error("修改失败：{}", e.getMessage());
-            log.error("参数：{}", menuSettings);
+            log.error("参数：{}", userPower);
             return ResultInfo.error("修改失败");
         }
     }
@@ -141,7 +140,7 @@ public class MenuSettingsController {
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         List<Integer> idList = GsonUtil.toList(gsonUtil.get("idList"), Integer.class);
         try {
-            if (iMenuSettingsService.delete(idList)) {
+            if (iUserPowerService.delete(idList)) {
                 return ResultInfo.success("删除成功", idList);
             } else {
                 return ResultInfo.success("删除失败", idList);
@@ -153,6 +152,8 @@ public class MenuSettingsController {
             return ResultInfo.error("删除失败");
         }
     }
+
+
 
 
 }

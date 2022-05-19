@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Supplier;
 import com.example.demo.service.ISupplierService;
-import com.example.demo.util.DecodeUtil;
-import com.example.demo.util.GsonUtil;
-import com.example.demo.util.ResultInfo;
-import com.example.demo.util.StringUtils;
+import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +31,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @RequestMapping("/getList")
-    public ResultInfo getList(String supplier) {
+    public ResultInfo getList(String supplier, HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<Supplier> getList = iSupplierService.getList(supplier);
             return ResultInfo.success("获取成功", getList);
@@ -50,7 +52,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @RequestMapping("/queryList")
-    public ResultInfo queryList(String supplier, String query) {
+    public ResultInfo queryList(String supplier, String query,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<Supplier> queryList = iSupplierService.queryList(supplier, query);
             return ResultInfo.success("获取成功", queryList);
@@ -68,7 +74,11 @@ public class SupplierController {
      */
     @RequestMapping("/add")
     public ResultInfo add(String supplierCode, String type, String abbreviation, String supplierName,
-                          String url, String pdf1, String pdf2 ) {
+                          String url, String pdf1, String pdf2,HttpSession session ) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             iSupplierService.add(supplierCode,type,abbreviation,supplierName,url,pdf1,pdf2);
             return ResultInfo.success("添加成功", null);
@@ -86,7 +96,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @PostMapping("/update")
-    public ResultInfo update(@RequestBody String supplierJson) {
+    public ResultInfo update(@RequestBody String supplierJson,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             Supplier supplier = DecodeUtil.decodeToJson(supplierJson, Supplier.class);
             int id = supplier.getId();
@@ -112,7 +126,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @RequestMapping("/delete")
-    public ResultInfo delete(@RequestBody HashMap map) {
+    public ResultInfo delete(@RequestBody HashMap map,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isDelete("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         List<Integer> idList = GsonUtil.toList(gsonUtil.get("idList"), Integer.class);
         try {
@@ -135,7 +153,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @RequestMapping("/upfile1")
-    public ResultInfo upfile1(int id,String pdf,String pdfName){
+    public ResultInfo upfile1(int id,String pdf,String pdfName,HttpSession session){
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             iSupplierService.upfile1(id,pdf,pdfName);
             return ResultInfo.success("上传成功", pdf);
@@ -153,7 +175,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @RequestMapping("/upfile2")
-    public ResultInfo upfile2(int id,String pdf,String pdfName){
+    public ResultInfo upfile2(int id,String pdf,String pdfName,HttpSession session){
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isUpdate("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             iSupplierService.upfile2(id,pdf,pdfName);
             return ResultInfo.success("上传成功", pdf);
@@ -171,7 +197,11 @@ public class SupplierController {
      * @return ResultInfo
      */
     @RequestMapping("/getFile")
-    public ResultInfo getFile(int id) {
+    public ResultInfo getFile(int id,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
         try {
             List<Supplier> getList = iSupplierService.getFile1(id);
             return ResultInfo.success("获取成功", getList);
