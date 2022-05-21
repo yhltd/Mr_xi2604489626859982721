@@ -18,6 +18,9 @@ public interface CosmeticRawMapper extends BaseMapper<CosmeticRaw> {
     @Select("select * from cosmetic_raw where production_place=#{production_place}")
     List<CosmeticRaw> queryList(String production_place);
 
+    @Select("select * from cosmetic_raw")
+    List<CosmeticRaw> getList2();
+
     @Select("select * from cosmetic_raw where production_place = #{query} ")
     List<CosmeticRaw> preciseQueryList(String query);
 
@@ -29,4 +32,5 @@ public interface CosmeticRawMapper extends BaseMapper<CosmeticRaw> {
 
     @Select("select * from cosmetic_raw where id=#{id}")
     List<CosmeticRaw> getFile1(int id);
+
 }

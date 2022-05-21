@@ -20,6 +20,13 @@ public interface CosmeticRawService extends IService<CosmeticRaw> {
     List<CosmeticRaw> getList(String production_place);
 
     /**
+     * 查询
+     *
+     * @return 信息集合
+     */
+    List<CosmeticRaw> getList2();
+
+    /**
      * 模糊查询
      *
      * @return 信息集合

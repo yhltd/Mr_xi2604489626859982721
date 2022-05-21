@@ -262,58 +262,33 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
-                    return [
-                        "<a href=\"" + value + "\">" + value + "</a>"
-                    ].join("")
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' onclick='javascript:goTo("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
                 field: 'pictureAlbum1',
                 title: '目录画册1',
                 align: 'left',
                 sortable: true,
-                width: 200,
+                width: 100,
                 formatter:function(value, row , index){
-                    if(value != '' && value != null){
-                        value = "<button id=\"pdf_upload\" onclick=\"javascript:pdf_download1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\">\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            下载pdf\n" +
-                            "        </button>" +
-                            "<button id=\"pdf_update1\"  onclick=\"javascript:up1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" style=\"margin-left: 20px\">\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
-                            "        </button>"
+                    if (value==null || value ==''){
+                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button>'
                     }else{
-                        value = "<button id=\"pdf_update1\" onclick=\"javascript:up1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" >\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
-                            "        </button>"
+                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:pdf_download1(' + row.id + ')" class="btn btn-primary">下载</button>'
                     }
-                    return value
                 }
             }, {
                 field: 'pictureAlbum2',
                 title: '目录画册2',
                 align: 'left',
                 sortable: true,
-                width: 200,
+                width: 100,
                 formatter:function(value, row , index){
-                    if(value != '' && value != null){
-                        value = "<button id=\"pdf_upload\" onclick=\"javascript:pdf_download2(" + row.id + ")\"  data-id=\"" + row.id + "\" class=\"btn btn-primary\">\n" +
-                        "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                        "            下载pdf\n" +
-                        "        </button>" +
-                                "<button id=\"pdf_update2\" onclick=\"javascript:up2(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" style=\"margin-left: 20px\">\n" +
-                        "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                        "            上传pdf\n" +
-                        "        </button>"
+                    if (value==null || value ==''){
+                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button>'
                     }else{
-                        value = "<button id=\"pdf_update2\" onclick=\"javascript:up2(" + row.id + ")\" onclick=\"javascript:up2(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" >\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
-                            "        </button>"
+                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:pdf_download2(' + row.id + ')" class="btn btn-primary">下载</button>'
                     }
-                    return value
                 }
             }
         ],
@@ -328,8 +303,14 @@ function setTable(data) {
     })
 }
 
-function goTo(value){
-    window.location.href=value
+function goTo(id){
+    if ($('#'+id).text()!='' && $('#'+id).text()!=null){
+        if($('#'+id).text().slice(0,4)!="http"){
+            window.open('//'+$('#'+id).text(),"_blank"); //$('#'+id).text();
+        }else{
+            window.open($('#'+id).text(),"_blank");
+        }
+    }
 }
 
 function up1(value){

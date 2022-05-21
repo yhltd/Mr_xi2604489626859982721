@@ -13,11 +13,17 @@ import java.util.List;
  */
 @Mapper
 public interface SupplierMapper extends BaseMapper<Supplier> {
-    @Select("select * from supplier where type=#{supplier}")
+    @Select("select id,supplier_code,type,abbreviation,s.supplier_name,url," +
+            "ifnull(c.brand,'') as brand,pdf1_name,pdf2_name from supplier s left join (select supplier_name," +
+            "group_concat(brand_name) as brand from commodity group by supplier_name) as c " +
+            "on c.supplier_name=s.supplier_name where type=#{supplier}")
     List<Supplier> getList(String supplier);
 
-    @Select("select * from supplier where type=#{supplier} and supplier_code like concat('%',#{query},'%') or " +
-            "abbreviation like concat('%',#{query},'%') or supplier_name like concat('%',#{query},'%')")
+    @Select("select id,supplier_code,type,abbreviation,s.supplier_name,url,ifnull(c.brand,'') as brand,c.brand,pdf1_name,pdf2_name " +
+            "from supplier s left join (select supplier_name,group_concat(brand_name) as brand from " +
+            "commodity group by supplier_name) as c on c.supplier_name=s.supplier_name where " +
+            "type=#{supplier} and (supplier_code like concat('%',#{query},'%') or abbreviation like " +
+            "concat('%',#{query},'%') or s.supplier_name like concat('%',#{query},'%'))")
     List<Supplier> queryList(String supplier, String query);
 
     @Select("update supplier set supplier_code=#{supplierCode},type=#{type},abbreviation=#{abbreviation}" +

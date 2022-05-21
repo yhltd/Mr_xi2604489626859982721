@@ -25,6 +25,11 @@ public class LabelImpl extends ServiceImpl<LabelMapper, Label> implements ILabel
     }
 
     @Override
+    public List<Label> queryList(String type, String query) {
+        return labelMapper.queryList(type, query);
+    }
+
+    @Override
     public Label add(Label label) {
         return this.save(label) ? label : null;
     }

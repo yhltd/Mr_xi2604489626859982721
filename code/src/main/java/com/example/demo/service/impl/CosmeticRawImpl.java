@@ -25,6 +25,11 @@ public class CosmeticRawImpl extends ServiceImpl<CosmeticRawMapper, CosmeticRaw>
     }
 
     @Override
+    public List<CosmeticRaw> getList2() {
+        return cosmeticRawMapper.getList2();
+    }
+
+    @Override
     public List<CosmeticRaw> queryList(String query) {
         return cosmeticRawMapper.queryList(query);
     }

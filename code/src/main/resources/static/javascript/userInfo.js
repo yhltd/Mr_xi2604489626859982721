@@ -1,4 +1,5 @@
 function getList() {
+    $('#query').val();
     $ajax({
         type: 'post',
         url: '/user/getList',

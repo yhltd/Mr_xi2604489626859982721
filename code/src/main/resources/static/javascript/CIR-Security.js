@@ -3,7 +3,7 @@ function getList() {
     $('#query').val('')
     $ajax({
         type: 'post',
-        url: '/cir_security/getList',
+        url: '/commodity/getList',
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
@@ -208,12 +208,15 @@ function setTable(data) {
         toolbarAlign: 'left',
         columns: [
             {
-                field: 'serialNumber',
+                field: 'rawCode',
                 title: '序号',
                 align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
 
@@ -224,6 +227,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -233,6 +239,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -242,6 +251,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }

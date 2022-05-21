@@ -213,6 +213,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -222,6 +225,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -231,6 +237,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -240,6 +249,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -249,6 +261,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -258,6 +273,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -267,6 +285,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -276,6 +297,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
@@ -285,6 +309,9 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }

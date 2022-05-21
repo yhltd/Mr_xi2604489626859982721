@@ -1,4 +1,5 @@
-let file_id='';
+let file_id = '';
+
 function getList() {
     var supplier = $.session.get('supplier');
     $('#add-type').val($.session.get('supplier'))
@@ -155,11 +156,11 @@ $(function () {
     })
 
     $('#file1').change(function () {
-        var pdf =document.getElementById("file1").files[0];
-        var pdfName="";
-        if (typeof(pdf)!="undefined"){
-            pdfName=pdf.name;
-            var oFReader= new FileReader();
+        var pdf = document.getElementById("file1").files[0];
+        var pdfName = "";
+        if (typeof (pdf) != "undefined") {
+            pdfName = pdf.name;
+            var oFReader = new FileReader();
             oFReader.readAsDataURL(pdf);
             oFReader.onloadend = function (oFRevent) {
                 pdf = oFRevent.target.result;
@@ -167,23 +168,24 @@ $(function () {
                     type: 'post',
                     url: '/supplier/upfile1',
                     data: {
-                        id:file_id,
+                        id: file_id,
                         pdf: pdf,
-                        pdfName:pdfName,
+                        pdfName: pdfName,
                     },
                 }, false, '', function (res) {
                     alert(res.msg)
+                    getList()
                 })
             }
         }
     })
 
     $('#file2').change(function () {
-        var pdf =document.getElementById("file2").files[0];
-        var pdfName="";
-        if (typeof(pdf)!="undefined"){
-            pdfName=pdf.name;
-            var oFReader= new FileReader();
+        var pdf = document.getElementById("file2").files[0];
+        var pdfName = "";
+        if (typeof (pdf) != "undefined") {
+            pdfName = pdf.name;
+            var oFReader = new FileReader();
             oFReader.readAsDataURL(pdf);
             oFReader.onloadend = function (oFRevent) {
                 pdf = oFRevent.target.result;
@@ -191,12 +193,13 @@ $(function () {
                     type: 'post',
                     url: '/supplier/upfile2',
                     data: {
-                        id:file_id,
+                        id: file_id,
                         pdf: pdf,
-                        pdfName:pdfName,
+                        pdfName: pdfName,
                     },
                 }, false, '', function (res) {
                     alert(res.msg)
+                    getList()
                 })
             }
         }
@@ -270,7 +273,8 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                    //return '<span id="'+ row.id +'" onclick="javascript:jump('+ row.id +')">' + value + '</span>'
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' onclick='javascript:jump("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
                 field: 'pdf1',
@@ -279,7 +283,12 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:down1(' + row.id + ')" class="btn btn-primary">下载</button><input onclick="javascript:change1(' + row.id + ')" type="file" id="Afile'+ row.id +'" hidden="hidden"/>'
+                    if (row.pdf1Name==null || row.pdf1Name ==''){
+                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> '
+                    }else{
+                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:down1(' + row.id + ')" class="btn btn-primary">下载</button><input onclick="javascript:change1(' + row.id + ')" type="file" id="Afile' + row.id + '" hidden="hidden"/>'
+                    }
+
                     //return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
@@ -289,8 +298,11 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:down2(' + row.id + ')" class="btn btn-primary">下载</button>'
-                    //return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                    if (row.pdf2Name==null || row.pdf2Name ==''){
+                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button>'
+                    }else{
+                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:down2(' + row.id + ')" class="btn btn-primary">下载</button>'
+                    }
                 }
             }, {
                 field: 'brand',
@@ -314,14 +326,23 @@ function setTable(data) {
     })
 }
 
-
+function jump(id) {
+    if ($('#'+id).text()!='' && $('#'+id).text()!=null){
+        if($('#'+id).text().slice(0,4)!="http"){
+            window.open('//'+$('#'+id).text(),"_blank"); //$('#'+id).text();
+        }else{
+            window.open($('#'+id).text(),"_blank");
+        }
+    }
+}
 
 function up1(id) {
-    file_id=id;
+    file_id = id;
     $('#file1').trigger('click');
 }
+
 function up2(id) {
-    file_id=id;
+    file_id = id;
     $('#file2').trigger('click');
 }
 
@@ -330,12 +351,12 @@ function down1(id) {
         type: 'post',
         url: '/supplier/getFile',
         data: {
-            id:id,
+            id: id,
         },
     }, false, '', function (res) {
-        if(res.data[0].pdf1!='' && res.data[0].pdf1!=null){
+        if (res.data[0].pdf1 != '' && res.data[0].pdf1 != null) {
             //var file=res.data[0].pdf2Name+getBase64Type(res.data[0].pdf1.split(',')[0]);
-            downloadFileByBase64(res.data[0].pdf1Name,res.data[0].pdf1.split(',')[1])
+            downloadFileByBase64(res.data[0].pdf1Name, res.data[0].pdf1.split(',')[1])
         }
     })
 }
@@ -345,38 +366,40 @@ function down2(id) {
         type: 'post',
         url: '/supplier/getFile',
         data: {
-            id:id,
+            id: id,
         },
     }, false, '', function (res) {
-        if(res.data[0].pdf2!='' && res.data[0].pdf2!=null){
+        if (res.data[0].pdf2 != '' && res.data[0].pdf2 != null) {
             //var file=res.data[0].pdf2Name+getBase64Type(res.data[0].pdf2.split(',')[0]);
-            downloadFileByBase64(res.data[0].pdf2Name,res.data[0].pdf2.split(',')[1])
+            downloadFileByBase64(res.data[0].pdf2Name, res.data[0].pdf2.split(',')[1])
         }
     })
 }
 
-function dataURLtoBlob(dataurl,name) {//name:文件名
-    var mime = name.substring(name.lastIndexOf('.')+1)//后缀名
+function dataURLtoBlob(dataurl, name) {//name:文件名
+    var mime = name.substring(name.lastIndexOf('.') + 1)//后缀名
     var bstr = atob(dataurl), n = bstr.length, u8arr = new Uint8Array(n);
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
     }
-    return new Blob([u8arr], { type: mime });
+    return new Blob([u8arr], {type: mime});
 }
-function downloadFile(url,name='默认文件名'){
+
+function downloadFile(url, name = '默认文件名') {
     var a = document.createElement("a")//创建a标签触发点击下载
-    a.setAttribute("href",url)//附上
-    a.setAttribute("download",name)
-    a.setAttribute("target","_blank")
+    a.setAttribute("href", url)//附上
+    a.setAttribute("download", name)
+    a.setAttribute("target", "_blank")
     let clickEvent = document.createEvent("MouseEvents");
     clickEvent.initEvent("click", true, true);
     a.dispatchEvent(clickEvent);
 }
+
 //主函数
-function downloadFileByBase64(name,base64){
-    var myBlob = dataURLtoBlob(base64,name)
+function downloadFileByBase64(name, base64) {
+    var myBlob = dataURLtoBlob(base64, name)
     var myUrl = URL.createObjectURL(myBlob)
-    downloadFile(myUrl,name)
+    downloadFile(myUrl, name)
 }
 
 //获取后缀

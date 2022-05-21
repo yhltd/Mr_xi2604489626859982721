@@ -15,4 +15,8 @@ import java.util.List;
 public interface LabelMapper extends BaseMapper<Label> {
     @Select("select * from label where type=#{type}")
     List<Label> getList(String type);
+
+    @Select("select * from label where type=#{type} and (label1 like concat('%',#{query},'%') " +
+            "or label2 like concat('%',#{query},'%') or label3 like concat('%',#{query},'%')) ")
+    List<Label> queryList(String type,String query);
 }

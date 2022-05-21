@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>权限设置</title>
+    <title>录入原料商品-INCI</title>
     <script type="text/javascript" src="../javascript/Jquery.js"></script>
     <script type="text/javascript" src="../javascript/jquerysession.js"></script>
 
@@ -18,13 +18,15 @@
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
-    <script type="text/javascript" src="../javascript/userInfo.js"></script>
+    <script type="text/javascript" src="../javascript/commodity_inci.js"></script>
 </head>
+
 
 <body class="pt-2">
 <div class="top-toolbar row">
-    <div class="col-md-3 mb-2">
-        <input id="query" type="text" class="form-control" placeholder="用户名" autocomplete="off">
+
+    <div class="col-md-2 mb-2">
+        <input id="query" type="text" class="form-control" placeholder="序号/CAS/成分含量" autocomplete="off">
     </div>
     <div class="col-md-2 mb-2">
         <button id="select-btn" class="btn btn-primary">
@@ -52,12 +54,13 @@
             <i class="bi bi-trash icon"></i>
             删除
         </button>
-        <a id="biaoqian" class="btn btn-primary" style="color: white;padding-top: 8px">当前页：账号管理</a>
+        <a class="btn btn-primary" style="color: white;padding-top: 8px">当前页：录入原料商品-INCI</a>
+        <input type="file" id="file" hidden="hidden">
     </div>
 </div>
 
 <div class="table-div border-top">
-    <table id="userTable"></table>
+    <table id="menuSettingsTable"></table>
 </div>
 
 <div id="add-modal" class="modal fade" tabindex="-1">
@@ -69,22 +72,31 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
+            <div class="modal-body">
+                <button id="add-commodity-show" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    选择原料信息按钮
+                </button>
+                <button id="add-INCI_Information-show" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    选择INCI数据按钮
+                </button>
+            </div>
             <div class="modal-body">
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
-                        <label for="add-username">用户名</label>
-                        <input id="add-username" name="username" type="text" class="form-control" autocomplete="off">
-                        <div class="invalid-feedback">
-                            请输入用户名！
-                        </div>
+                        <input id="add-commodityId" name="commodityId" data-required="1" type="hidden">
                     </div>
                     <div class="form-group">
-                        <label for="add-password">密码</label>
-                        <input id="add-password" name="password" type="text" class="form-control" autocomplete="off">
-                        <div class="invalid-feedback">
-                            请输入密码！
-                        </div>
+                        <input id="add-inciId" name="inciId" data-required="1" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-cas">CAS</label>
+                        <input id="add-cas" name="cas" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-content">成分含量</label>
+                        <input id="add-content" name="content" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                 </form>
             </div>
@@ -112,17 +124,33 @@
                 </button>
             </div>
             <div class="modal-body">
+                <button id="update-commodity-show" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    选择原料信息按钮
+                </button>
+                <button id="update-INCI_Information-show" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    选择INCI数据按钮
+                </button>
+            </div>
+            <div class="modal-body">
                 <form id="update-form" class="needs-validation">
                     <div class="form-group">
                         <input id="id" name="id" type="hidden">
                     </div>
                     <div class="form-group">
-                        <label for="update-username">用户名</label>
-                        <input id="update-username" name="username" type="text" class="form-control" autocomplete="off">
+                        <input id="update-commodityId" name="commodityId" data-required="1" type="hidden">
                     </div>
                     <div class="form-group">
-                        <label for="update-password">密码</label>
-                        <input id="update-password" name="password" type="text" class="form-control" autocomplete="off">
+                        <input id="update-inciId" name="inciId" data-required="1" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <label for="update-cas">CAS</label>
+                        <input id="update-cas" name="cas" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="update-content">成分含量</label>
+                        <input id="update-content" name="content" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                 </form>
             </div>
@@ -157,6 +185,56 @@
                 <button id="delete-close-btn" type="button" class="btn btn-primary left-margin">
                     <i class="bi bi-x-circle icon"></i>
                     取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    查询原料商品信息窗体-->
+<div id="show-commodity-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">选择原料商品信息</div>
+            </div>
+            <div class="modal-body">
+                <input id="showCommodityInfoId" type="hidden"/>
+                <table id="show-table-commodity"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="commodity-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="commodity-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    查询INCI信息窗体-->
+<div id="show-inci-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">选择INCI信息</div>
+            </div>
+            <div class="modal-body">
+                <input id="showINCIInfoId" type="hidden"/>
+                <table id="show-table-inci"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="inci-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="inci-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
                 </button>
             </div>
         </div>

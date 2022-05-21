@@ -50,6 +50,27 @@ public class LabelController {
     }
 
     /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/queryList")
+    public ResultInfo queryList(String type,String query, HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("标签")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            List<Label> getList = iLabelService.queryList(type,query);
+            return ResultInfo.success("获取成功", getList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+    /**
      * 添加
      *
      * @return ResultInfo

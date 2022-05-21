@@ -21,6 +21,13 @@ public interface ILabelService extends IService<Label> {
     List<Label> getList(String type);
 
     /**
+     * 查询
+     *
+     * @return 信息集合
+     */
+    List<Label> queryList(String type, String query);
+
+    /**
      * 添加
      *
      * @param label 添加对象

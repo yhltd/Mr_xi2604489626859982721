@@ -19,23 +19,23 @@ $(function () {
     //刷新
     getList();
 
-    // $("#select-btn").click(function () {
-    //     var supplier = $.session.get('supplier');
-    //     var query = $('#query').val()
-    //     $ajax({
-    //         type: 'post',
-    //         url: '/supplier/queryList',
-    //         data: {
-    //             supplier: supplier,
-    //             query: query
-    //         }
-    //     }, false, '', function (res) {
-    //         if (res.code == 200) {
-    //             $('#add-type').val(supplier)
-    //             setTable(res.data);
-    //         }
-    //     })
-    // })
+    $("#select-btn").click(function () {
+        var type = $.session.get('label');
+        var query = $('#query').val()
+        $ajax({
+            type: 'post',
+            url: '/label/queryList',
+            data: {
+                type: type,
+                query: query,
+            }
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                $('#add-type').val(type)
+                setTable(res.data);
+            }
+        })
+    })
 
     $("#refresh-btn").click(function () {
         getList();

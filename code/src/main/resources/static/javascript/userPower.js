@@ -1,5 +1,6 @@
 let operation="";
 function getList() {
+    $('#query').val("");
     $ajax({
         type: 'post',
         url: '/user_power/getList',

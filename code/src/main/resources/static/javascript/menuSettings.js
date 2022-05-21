@@ -165,25 +165,47 @@ function setTable(data) {
                 title: '供应商',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter: function (value, row, index) {
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                }
             }, {
                 field: 'brand',
                 title: '原料品牌',
                 align: 'left',
                 sortable: true,
                 width: 100,
+                formatter: function (value, row, index) {
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                }
             }, {
                 field: 'sort',
                 title: '物质分类',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter: function (value, row, index) {
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                }
             }, {
                 field: 'shape',
                 title: '物理形态',
                 align: 'left',
                 sortable: true,
-                width: 100
+                width: 100,
+                formatter: function (value, row, index) {
+                    if(value == null || value == ''){
+                        return undefined;
+                    }else{
+                        return  value;
+                    }
+                }
             }
         ],
         onClickRow: function (row, el) {
