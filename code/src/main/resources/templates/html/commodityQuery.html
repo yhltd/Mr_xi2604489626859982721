@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原料数据查询</title>
+    <script type="text/javascript" src="../javascript/Jquery.js"></script>
+    <script type="text/javascript" src="../javascript/jquerysession.js"></script>
+
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/icons/bootstrap-icons.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
+    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../javascript/main.js"></script>
+    <script type="text/javascript" src="../javascript/commodityQuery.js"></script>
+</head>
+
+<body class="pt-2">
+<div class="top-toolbar row">
+    <div class="col-md-2 mb-2">
+        <select id="column1" name="viewName1" class="form-control">
+            <option value="">请选择条件</option>
+            <option value="raw_code">原料编码</option>
+            <option value="goods_name">商品名称</option>
+            <option value="production_place">产地</option>
+            <option value="brand_name">品牌名称</option>
+            <option value="abbreviation">供应商简称</option>
+            <option value="INCI中文名称">INCI中文名称</option>
+            <option value="substance_label">物质标签</option>
+            <option value="efficacy_label">功效标签</option>
+            <option value="raw_label">原料标签</option>
+            <option value="patent">专利信息</option>
+            <option value="performance">产品性能</option>
+        </select>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="condition1" type="text" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <select id="column2" name="viewName1" class="form-control">
+            <option value="">请选择条件</option>
+            <option value="raw_code">原料编码</option>
+            <option value="goods_name">商品名称</option>
+            <option value="production_place">产地</option>
+            <option value="brand_name">品牌名称</option>
+            <option value="abbreviation">供应商简称</option>
+            <option value="INCI中文名称">INCI中文名称</option>
+            <option value="substance_label">物质标签</option>
+            <option value="efficacy_label">功效标签</option>
+            <option value="raw_label">原料标签</option>
+            <option value="patent">专利信息</option>
+            <option value="performance">产品性能</option>
+        </select>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="condition2" type="text" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <select id="column3" name="viewName1" class="form-control">
+            <option value="">请选择条件</option>
+            <option value="raw_code">原料编码</option>
+            <option value="goods_name">商品名称</option>
+            <option value="production_place">产地</option>
+            <option value="brand_name">品牌名称</option>
+            <option value="abbreviation">供应商简称</option>
+            <option value="INCI中文名称">INCI中文名称</option>
+            <option value="substance_label">物质标签</option>
+            <option value="efficacy_label">功效标签</option>
+            <option value="raw_label">原料标签</option>
+            <option value="patent">专利信息</option>
+            <option value="performance">产品性能</option>
+        </select>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="condition3" type="text" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <select id="column4" name="viewName1" class="form-control">
+            <option value="">请选择条件</option>
+            <option value="raw_code">原料编码</option>
+            <option value="goods_name">商品名称</option>
+            <option value="production_place">产地</option>
+            <option value="brand_name">品牌名称</option>
+            <option value="abbreviation">供应商简称</option>
+            <option value="INCI中文名称">INCI中文名称</option>
+            <option value="substance_label">物质标签</option>
+            <option value="efficacy_label">功效标签</option>
+            <option value="raw_label">原料标签</option>
+            <option value="patent">专利信息</option>
+            <option value="performance">产品性能</option>
+        </select>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="condition4" type="text" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <select id="column5" name="viewName1" class="form-control">
+            <option value="">请选择条件</option>
+            <option value="raw_code">原料编码</option>
+            <option value="goods_name">商品名称</option>
+            <option value="production_place">产地</option>
+            <option value="brand_name">品牌名称</option>
+            <option value="abbreviation">供应商简称</option>
+            <option value="INCI中文名称">INCI中文名称</option>
+            <option value="substance_label">物质标签</option>
+            <option value="efficacy_label">功效标签</option>
+            <option value="raw_label">原料标签</option>
+            <option value="patent">专利信息</option>
+            <option value="performance">产品性能</option>
+        </select>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="condition5" type="text" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <span class="form-control">原料成本</span>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="priceMin" type="number" class="form-control" placeholder="" autocomplete="off">
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="priceMax" type="number" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <span class="form-control" style="border: none">成分含量</span>
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="contentMin" type="number" class="form-control" placeholder="" autocomplete="off">
+    </div>
+    <div class="col-md-2 mb-2">
+        <input id="contentMax" type="number" class="form-control" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <span id="column6" class="form-control" style="border: none">人体功效</span>
+    </div>
+    <div class="col-md-2 mb-2">
+        <select id="condition6" name="viewName1" class="form-control">
+            <option value="">请选择</option>
+            <option value="人体功效">是</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <button id="select-btn" class="btn btn-primary">
+            <i class="bi bi-search icon"></i>
+            查询
+        </button>
+    </div>
+</div>
+
+<div id="table-toolbar">
+    <div class="btn-group" role="group">
+        <button id="refresh-btn" class="btn btn-primary">
+            <i class="bi bi-arrow-clockwise icon"></i>
+            刷新
+        </button>
+        <a id="biaoqian" class="btn btn-primary" style="color: white;padding-top: 8px">当前页：原料数据查询</a>
+    </div>
+</div>
+
+<div class="table-div border-top">
+    <table id="queryTable"></table>
+</div>
+
+<!--    窗体-->
+<div id="show-price-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">原料成本</div>
+            </div>
+            <div class="modal-body">
+                <!--                <input id="userInfoId" type="hidden"/>-->
+                <table id="show-table-price"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="price-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    窗体-->
+<div id="show-inci-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">INCI成分信息</div>
+            </div>
+            <div class="modal-body">
+                <!--                <input id="userInfoId" type="hidden"/>-->
+                <table id="show-table-inci"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="inci-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

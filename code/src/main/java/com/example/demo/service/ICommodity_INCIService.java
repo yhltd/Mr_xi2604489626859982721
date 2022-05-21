@@ -51,4 +51,11 @@ public interface ICommodity_INCIService extends IService<Commodity_INCI> {
      */
     List<Commodity_INCI> queryList(String query);
 
+    /**
+     * 查询
+     *
+     * @return 信息集合
+     */
+    List<Commodity_INCI> getListById(int id);
+
 }

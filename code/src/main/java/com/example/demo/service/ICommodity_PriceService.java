@@ -50,4 +50,11 @@ public interface ICommodity_PriceService extends IService<Commodity_Price> {
      */
     List<Commodity_Price> queryList(String query);
 
+    /**
+     * 查询
+     *
+     * @return 信息集合
+     */
+    List<Commodity_Price> getListById(int id);
+
 }

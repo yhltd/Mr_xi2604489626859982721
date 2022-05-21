@@ -44,4 +44,9 @@ public class Commodity_PriceImpl extends ServiceImpl<Commodity_PriceMapper, Comm
         return commodity_PriceMapper.queryList(query);
     }
 
+    @Override
+    public List<Commodity_Price> getListById(int id) {
+        return commodity_PriceMapper.getListById(id);
+    }
+
 }

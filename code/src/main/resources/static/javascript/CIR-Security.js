@@ -3,7 +3,7 @@ function getList() {
     $('#query').val('')
     $ajax({
         type: 'post',
-        url: '/commodity/getList',
+        url: '/cir_security/getList',
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
@@ -63,22 +63,24 @@ $(function () {
     $("#add-submit-btn").click(function () {
         let params = formToJson("#add-form")
         console.log(params)
-        $ajax({
-            type: 'post',
-            url: '/cir_security/add',
-            data: JSON.stringify({
-                addUserInfo: params
-            }),
-            dataType: 'json',
-            contentType: 'application/json;charset=utf-8'
-        }, false, '', function (res) {
-            alert(res.msg)
-            if(res.code == 200){
-                $('#add-form')[0].reset();
-                getList();
-                $('#add-close-btn').click();
-            }
-        })
+        if (checkForm('#add-form')) {
+            $ajax({
+                type: 'post',
+                url: '/cir_security/add',
+                data: JSON.stringify({
+                    addUserInfo: params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg)
+                if (res.code == 200) {
+                    $('#add-form')[0].reset();
+                    getList();
+                    $('#add-close-btn').click();
+                }
+            })
+        }
     })
 
     //点击修改按钮显示弹窗
@@ -103,22 +105,24 @@ $(function () {
         var msg = confirm("确认要修改吗？")
         if (msg) {
             let params = formToJson('#update-form');
-            $ajax({
-                type: 'post',
-                url: '/cir_security/update',
-                data: {
-                    userInfoJson: JSON.stringify(params)
-                },
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                alert(res.msg);
-                if (res.code == 200) {
-                    $('#update-close-btn').click();
-                    $('#update-modal').modal('hide');
-                    getList();
-                }
-            })
+            if (checkForm('#update-form')) {
+                $ajax({
+                    type: 'post',
+                    url: '/cir_security/update',
+                    data: {
+                        userInfoJson: JSON.stringify(params)
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8'
+                }, false, '', function (res) {
+                    alert(res.msg);
+                    if (res.code == 200) {
+                        $('#update-close-btn').click();
+                        $('#update-modal').modal('hide');
+                        getList();
+                    }
+                })
+            }
         }
     })
 
@@ -208,7 +212,7 @@ function setTable(data) {
         toolbarAlign: 'left',
         columns: [
             {
-                field: 'rawCode',
+                field: 'serialNumber',
                 title: '序号',
                 align: 'center',
                 sortable: true,

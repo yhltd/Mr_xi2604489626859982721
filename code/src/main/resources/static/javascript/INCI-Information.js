@@ -62,22 +62,24 @@ $(function () {
     $("#add-submit-btn").click(function () {
         let params = formToJson("#add-form")
         console.log(params)
-        $ajax({
-            type: 'post',
-            url: '/inci_information/add',
-            data: JSON.stringify({
-                addUserInfo: params
-            }),
-            dataType: 'json',
-            contentType: 'application/json;charset=utf-8'
-        }, false, '', function (res) {
-            alert(res.msg)
-            if(res.code == 200){
-                $('#add-form')[0].reset();
-                getList();
-                $('#add-close-btn').click();
-            }
-        })
+        if (checkForm('#add-form')) {
+            $ajax({
+                type: 'post',
+                url: '/inci_information/add',
+                data: JSON.stringify({
+                    addUserInfo: params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg)
+                if (res.code == 200) {
+                    $('#add-form')[0].reset();
+                    getList();
+                    $('#add-close-btn').click();
+                }
+            })
+        }
     })
 
     //点击修改按钮显示弹窗
@@ -102,22 +104,24 @@ $(function () {
         var msg = confirm("确认要修改吗？")
         if (msg) {
             let params = formToJson('#update-form');
-            $ajax({
-                type: 'post',
-                url: '/inci_information/update',
-                data: {
-                    userInfoJson: JSON.stringify(params)
-                },
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                alert(res.msg);
-                if (res.code == 200) {
-                    $('#update-close-btn').click();
-                    $('#update-modal').modal('hide');
-                    getList();
-                }
-            })
+            if (checkForm('#update-form')) {
+                $ajax({
+                    type: 'post',
+                    url: '/inci_information/update',
+                    data: {
+                        userInfoJson: JSON.stringify(params)
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8'
+                }, false, '', function (res) {
+                    alert(res.msg);
+                    if (res.code == 200) {
+                        $('#update-close-btn').click();
+                        $('#update-modal').modal('hide');
+                        getList();
+                    }
+                })
+            }
         }
     })
 
@@ -223,7 +227,7 @@ function setTable(data) {
                 title: 'INCI名称/中文名称',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 170,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -235,7 +239,7 @@ function setTable(data) {
                 title: 'INCI名称/英文名称',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 170,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -247,7 +251,7 @@ function setTable(data) {
                 title: '淋洗类产品最高历史使用量（%）',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 260,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -259,7 +263,7 @@ function setTable(data) {
                 title: '驻留类产品最高历史使用量（%）',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 260,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -271,7 +275,7 @@ function setTable(data) {
                 title: '原料目录备注',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 130,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -283,7 +287,7 @@ function setTable(data) {
                 title: '主要使用目的',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 130,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -295,7 +299,7 @@ function setTable(data) {
                 title: '是否可能存在安全性风险物质',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 230,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'

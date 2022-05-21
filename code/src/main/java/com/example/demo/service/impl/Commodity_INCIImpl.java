@@ -45,4 +45,9 @@ public class Commodity_INCIImpl extends ServiceImpl<Commodity_INCIMapper, Commod
         return commodity_INCIMapper.queryList(query);
     }
 
+    @Override
+    public List<Commodity_INCI> getListById(int id) {
+        return commodity_INCIMapper.getListById(id);
+    }
+
 }

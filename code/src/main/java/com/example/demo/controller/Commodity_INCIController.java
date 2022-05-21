@@ -140,11 +140,33 @@ public class Commodity_INCIController {
     @RequestMapping("/queryList")
     public ResultInfo queryList(String query,HttpSession session) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
-        if (!powerUtil.isSelect("系统设置")) {
+        if (!powerUtil.isSelect("录入原料商品")) {
             return ResultInfo.error(401, "无权限");
         }
         try {
             List<Commodity_INCI> queryList = iCommodity_INCIService.queryList(query);
+            return ResultInfo.success("获取成功", queryList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getListById")
+    public ResultInfo getListById(int id,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("系统设置")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            List<Commodity_INCI> queryList = iCommodity_INCIService.getListById(id);
             return ResultInfo.success("获取成功", queryList);
         } catch (Exception e) {
             e.printStackTrace();

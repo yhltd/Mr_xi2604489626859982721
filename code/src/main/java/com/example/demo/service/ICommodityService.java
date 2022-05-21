@@ -86,4 +86,41 @@ public interface ICommodityService extends IService<Commodity> {
      * @return 是否修改成功
      */
     boolean up2(String query,int id,String pdfname);
+
+    /**
+     * 查询基本信息id
+     *
+     * @return 基本信息id
+     */
+    List<Commodity> getCoId(String rawCode, String goodsName, String rawSubmissionCode, String productionPlace, String brandName, String abbreviation, String supplierName);
+
+    List<Commodity> getListChineseName1(String cn,String priceMax,String priceMin,String contentMax,String contentMin);
+
+    List<Commodity> getListChineseName2(String cn,String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1);
+
+    List<Commodity> getListChineseName3(String cn,String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2);
+
+    List<Commodity> getListChineseName4(String cn,String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3);
+
+    List<Commodity> getListChineseName5(String cn,String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4);
+
+    List<Commodity> getListChineseName6(String cn,String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5);
+
+    List<Commodity> getListChineseName7(String cn,String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5,String column6,String condition6);
+
+    List<Commodity> getListChineseNameNot1(String priceMax,String priceMin,String contentMax,String contentMin);
+
+    List<Commodity> getListChineseNameNot2(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1);
+
+    List<Commodity> getListChineseNameNot3(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2);
+
+    List<Commodity> getListChineseNameNot4(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3);
+
+    List<Commodity> getListChineseNameNot5(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4);
+
+    List<Commodity> getListChineseNameNot6(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5);
+
+    List<Commodity> getListChineseNameNot7(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5,String column6,String condition6);
+
+    List<Commodity> getListChineseNameNot8(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5,String column6,String condition6,String column7,String condition7);
 }

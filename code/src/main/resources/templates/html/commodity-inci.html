@@ -85,18 +85,30 @@
             <div class="modal-body">
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
-                        <input id="add-commodityId" name="commodityId" data-required="1" type="hidden">
+                        <input id="add-commodityId" name="commodityId"  type="hidden">
+                        <div class="invalid-feedback">
+                            请选择原料信息！
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input id="add-inciId" name="inciId" data-required="1" type="hidden">
+                        <input id="add-inciId" name="inciId" type="hidden">
+                        <div class="invalid-feedback">
+                            请选择INCI数据！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="add-cas">CAS</label>
-                        <input id="add-cas" name="cas" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-cas" name="cas" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入CAS！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="add-content">成分含量</label>
-                        <input id="add-content" name="content" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-content" name="content" type="number" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入成分含量！
+                        </div>
                     </div>
                 </form>
             </div>
@@ -139,18 +151,30 @@
                         <input id="id" name="id" type="hidden">
                     </div>
                     <div class="form-group">
-                        <input id="update-commodityId" name="commodityId" data-required="1" type="hidden">
+                        <input id="update-commodityId" name="commodityId" type="hidden">
+                        <div class="invalid-feedback">
+                            请选择原料信息！
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input id="update-inciId" name="inciId" data-required="1" type="hidden">
+                        <input id="update-inciId" name="inciId"  type="hidden">
+                        <div class="invalid-feedback">
+                            请选择INCI数据！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="update-cas">CAS</label>
-                        <input id="update-cas" name="cas" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-cas" name="cas" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入CAS！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="update-content">成分含量</label>
-                        <input id="update-content" name="content" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-content" name="content" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入成分含量！
+                        </div>
                     </div>
                 </form>
             </div>

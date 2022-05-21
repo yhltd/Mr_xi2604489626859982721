@@ -54,8 +54,17 @@
             <i class="bi bi-trash icon"></i>
             删除
         </button>
+        <a class="btn btn-primary" style="color: white;padding-top: 8px" href="../excel/template.xlsx">
+            <i class="bi bi-arrow-down-square"></i>
+            下载excel模板
+        </a>
+        <button id="uploadexcel-btn" class="btn btn-primary">
+            <i class="bi bi-arrow-up-square"></i>
+            上传excel
+        </button>
         <a class="btn btn-primary" style="color: white;padding-top: 8px">当前页：录入原料成本信息</a>
         <input type="file" id="file" hidden="hidden">
+        <input type="file" id="upload-file" hidden="hidden">
     </div>
 </div>
 
@@ -81,15 +90,24 @@
             <div class="modal-body">
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
-                        <input id="add-commodityId" name="commodityId" data-required="1" type="hidden">
+                        <input id="add-commodityId" name="commodityId" type="hidden">
+                        <div class="invalid-feedback">
+                            请选择原料信息！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="add-unit">包装规格/kg</label>
-                        <input id="add-unit" name="unit" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-unit" name="unit" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入包装规格！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="add-price">成本/元</label>
-                        <input id="add-price" name="price" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-price" name="price" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入成本！
+                        </div>
                     </div>
                 </form>
             </div>
@@ -128,15 +146,24 @@
                         <input id="id" name="id" type="hidden">
                     </div>
                     <div class="form-group">
-                        <input id="update-commodityId" name="commodityId" data-required="1" type="hidden">
+                        <input id="update-commodityId" name="commodityId" type="hidden">
+                        <div class="invalid-feedback">
+                            请选择原料信息！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="update-unit">包装规格/kg</label>
-                        <input id="update-unit" name="unit" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-unit" name="unit" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入包装规格！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="update-price">成本/元</label>
-                        <input id="update-price" name="price" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-price" name="price" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请输入成本！
+                        </div>
                     </div>
                 </form>
             </div>

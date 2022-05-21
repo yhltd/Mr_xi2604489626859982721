@@ -185,22 +185,24 @@ $(function () {
     $("#add-submit-btn").click(function () {
         let params = formToJson("#add-form")
         console.log(params)
-        $ajax({
-            type: 'post',
-            url: '/commodity/add',
-            data: JSON.stringify({
-                addUserInfo: params
-            }),
-            dataType: 'json',
-            contentType: 'application/json;charset=utf-8'
-        }, false, '', function (res) {
-            alert(res.msg)
-            if(res.code == 200){
-                $('#add-form')[0].reset();
-                getList();
-                $('#add-close-btn').click();
-            }
-        })
+        if (checkForm('#add-form')) {
+            $ajax({
+                type: 'post',
+                url: '/commodity/add',
+                data: JSON.stringify({
+                    addUserInfo: params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg)
+                if (res.code == 200) {
+                    $('#add-form')[0].reset();
+                    getList();
+                    $('#add-close-btn').click();
+                }
+            })
+        }
     })
 
     //点击修改按钮显示弹窗
@@ -225,22 +227,24 @@ $(function () {
         var msg = confirm("确认要修改吗？")
         if (msg) {
             let params = formToJson('#update-form');
-            $ajax({
-                type: 'post',
-                url: '/commodity/update',
-                data: {
-                    userInfoJson: JSON.stringify(params)
-                },
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                alert(res.msg);
-                if (res.code == 200) {
-                    $('#update-close-btn').click();
-                    $('#update-modal').modal('hide');
-                    getList();
-                }
-            })
+            if (checkForm('#update-form')) {
+                $ajax({
+                    type: 'post',
+                    url: '/commodity/update',
+                    data: {
+                        userInfoJson: JSON.stringify(params)
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8'
+                }, false, '', function (res) {
+                    alert(res.msg);
+                    if (res.code == 200) {
+                        $('#update-close-btn').click();
+                        $('#update-modal').modal('hide');
+                        getList();
+                    }
+                })
+            }
         }
     })
 
@@ -605,6 +609,43 @@ $(function () {
         }
     })
 
+    //上传excel
+    $('#uploadexcel-btn').click(function () {
+        $('#upload-file').trigger('click');
+
+    })
+
+    //判断文件名改变
+    $('#upload-file').change(function () {
+        var url = null;
+        if ($('#upload-file').val() != '') {
+            if ($('#upload-file').val().substr(-5) == '.xlsx') {
+                var excel = document.getElementById("upload-file").files[0]
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(excel);
+                oFReader.onloadend = function (oFRevent) {
+                    url = oFRevent.target.result;
+                    $ajax({
+                        type: 'post',
+                        url: '/commodity/upload',
+                        data: {
+                            excel: url
+                        },
+                    }, false, '', function (res) {
+                        $('#file').val('');
+                        alert(res.msg);
+                        if (res.code == 200) {
+                            getList();
+                        }
+                    })
+                }
+            } else {
+                alert("请选择正确的Excel文件！")
+                $('#file').val('');
+            }
+        }
+    })
+
 })
 
 function setTable(data) {
@@ -661,7 +702,7 @@ function setTable(data) {
                 title: '原料报送码',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 130,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -718,10 +759,10 @@ function setTable(data) {
                 }
             }, {
                 field: 'inciPin',
-                title: 'inci中文名称及含量',
+                title: 'INCI中文名称及含量',
                 align: 'left',
                 sortable: true,
-                width: 100,
+                width: 200,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -757,21 +798,21 @@ function setTable(data) {
                 title: '目录画册1',
                 align: 'left',
                 sortable: true,
-                width: 300,
+                width: 200,
                 formatter:function(value, row , index){
                     if(value != '' && value != null){
                         value = "<button id=\"pdf_upload\" onclick=\"javascript:pdf_download1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\">\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            下载pdf\n" +
+                            "            <i class=\"bi bi-arrow-down-square\"></i>\n" +
+                            "            下载\n" +
                             "        </button>" +
                             "<button id=\"pdf_update1\"  onclick=\"javascript:up1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" style=\"margin-left: 20px\">\n" +
                             "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
+                            "            上传\n" +
                             "        </button>"
                     }else{
                         value = "<button id=\"pdf_update1\" onclick=\"javascript:up1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" >\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
+                            "            <i class=\"bi bi-arrow-down-square\"></i>\n" +
+                            "            上传\n" +
                             "        </button>"
                     }
                     return value
@@ -781,21 +822,21 @@ function setTable(data) {
                 title: '目录画册2',
                 align: 'left',
                 sortable: true,
-                width: 300,
+                width: 200,
                 formatter:function(value, row , index){
                     if(value != '' && value != null){
                         value = "<button id=\"pdf_upload\" onclick=\"javascript:pdf_download1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\">\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            下载pdf\n" +
+                            "            <i class=\"bi bi-arrow-down-square\"></i>\n" +
+                            "            下载\n" +
                             "        </button>" +
                             "<button id=\"pdf_update1\"  onclick=\"javascript:up1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" style=\"margin-left: 20px\">\n" +
                             "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
+                            "            上传\n" +
                             "        </button>"
                     }else{
                         value = "<button id=\"pdf_update1\" onclick=\"javascript:up1(" + row.id + ")\" data-id=\"" + row.id + "\" class=\"btn btn-primary\" >\n" +
-                            "            <i class=\"bi bi-arrow-up-square\"></i>\n" +
-                            "            上传pdf\n" +
+                            "            <i class=\"bi bi-arrow-down-square\"></i>\n" +
+                            "            上传\n" +
                             "        </button>"
                     }
                     return value
@@ -884,9 +925,6 @@ function setCosmeticRawTable(data) {
                     if(value == null || value == ''){
                         value = '-'
                     }
-                    return [
-                        "<a href=\"" + value + "\">" + value + "</a>"
-                    ].join("")
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             },

@@ -25,13 +25,13 @@
     <div class="col-md-3 mb-2">
         <input id="query" type="text" class="form-control" placeholder="序号/INCI中文名称/INCI英文名称" autocomplete="off">
     </div>
-    <div class="col-md-2 mb-2" style="width: 10%">
+    <div class="mb-2" >
         <button id="select-btn" class="btn btn-primary">
             <i class="bi bi-search icon"></i>
             模糊查询
         </button>
     </div>
-    <div class="col-md-2 mb-2" style="width: 10%">
+    <div class="col-md-2 mb-2" >
         <button id="select-btn2" class="btn btn-primary">
             <i class="bi bi-search icon"></i>
             精确查询
@@ -87,7 +87,10 @@
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
                         <label for="add-serialNumber">序号</label>
-                        <input id="add-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请填写序号！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="add-chineseName">INCI名称/中文名称</label>
@@ -153,7 +156,10 @@
                     </div>
                     <div class="form-group">
                         <label for="update-serialNumber">序号</label>
-                        <input id="update-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" >
+                        <div class="invalid-feedback">
+                            请填写序号！
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="update-chineseName">INCI名称/中文名称</label>
