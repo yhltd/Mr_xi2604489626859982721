@@ -8,6 +8,12 @@ function getList() {
         if (res.code == 200) {
             setTable(res.data);
             $("#userPowerTable").bootstrapTable('hideColumn', 'userId');
+            $("#userPowerTable").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -222,13 +228,14 @@ function setTable(data) {
     $('#userPowerTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: 'id',
@@ -255,7 +262,7 @@ function setTable(data) {
             }, {
                 field: 'viewName',
                 title: '模块',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -264,25 +271,25 @@ function setTable(data) {
             }, {
                 field: 'zeng',
                 title: '增',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
             }, {
                 field: 'shan',
                 title: '删',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
             }, {
                 field: 'gai',
                 title: '改',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
             }, {
                 field: 'cha',
                 title: '查',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
             }
@@ -314,6 +321,7 @@ function setShowUserTable(data) {
         searchAlign: 'left',
         clickToSelect: true,
         locale: 'zh-CN',
+
         columns: [
             {
                 field: 'id',

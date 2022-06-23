@@ -13,8 +13,10 @@
 
     <!--bootstrap-table-->
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
@@ -55,7 +57,6 @@
             删除
         </button>
         <a class="btn btn-primary" style="color: white;padding-top: 8px">当前页：录入原料商品-INCI</a>
-        <input type="file" id="file" hidden="hidden">
     </div>
 </div>
 
@@ -98,14 +99,14 @@
                     </div>
                     <div class="form-group">
                         <label for="add-cas">CAS</label>
-                        <input id="add-cas" name="cas" type="text" class="form-control" autocomplete="off" >
+                        <input id="add-cas" name="cas" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入CAS！
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="add-content">成分含量</label>
-                        <input id="add-content" name="content" type="number" class="form-control" autocomplete="off" >
+                        <input id="add-content" name="content" type="number" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入成分含量！
                         </div>
@@ -164,14 +165,14 @@
                     </div>
                     <div class="form-group">
                         <label for="update-cas">CAS</label>
-                        <input id="update-cas" name="cas" type="text" class="form-control" autocomplete="off" >
+                        <input id="update-cas" name="cas" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入CAS！
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="update-content">成分含量</label>
-                        <input id="update-content" name="content" type="text" class="form-control" autocomplete="off" >
+                        <input id="update-content" name="content" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入成分含量！
                         </div>

@@ -13,8 +13,10 @@
 
     <!--bootstrap-table-->
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
@@ -74,19 +76,19 @@
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
                         <label for="add-brandCode">品牌编码</label>
-                        <input id="add-brandCode" name="brandCode" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-brandCode" name="brandCode" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="add-productionPlace">产地</label>
-                        <input id="add-productionPlace" name="productionPlace" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
+                        <input id="add-productionPlace" name="productionPlace" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="add-brandName">品牌名称</label>
-                        <input id="add-brandName" name="brandName" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-brandName" name="brandName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="add-website">官网网址</label>
-                        <input id="add-website" name="website" type="text" class="form-control" autocomplete="off">
+                        <input id="add-website" name="website" type="text" class="form-control" autocomplete="off" style="height:100px">
                     </div>
                 </form>
             </div>
@@ -120,19 +122,19 @@
                     </div>
                     <div class="form-group">
                         <label for="update-brandCode">品牌编码</label>
-                        <input id="update-brandCode" name="brandCode" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-brandCode" name="brandCode" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="update-productionPlace">产地</label>
-                        <input id="update-productionPlace" name="productionPlace" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
+                        <input id="update-productionPlace" name="productionPlace" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="update-brandName">品牌名称</label>
-                        <input id="update-brandName" name="brandName" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-brandName" name="brandName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="update-website">官网网址</label>
-                        <input id="update-website" name="website" type="text" class="form-control" autocomplete="off">
+                        <input id="update-website" name="website" type="text" class="form-control" autocomplete="off" style="height:100px">
                     </div>
                 </form>
             </div>
@@ -172,5 +174,42 @@
         </div>
     </div>
 </div>
+
+<!--    查询窗体-->
+<div id="show-file-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">文件操作</div>
+            </div>
+            <div class="modal-body">
+                <table id="show-table-file"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="file-up-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    上传
+                </button>
+                <button id="file-down-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-arrow-bar-down"></i>
+                    下载
+                </button>
+                <button id="file-yulan-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-file-earmark"></i>
+                    pdf预览
+                </button>
+                <button id="file-delete-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-trash icon"></i>
+                    删除
+                </button>
+                <button id="file-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

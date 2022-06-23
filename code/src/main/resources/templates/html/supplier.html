@@ -13,18 +13,22 @@
 
     <!--bootstrap-table-->
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
     <script type="text/javascript" src="../javascript/supplier.js"></script>
+    <script type="text/javascript" src="../javascript/pdf.js"></script>
+    <script type="text/javascript" src="../javascript/pdf.worker.js"></script>
 </head>
 
 <body class="pt-2">
     <div class="top-toolbar row">
         <div class="col-md-3 mb-2">
-            <input id="query" type="text" class="form-control" placeholder="供应商/原料品牌/物质分类/物理形态" autocomplete="off">
+            <input id="query" type="text" class="form-control" placeholder="供应商编码/简称/全称" autocomplete="off">
         </div>
         <div class="col-md-2 mb-2">
             <button id="select-btn" class="btn btn-primary">
@@ -59,7 +63,7 @@
     </div>
 
     <div class="table-div border-top">
-        <table id="supplierTable"></table>
+        <table id="supplierTable" class="table table-bordered" ></table>
     </div>
 
     <div id="add-modal" class="modal fade" tabindex="-1">
@@ -74,24 +78,24 @@
                 <div class="modal-body">
                     <form id="add-form" class="needs-validation">
                         <div class="form-group">
-                            <label for="add-supplierCode">供应商</label>
-                            <input id="add-supplierCode" name="supplierCode" type="text" class="form-control" autocomplete="off">
+                            <label for="add-supplierCode">供应商编码</label>
+                            <input id="add-supplierCode" name="supplierCode" type="text" class="form-control" autocomplete="off" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="add-type">供应商分类</label>
-                            <input id="add-type" name="type" type="text" class="form-control" autocomplete="off" readonly="readonly">
+                            <input id="add-type" name="type" type="text" class="form-control" autocomplete="off" readonly="readonly" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="add-abbreviation">供应商简称</label>
-                            <input id="add-abbreviation" name="abbreviation" type="text" class="form-control" autocomplete="off">
+                            <input id="add-abbreviation" name="abbreviation" type="text" class="form-control" autocomplete="off" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="add-supplierName">供应商名称</label>
-                            <input id="add-supplierName" name="supplierName" type="text" class="form-control" autocomplete="off" data-required="1">
+                            <input id="add-supplierName" name="supplierName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="add-url">官网网址</label>
-                            <input id="add-url" name="url" type="text" class="form-control" autocomplete="off" data-required="1">
+                            <input id="add-url" name="url" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                         </div>
                     </form>
                 </div>
@@ -125,23 +129,23 @@
                         </div>
                         <div class="form-group">
                             <label for="update-supplierCode">供应商</label>
-                            <input id="update-supplierCode" name="supplierCode" type="text" class="form-control" autocomplete="off">
+                            <input id="update-supplierCode" name="supplierCode" type="text" class="form-control" autocomplete="off" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="update-type">供应商分类</label>
-                            <input id="update-type" name="type" type="text" class="form-control" autocomplete="off" readonly="readonly">
+                            <input id="update-type" name="type" type="text" class="form-control" autocomplete="off" readonly="readonly" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="update-abbreviation">供应商简称</label>
-                            <input id="update-abbreviation" name="abbreviation" type="text" class="form-control" autocomplete="off">
+                            <input id="update-abbreviation" name="abbreviation" type="text" class="form-control" autocomplete="off" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="update-supplierName">供应商名称</label>
-                            <input id="update-supplierName" name="supplierName" type="text" class="form-control" autocomplete="off">
+                            <input id="update-supplierName" name="supplierName" type="text" class="form-control" autocomplete="off" style="height:100px">
                         </div>
                         <div class="form-group">
                             <label for="update-url">官网网址</label>
-                            <input id="update-url" name="url" type="text" class="form-control" autocomplete="off">
+                            <input id="update-url" name="url" type="text" class="form-control" autocomplete="off" style="height:100px">
                         </div>
                     </form>
                 </div>
@@ -176,6 +180,42 @@
                     <button id="delete-close-btn" type="button" class="btn btn-primary left-margin">
                         <i class="bi bi-x-circle icon"></i>
                         取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    查询窗体-->
+    <div id="show-file-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">文件操作</div>
+                </div>
+                <div class="modal-body">
+                    <table id="show-table-file"></table>
+                </div>
+                <div class="border-top" style="padding: 15px;">
+                    <button id="file-up-btn" type="button" class="btn btn-primary">
+                        <i class="bi bi-arrow-bar-up icon"></i>
+                        上传
+                    </button>
+                    <button id="file-down-btn" type="button" class="btn btn-primary left-margin">
+                        <i class="bi bi-arrow-bar-down"></i>
+                        下载
+                    </button>
+                    <button id="file-yulan-btn" type="button" class="btn btn-primary left-margin">
+                        <i class="bi bi-file-earmark"></i>
+                        pdf预览
+                    </button>
+                    <button id="file-delete-btn" type="button" class="btn btn-primary left-margin">
+                        <i class="bi bi-trash icon"></i>
+                        删除
+                    </button>
+                    <button id="file-close-btn" type="button" class="btn btn-primary left-margin">
+                        <i class="bi bi-x-circle icon"></i>
+                        关闭
                     </button>
                 </div>
             </div>

@@ -72,123 +72,126 @@
             padding-top: 4px;
             padding-bottom: 0;
             height: 28px;
+            margin-top: 20px;
         }
 
         .navbar {
             min-height: 20px;
+            display: flow-root;
         }
     </style>
 </head>
-<body style="padding-top: 60px;margin: 0" class="row bg">
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark"
-     style="min-height: 60px;width: 100%;position: absolute;top: 0;left: 0;z-index: 1000000;">
-    <a class="navbar-brand mb-0 h1" href="main.html">
-        <img src="../img/logo.png" width="30" height="30" class="d-inline-block align-top rounded" alt=""/>
-        管理系统
-    </a>
+<body style="padding-left: 15%;margin: 0" class="row">
+<nav class="navbar navbar-dark  bg-dark"
+     style="width: 100%;height:100%;position: absolute;top: 0;left: 0;">
+<!--         navbar-expand-sm-->
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+<!--            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--    </button>-->
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="supplierNavbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    供应商
-                </a>
-                <div class="dropdown-menu" aria-labelledby="supplierNavbarDropdown" id="supplier">
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+    <ul class="navbar-nav mr-auto">
 
-                </div>
-            </li>
+        <a class="navbar-brand mb-0 h1" href="main.html">
+            <img src="../img/logo.png" width="30" height="30" class="d-inline-block align-top rounded" alt=""/>
+            原料管理系统
+        </a>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="yuanliaoNavbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    原料品牌
-                </a>
-                <div class="dropdown-menu" aria-labelledby="yuanliaoNavbarDropdown" id="yuanliao">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="supplierNavbarDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                供应商
+            </a>
+            <div class="dropdown-menu" aria-labelledby="supplierNavbarDropdown" id="supplier" style="width:15%;font-size: 14px">
 
-                </div>
-            </li>
+            </div>
+        </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="wuzhiNavbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    物质分类
-                </a>
-                <div class="dropdown-menu" aria-labelledby="wuzhiNavbarDropdown" id="wuzhi">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="yuanliaoNavbarDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                原料品牌
+            </a>
+            <div class="dropdown-menu" aria-labelledby="yuanliaoNavbarDropdown" id="yuanliao" style="width:15%;font-size: 14px">
 
-                </div>
-            </li>
+            </div>
+        </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="wuliNavbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    物理形态
-                </a>
-                <div class="dropdown-menu" aria-labelledby="wuliNavbarDropdown" id="wuli">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="wuzhiNavbarDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                物质分类
+            </a>
+            <div class="dropdown-menu" aria-labelledby="wuzhiNavbarDropdown" id="wuzhi" style="width:15%;font-size: 14px">
 
-                </div>
-            </li>
+            </div>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link" data-src="label.html">功效标签</a>
-            </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="wuliNavbarDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                物理形态
+            </a>
+            <div class="dropdown-menu" aria-labelledby="wuliNavbarDropdown" id="wuli" style="width:15%;font-size: 14px">
 
-            <li class="nav-item">
-                <a class="nav-link" data-src="label.html">原料标签</a>
-            </li>
+            </div>
+        </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="commodityDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    原料商品
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dataNavbarDropdown">
-                    <a class="dropdown-item" data-src="commodity.html">录入原料商品</a>
-                    <a class="dropdown-item" data-src="commodity-inci.html">录入原料商品-INCI</a>
-                    <a class="dropdown-item" data-src="commodity-price.html">录入原料成本信息</a>
-                </div>
-            </li>
+        <li class="nav-item">
+            <a class="nav-link" data-src="label.html">功效标签</a>
+        </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dataNavbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    数据查询
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dataNavbarDropdown">
-                    <a class="dropdown-item" data-src="commodityQuery.html">原料数据查询</a>
-                    <a class="dropdown-item" data-src="INCI-Information.html">INCI信息</a>
-                    <a class="dropdown-item" data-src="CIR-Security.html">CIR安全评估</a>
-                </div>
-            </li>
+        <li class="nav-item">
+            <a class="nav-link" data-src="label.html">原料标签</a>
+        </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="settingsNavbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    系统设置
-                </a>
-                <div class="dropdown-menu" aria-labelledby="settingsNavbarDropdown">
-                    <a class="dropdown-item" data-src="userInfo.html">账户管理</a>
-                    <a class="dropdown-item" data-src="userPower.html">权限管理</a>
-                    <a class="dropdown-item" data-src="menuSettings.html">主菜单配置</a>
-                </div>
-            </li>
-        </ul>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="commodityDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                原料商品
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dataNavbarDropdown" style="width:15%;font-size: 14px">
+                <a class="dropdown-item" data-src="commodity.html">录入原料商品</a>
+                <a class="dropdown-item" data-src="commodity-inci.html">录入原料商品-INCI</a>
+                <a class="dropdown-item" data-src="commodity-price.html">录入原料成本信息</a>
+            </div>
+        </li>
 
-        <ul class="navbar-nav float-md-right">
-            <li class="nav-item">
-                <a class="nav-link" data-src="">v0.1</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="out-a" data-src="">退出</a>
-            </li>
-        </ul>
-    </div>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dataNavbarDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                数据查询
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dataNavbarDropdown" style="width:15%;font-size: 14px">
+                <a class="dropdown-item" data-src="commodityQuery.html">原料数据查询</a>
+                <a class="dropdown-item" data-src="INCI-Information.html">INCI信息</a>
+                <a class="dropdown-item" data-src="CIR-Security.html">CIR安全评估</a>
+            </div>
+        </li>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="settingsNavbarDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                系统设置
+            </a>
+            <div class="dropdown-menu" aria-labelledby="settingsNavbarDropdown" style="width:15%;font-size: 14px">
+                <a class="dropdown-item" data-src="userInfo.html">账户管理</a>
+                <a class="dropdown-item" data-src="userPower.html">权限管理</a>
+                <a class="dropdown-item" data-src="menuSettings.html">主菜单配置</a>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-src="">v0.2</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" id="out-a" data-src="">退出</a>
+        </li>
+    </ul>
 </nav>
 
 <div class="embed-responsive embed-responsive-1by1 h-100">

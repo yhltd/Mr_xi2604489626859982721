@@ -12,8 +12,10 @@
 
     <!--bootstrap-table-->
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
@@ -88,22 +90,22 @@
                 <form id="add-form" class="needs-validation">
                     <div class="form-group">
                         <label for="add-serialNumber">序号</label>
-                        <input id="add-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" >
+                        <input id="add-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请填写序号！
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="add-chineseName">INCI名称/中文名称</label>
-                        <input id="add-chineseName" name="chineseName" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-chineseName" name="chineseName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="add-englishName">INCI名称/英文名称</label>
-                        <input id="add-englishName" name="englishName" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="add-englishName" name="englishName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="add-safetyAssessment">CIR安全评估</label>
-                        <input id="add-safetyAssessment" name="safetyAssessment" type="text" class="form-control" autocomplete="off">
+                        <input id="add-safetyAssessment" name="safetyAssessment" type="text" class="form-control" autocomplete="off" style="height:100px">
                     </div>
                 </form>
             </div>
@@ -137,22 +139,22 @@
                     </div>
                     <div class="form-group">
                         <label for="update-serialNumber">序号</label>
-                        <input id="update-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" >
+                        <input id="update-serialNumber" name="serialNumber" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请填写序号！
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="update-chineseName">INCI名称/中文名称</label>
-                        <input id="update-chineseName" name="chineseName" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-chineseName" name="chineseName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="update-englishName">INCI名称/英文名称</label>
-                        <input id="update-englishName" name="englishName" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-englishName" name="englishName" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                     <div class="form-group">
                         <label for="update-safetyAssessment">CIR安全评估</label>
-                        <input id="update-safetyAssessment" name="safetyAssessment" type="text" class="form-control" autocomplete="off" data-required="1">
+                        <input id="update-safetyAssessment" name="safetyAssessment" type="text" class="form-control" autocomplete="off" data-required="1" style="height:100px">
                     </div>
                 </form>
             </div>

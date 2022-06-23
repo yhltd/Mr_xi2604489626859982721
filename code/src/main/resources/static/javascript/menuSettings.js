@@ -6,6 +6,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $('#menuSettingsTable').colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -144,13 +150,14 @@ function setTable(data) {
     $('#menuSettingsTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: '',
@@ -163,40 +170,46 @@ function setTable(data) {
             }, {
                 field: 'supplier',
                 title: '供应商',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
                     if(value == null || value == ''){
-                        value = '-'
+                        return undefined;
+                    }else{
+                        return  value;
                     }
                 }
             }, {
                 field: 'brand',
                 title: '原料品牌',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
                     if(value == null || value == ''){
-                        value = '-'
+                        return undefined;
+                    }else{
+                        return  value;
                     }
                 }
             }, {
                 field: 'sort',
                 title: '物质分类',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
                     if(value == null || value == ''){
-                        value = '-'
+                        return undefined;
+                    }else{
+                        return  value;
                     }
                 }
             }, {
                 field: 'shape',
                 title: '物理形态',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {

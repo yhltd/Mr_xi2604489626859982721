@@ -58,4 +58,9 @@ public class SupplierImpl extends ServiceImpl<SupplierMapper, Supplier> implemen
     public List<Supplier> getFile1(int id) {
         return supplierMapper.getFile1(id);
     }
+
+    @Override
+    public List<Supplier> getBianma() {
+        return supplierMapper.getBianMa();
+    }
 }

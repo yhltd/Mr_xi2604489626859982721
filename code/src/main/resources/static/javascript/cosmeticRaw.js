@@ -1,5 +1,6 @@
-var this_id=''
-var this_column = ''
+var this_id='';
+var otherId = '';
+
 function getList() {
     var cosmeticRaw = $.session.get('cosmeticRaw');
     $('#add-productionPlace').val($.session.get('cosmeticRaw'))
@@ -12,6 +13,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $("#menuSettingsTable").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -160,45 +167,114 @@ $(function () {
 
     //判断文件名改变
     $('#file').change(function () {
-        var url = null;
-        var id = this_id
-        var pdfName= ""
-        console.log(id)
-        if ($('#file').val() != '') {
-            if ($('#file').val().substr(-4) == '.pdf') {
-                var excel = document.getElementById("file").files[0]
-                pdfName = excel.name;
-                var oFReader = new FileReader();
-                oFReader.readAsDataURL(excel);
-                oFReader.onloadend = function (oFRevent) {
-                    url = oFRevent.target.result;
-                    var this_ajax_url
-                    if(this_column == '1'){
-                        this_ajax_url = '/cosmetic_raw/up1'
-                    }else{
-                        this_ajax_url = '/cosmetic_raw/up2'
-                    }
-                    $ajax({
-                        type: 'post',
-                        url: this_ajax_url,
-                        data: {
-                            query: url,
-                            id:id,
-                            pdfName:pdfName
-                        },
-                    }, false, '', function (res) {
-                        $('#file').val('');
-                        alert(res.msg);
-                        if (res.code == 200) {
-                            getList();
-                        }
-                    })
-                }
-            } else {
-                alert("请选择正确的pdf文件！")
-                $('#file').val('');
+        var file = document.getElementById("file").files[0];
+        var fileName = "";
+        if (typeof (file) != "undefined") {
+            fileName = file.name;
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(file);
+            oFReader.onloadend = function (oFRevent) {
+                file = oFRevent.target.result;
+                $ajax({
+                    type: 'post',
+                    url: '/file_table/add',
+                    data: {
+                        otherId: otherId,
+                        files: file,
+                        fileName: fileName,
+                        type:'原料品牌',
+                    },
+                }, false, '', function (res) {
+                    alert(res.msg)
+                    fileShow(otherId);
+                })
             }
         }
+    })
+
+    $('#file-up-btn').click(function () {
+        $('#file').trigger('click');
+    })
+
+    $('#file-down-btn').click(function () {
+        let rows = getTableSelection('#show-table-file')
+        if (rows.length > 1 || rows.length == 0) {
+            alert('请选择一个文件下载');
+            return;
+        }
+        $ajax({
+            type: 'post',
+            url: '/file_table/getFile',
+            data: {
+                id: rows[0].data.id,
+            },
+        }, false, '', function (res) {
+            if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                downloadFileByBase64(res.data[0].fileName, res.data[0].files.split(',')[1])
+            }
+        })
+    })
+
+    $('#file-yulan-btn').click(function () {
+        let rows = getTableSelection('#show-table-file')
+        if (rows.length > 1 || rows.length == 0) {
+            alert('请选择一个文件预览');
+            return;
+        }
+        if(rows[0].data.fileName.split(".")[1]!='pdf'){
+            alert('请选择pdf文件');
+            return;
+        }
+        $ajax({
+            type: 'post',
+            url: '/file_table/getFile',
+            data: {
+                id: rows[0].data.id,
+            },
+        }, false, '', function (res) {
+            if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                const blob = this.base64ToBlob(res.data[0].files.split(',')[1]);
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveOrOpenBlob(blob)
+                } else {
+                    const fileURL = URL.createObjectURL(blob)
+                    window.open(fileURL)
+                }
+            }
+        })
+    })
+
+    $('#file-delete-btn').click(function () {
+        var msg = confirm("确认要删除吗？")
+        if (msg) {
+            let rows = getTableSelection("#show-table-file");
+            if (rows.length == 0) {
+                alert('请选择要删除的数据！')
+                return;
+            }
+            let idList = [];
+            $.each(rows, function (index, row) {
+                idList.push(row.data.id)
+            })
+            $ajax({
+                type: 'post',
+                url: '/file_table/delete',
+                data: JSON.stringify({
+                    idList: idList
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg);
+                if (res.code == 200) {
+                    fileShow(otherId);
+                }
+            })
+        }
+    })
+
+    $('#file-close-btn').click(function () {
+        $('#show-file-modal').modal('hide');
     })
 
 })
@@ -211,13 +287,14 @@ function setTable(data) {
     $('#menuSettingsTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: '',
@@ -240,7 +317,7 @@ function setTable(data) {
             }, {
                 field: 'productionPlace',
                 title: '产地',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
@@ -249,7 +326,7 @@ function setTable(data) {
             }, {
                 field: 'brandName',
                 title: '品牌名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
@@ -258,37 +335,20 @@ function setTable(data) {
             }, {
                 field: 'website',
                 title: '官网网址',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' onclick='javascript:goTo("+ row.id +")'>"+ value +"</span></div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:goTo("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
-                field: 'pictureAlbum1',
-                title: '目录画册1',
-                align: 'left',
+                field: '',
+                title: '目录画册',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
-                    if (value==null || value ==''){
-                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button>'
-                    }else{
-                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:pdf_download1(' + row.id + ')" class="btn btn-primary">下载</button>'
-                    }
-                }
-            }, {
-                field: 'pictureAlbum2',
-                title: '目录画册2',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter:function(value, row , index){
-                    if (value==null || value ==''){
-                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button>'
-                    }else{
-                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:pdf_download2(' + row.id + ')" class="btn btn-primary">下载</button>'
-                    }
+                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button>'
                 }
             }
         ],
@@ -300,6 +360,27 @@ function setTable(data) {
                 $(el).addClass('selected')
             }
         }
+    })
+}
+
+
+function fileShow(id) {
+    $ajax({
+        type: 'post',
+        url: '/file_table/getList',
+        data:{
+            otherId:id,
+            type:"原料品牌",
+        }
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setShowFileTable(res.data);
+            $('#show-file-modal').modal('show');
+            otherId=id;
+        }else{
+            return;
+        }
+        console.log(res)
     })
 }
 
@@ -422,3 +503,57 @@ function getBase64Type(type) {
     }
 }
 
+function base64ToBlob(code) {
+    code = code.replace(/[\n\r]/g, '');
+    const raw = window.atob(code);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i)
+    }
+    return new Blob([uInt8Array], { type: 'application/pdf' })
+}
+
+function setShowFileTable(data) {
+    console.log(data)
+    if ($('#show-table-file').html() != '') {
+        $('#show-table-file').bootstrapTable('load', data);
+        return;
+    }
+    $('#show-table-file').bootstrapTable({
+        data: data,
+        sortStable: true,
+        classes: 'table table-hover',
+        idField: 'id',
+        pagination: true,
+        search: true,
+        searchAlign: 'left',
+        clickToSelect: true,
+        locale: 'zh-CN',
+        columns: [
+            {
+                field: 'id',
+                title: '序号',
+                align: 'center',
+                width: 50,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            }, {
+                field: 'fileName',
+                title: '文件名',
+                align: 'left',
+                sortable: true,
+                width: 100
+            }
+        ],
+        onClickRow: function (row, el) {
+            let isSelect = $(el).hasClass('selected')
+            if (isSelect) {
+                $(el).removeClass('selected')
+            } else {
+                $(el).addClass('selected')
+            }
+        }
+    })
+}

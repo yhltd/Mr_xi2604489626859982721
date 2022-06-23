@@ -148,3 +148,8 @@ table{
     font-size: 12px;
     text-align: center;
 }
+
+.table-head {
+    color: #4d96e0;
+    height: 100px;
+}

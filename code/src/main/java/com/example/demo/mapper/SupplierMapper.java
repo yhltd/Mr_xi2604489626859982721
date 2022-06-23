@@ -43,4 +43,7 @@ public interface SupplierMapper extends BaseMapper<Supplier> {
 
     @Select("select * from supplier where id=#{id}")
     List<Supplier> getFile1(int id);
+
+    @Select("select * from supplier order by supplier_code desc limit 0,1")
+    List<Supplier>getBianMa();
 }

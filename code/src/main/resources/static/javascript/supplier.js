@@ -1,4 +1,5 @@
 let file_id = '';
+let otherId='';
 
 function getList() {
     var supplier = $.session.get('supplier');
@@ -12,6 +13,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $("#supplierTable").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -19,6 +26,30 @@ function getList() {
 $(function () {
     //刷新
     getList();
+
+    $("#add-supplierCode").focus(function (){
+        $ajax({
+            type: 'post',
+            url: '/supplier/getBianma',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                if (res.data.length>0){
+                    var num=res.data[0].supplierCode;
+                }
+                if (res.data.length=0){
+                    $("#add-supplierCode").val("HOYL_0001")
+                }else{
+                    var len=4;
+                    num=parseInt(num.split("_")[1],10)+1
+                    num=num.toString();
+                    while(num.length<len){
+                        num="0"+num;
+                    }
+                    $("#add-supplierCode").val("HOYL_"+num)
+                }
+            }
+        })
+    })
 
     $("#select-btn").click(function () {
         var supplier = $.session.get('supplier');
@@ -156,54 +187,116 @@ $(function () {
     })
 
     $('#file1').change(function () {
-        var pdf = document.getElementById("file1").files[0];
-        var pdfName = "";
-        if (typeof (pdf) != "undefined") {
-            pdfName = pdf.name;
+        var file = document.getElementById("file1").files[0];
+        var fileName = "";
+        if (typeof (file) != "undefined") {
+            fileName = file.name;
             var oFReader = new FileReader();
-            oFReader.readAsDataURL(pdf);
+            oFReader.readAsDataURL(file);
             oFReader.onloadend = function (oFRevent) {
-                pdf = oFRevent.target.result;
+                file = oFRevent.target.result;
                 $ajax({
                     type: 'post',
-                    url: '/supplier/upfile1',
+                    url: '/file_table/add',
                     data: {
-                        id: file_id,
-                        pdf: pdf,
-                        pdfName: pdfName,
+                        otherId: otherId,
+                        files: file,
+                        fileName: fileName,
+                        type:'供应商',
                     },
                 }, false, '', function (res) {
                     alert(res.msg)
-                    getList()
+                    fileShow(otherId);
                 })
             }
         }
     })
 
-    $('#file2').change(function () {
-        var pdf = document.getElementById("file2").files[0];
-        var pdfName = "";
-        if (typeof (pdf) != "undefined") {
-            pdfName = pdf.name;
-            var oFReader = new FileReader();
-            oFReader.readAsDataURL(pdf);
-            oFReader.onloadend = function (oFRevent) {
-                pdf = oFRevent.target.result;
-                $ajax({
-                    type: 'post',
-                    url: '/supplier/upfile2',
-                    data: {
-                        id: file_id,
-                        pdf: pdf,
-                        pdfName: pdfName,
-                    },
-                }, false, '', function (res) {
-                    alert(res.msg)
-                    getList()
-                })
+    $('#file-up-btn').click(function () {
+        $('#file1').trigger('click');
+    })
+
+    $('#file-down-btn').click(function () {
+        let rows = getTableSelection('#show-table-file')
+        if (rows.length > 1 || rows.length == 0) {
+            alert('请选择一个文件下载');
+            return;
+        }
+        $ajax({
+            type: 'post',
+            url: '/file_table/getFile',
+            data: {
+                id: rows[0].data.id,
+            },
+        }, false, '', function (res) {
+            if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                downloadFileByBase64(res.data[0].fileName, res.data[0].files.split(',')[1])
             }
+        })
+    })
+
+    $('#file-yulan-btn').click(function () {
+        let rows = getTableSelection('#show-table-file')
+        if (rows.length > 1 || rows.length == 0) {
+            alert('请选择一个文件预览');
+            return;
+        }
+        if(rows[0].data.fileName.split(".")[1]!='pdf'){
+            alert('请选择pdf文件');
+            return;
+        }
+        $ajax({
+            type: 'post',
+            url: '/file_table/getFile',
+            data: {
+                id: rows[0].data.id,
+            },
+        }, false, '', function (res) {
+            if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                const blob = this.base64ToBlob(res.data[0].files.split(',')[1]);
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveOrOpenBlob(blob)
+                } else {
+                    const fileURL = URL.createObjectURL(blob)
+                    window.open(fileURL)
+                }
+            }
+        })
+    })
+
+    $('#file-delete-btn').click(function () {
+        var msg = confirm("确认要删除吗？")
+        if (msg) {
+            let rows = getTableSelection("#show-table-file");
+            if (rows.length == 0) {
+                alert('请选择要删除的数据！')
+                return;
+            }
+            let idList = [];
+            $.each(rows, function (index, row) {
+                idList.push(row.data.id)
+            })
+            $ajax({
+                type: 'post',
+                url: '/file_table/delete',
+                data: JSON.stringify({
+                    idList: idList
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg);
+                if (res.code == 200) {
+                    fileShow(otherId);
+                }
+            })
         }
     })
+
+    $('#file-close-btn').click(function () {
+        $('#show-file-modal').modal('hide');
+    })
+
 })
 
 function setTable(data) {
@@ -214,13 +307,14 @@ function setTable(data) {
     $('#supplierTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: '',
@@ -233,7 +327,7 @@ function setTable(data) {
             }, {
                 field: 'supplierCode',
                 title: '供应商编码',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -242,7 +336,7 @@ function setTable(data) {
             }, {
                 field: 'type',
                 title: '供应商分类',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -251,7 +345,7 @@ function setTable(data) {
             }, {
                 field: 'abbreviation',
                 title: '供应商简称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -260,7 +354,7 @@ function setTable(data) {
             }, {
                 field: 'supplierName',
                 title: '供应商名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -269,45 +363,26 @@ function setTable(data) {
             }, {
                 field: 'url',
                 title: '公司官网',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
                     //return '<span id="'+ row.id +'" onclick="javascript:jump('+ row.id +')">' + value + '</span>'
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' onclick='javascript:jump("+ row.id +")'>"+ value +"</span></div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:jump("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
-                field: 'pdf1',
+                field: '',
                 title: '目录画册',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if (row.pdf1Name==null || row.pdf1Name ==''){
-                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> '
-                    }else{
-                        return '<button onclick="javascript:up1(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:down1(' + row.id + ')" class="btn btn-primary">下载</button><input onclick="javascript:change1(' + row.id + ')" type="file" id="Afile' + row.id + '" hidden="hidden"/>'
-                    }
-
-                    //return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
                 }
-            }, {
-                field: 'pdf2',
-                title: '目录画册',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (row.pdf2Name==null || row.pdf2Name ==''){
-                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button>'
-                    }else{
-                        return '<button onclick="javascript:up2(' + row.id + ')" class="btn btn-primary">上传</button> <button onclick="javascript:down2(' + row.id + ')" class="btn btn-primary">下载</button>'
-                    }
-                }
-            }, {
+            },{
                 field: 'brand',
                 title: '经营品牌',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -326,6 +401,26 @@ function setTable(data) {
     })
 }
 
+function fileShow(id) {
+    $ajax({
+        type: 'post',
+        url: '/file_table/getList',
+        data:{
+            otherId:id,
+            type:"供应商",
+        }
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setShowFileTable(res.data);
+            $('#show-file-modal').modal('show');
+            otherId=id;
+        }else{
+            return;
+        }
+        console.log(res)
+    })
+}
+
 function jump(id) {
     if ($('#'+id).text()!='' && $('#'+id).text()!=null){
         if($('#'+id).text().slice(0,4)!="http"){
@@ -334,46 +429,6 @@ function jump(id) {
             window.open($('#'+id).text(),"_blank");
         }
     }
-}
-
-function up1(id) {
-    file_id = id;
-    $('#file1').trigger('click');
-}
-
-function up2(id) {
-    file_id = id;
-    $('#file2').trigger('click');
-}
-
-function down1(id) {
-    $ajax({
-        type: 'post',
-        url: '/supplier/getFile',
-        data: {
-            id: id,
-        },
-    }, false, '', function (res) {
-        if (res.data[0].pdf1 != '' && res.data[0].pdf1 != null) {
-            //var file=res.data[0].pdf2Name+getBase64Type(res.data[0].pdf1.split(',')[0]);
-            downloadFileByBase64(res.data[0].pdf1Name, res.data[0].pdf1.split(',')[1])
-        }
-    })
-}
-
-function down2(id) {
-    $ajax({
-        type: 'post',
-        url: '/supplier/getFile',
-        data: {
-            id: id,
-        },
-    }, false, '', function (res) {
-        if (res.data[0].pdf2 != '' && res.data[0].pdf2 != null) {
-            //var file=res.data[0].pdf2Name+getBase64Type(res.data[0].pdf2.split(',')[0]);
-            downloadFileByBase64(res.data[0].pdf2Name, res.data[0].pdf2.split(',')[1])
-        }
-    })
 }
 
 function dataURLtoBlob(dataurl, name) {//name:文件名
@@ -443,4 +498,89 @@ function getBase64Type(type) {
         case 'data:image/bmp;base64':
             return 'bmp';
     }
+}
+
+function base64ToBlob(code) {
+    code = code.replace(/[\n\r]/g, '');
+    const raw = window.atob(code);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i)
+    }
+    return new Blob([uInt8Array], { type: 'application/pdf' })
+}
+
+// function convertDataURIToBinary(dataURI){
+//     dataURI=dataURI.replace(/[\r\n]/g,'');
+//     var raw=window.atob(dataURI);
+//     var rawLength=raw.length;
+//     var array=new Uint8Array(new ArrayBuffer(rawLength));
+//     for(var i=0;i< rawLength;i++){
+//         array[i]=raw.charCodeAt(i);
+//     }
+//     return array;
+// }
+//
+// function showall(url,page,id){
+//     PDFJS.getDocument(url).then(function getPdfHelloWorld(pdf){
+//         console.log(pdf.numPages);
+//         pdf.getPage(page).then(function getPageHelloWorld(page){
+//             var scale=1.0;
+//             var viewport=page.getViewport(scale);
+//             var canvas=document.getElementById(id);
+//             var context=canvas.getContext('2d');
+//             canvas.height=viewport.height;
+//             canvas.width=viewport.width;
+//             var renderContext={
+//                 canvasContext:context,
+//                 viewport:viewport,
+//             }
+//             page.render(renderContext);
+//         })
+//     })
+// }
+
+function setShowFileTable(data) {
+    console.log(data)
+    if ($('#show-table-file').html() != '') {
+        $('#show-table-file').bootstrapTable('load', data);
+        return;
+    }
+    $('#show-table-file').bootstrapTable({
+        data: data,
+        sortStable: true,
+        classes: 'table table-hover',
+        idField: 'id',
+        pagination: true,
+        search: true,
+        searchAlign: 'left',
+        clickToSelect: true,
+        locale: 'zh-CN',
+        columns: [
+            {
+                field: 'id',
+                title: '序号',
+                align: 'center',
+                width: 50,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            }, {
+                field: 'fileName',
+                title: '文件名',
+                align: 'left',
+                sortable: true,
+                width: 100
+            }
+        ],
+        onClickRow: function (row, el) {
+            let isSelect = $(el).hasClass('selected')
+            if (isSelect) {
+                $(el).removeClass('selected')
+            } else {
+                $(el).addClass('selected')
+            }
+        }
+    })
 }

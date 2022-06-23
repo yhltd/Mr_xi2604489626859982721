@@ -11,6 +11,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $("#menuSettingsTable").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -32,7 +38,7 @@ function getINCIList() {
     $ajax({
         type: 'post',
         url: '/inci_information/getList',
-        data:{
+        data: {
             query: ''
         }
     }, false, '', function (res) {
@@ -49,32 +55,27 @@ $(function () {
     getList();
 
     $("#select-btn").click(function () {
-        var query=$('#query').val()
+        var query = $('#query').val()
         $ajax({
             type: 'post',
             url: '/commodity_price/queryList',
-            data:{
-                query:query
+            data: {
+                query: query
             }
         }, false, '', function (res) {
             if (res.code == 200) {
                 setTable(res.data);
             }
         })
-
-
-
-
-
     })
 
     $("#select-btn2").click(function () {
-        var query=$('#query').val()
+        var query = $('#query').val()
         $ajax({
             type: 'post',
             url: '/cir_security/preciseQueryList',
-            data:{
-                query:query
+            data: {
+                query: query
             }
         }, false, '', function (res) {
             if (res.code == 200) {
@@ -243,7 +244,6 @@ $(function () {
     })
 
 
-
 })
 
 function setTable(data) {
@@ -254,13 +254,14 @@ function setTable(data) {
     $('#menuSettingsTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: '',
@@ -276,108 +277,108 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
 
             }, {
                 field: 'goodsName',
                 title: '商品名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rawSubmissionCode',
                 title: '原料报送码',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'productionPlace',
                 title: '产地',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'brandName',
                 title: '品牌名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'abbreviation',
                 title: '供应商简称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'supplierName',
                 title: '供应商公司名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 130,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'unit',
                 title: '规格',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'price',
                 title: '成本',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }
         ],
@@ -460,11 +461,11 @@ function setCommodityTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
 
             }, {
@@ -473,11 +474,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rawSubmissionCode',
@@ -485,11 +486,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'productionPlace',
@@ -497,11 +498,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'brandName',
@@ -509,11 +510,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'addAmount',
@@ -521,11 +522,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'abbreviation',
@@ -533,11 +534,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'supplierName',
@@ -545,11 +546,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'solubility',
@@ -557,11 +558,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'appearance',
@@ -569,11 +570,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'smell',
@@ -581,11 +582,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'substanceLabel',
@@ -593,11 +594,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'efficacyLabel',
@@ -605,11 +606,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rawLabel',
@@ -617,11 +618,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rawLabel',
@@ -629,11 +630,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'patent',
@@ -641,11 +642,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'performance',
@@ -653,11 +654,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'taboo',
@@ -665,11 +666,11 @@ function setCommodityTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             },
         ],

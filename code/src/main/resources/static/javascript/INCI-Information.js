@@ -6,6 +6,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $("#menuSettingsTable").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -202,13 +208,14 @@ function setTable(data) {
     $('#menuSettingsTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: 'serialNumber',
@@ -225,7 +232,7 @@ function setTable(data) {
             }, {
                 field: 'chineseName',
                 title: 'INCI名称/中文名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 170,
                 formatter:function(value, row , index){
@@ -237,7 +244,7 @@ function setTable(data) {
             }, {
                 field: 'englishName',
                 title: 'INCI名称/英文名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 170,
                 formatter:function(value, row , index){
@@ -249,7 +256,7 @@ function setTable(data) {
             }, {
                 field: 'rinsingProducts',
                 title: '淋洗类产品最高历史使用量（%）',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 260,
                 formatter:function(value, row , index){
@@ -261,7 +268,7 @@ function setTable(data) {
             }, {
                 field: 'residentProducts',
                 title: '驻留类产品最高历史使用量（%）',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 260,
                 formatter:function(value, row , index){
@@ -273,7 +280,7 @@ function setTable(data) {
             }, {
                 field: 'rawRemarks',
                 title: '原料目录备注',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 130,
                 formatter:function(value, row , index){
@@ -285,7 +292,7 @@ function setTable(data) {
             }, {
                 field: 'purpose',
                 title: '主要使用目的',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 130,
                 formatter:function(value, row , index){
@@ -297,7 +304,7 @@ function setTable(data) {
             }, {
                 field: 'riskSubstance',
                 title: '是否可能存在安全性风险物质',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 230,
                 formatter:function(value, row , index){
@@ -309,7 +316,7 @@ function setTable(data) {
             }, {
                 field: 'safetyRisk',
                 title: '安全风险',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){

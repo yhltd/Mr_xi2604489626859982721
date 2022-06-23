@@ -6,6 +6,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $("#userTable").colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -148,26 +154,27 @@ function setTable(data) {
     $('#userTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: '',
                 title: '序号',
                 align: 'center',
-                width: 75,
+                width: 30,
                 formatter: function (value, row, index) {
                     return index + 1;
                 }
             }, {
                 field: 'username',
                 title: '用户名',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -176,7 +183,7 @@ function setTable(data) {
             }, {
                 field: 'password',
                 title: '密码',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {

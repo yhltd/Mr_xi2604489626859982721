@@ -13,8 +13,10 @@
 
     <!--bootstrap-table-->
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
@@ -63,10 +65,10 @@
             上传excel
         </button>
         <a class="btn btn-primary" style="color: white;padding-top: 8px">当前页：录入原料成本信息</a>
-        <input type="file" id="file" hidden="hidden">
-        <input type="file" id="upload-file" hidden="hidden">
     </div>
 </div>
+
+
 
 <div class="table-div border-top">
     <table id="menuSettingsTable"></table>
@@ -97,14 +99,14 @@
                     </div>
                     <div class="form-group">
                         <label for="add-unit">包装规格/kg</label>
-                        <input id="add-unit" name="unit" type="text" class="form-control" autocomplete="off" >
+                        <input id="add-unit" name="unit" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入包装规格！
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="add-price">成本/元</label>
-                        <input id="add-price" name="price" type="text" class="form-control" autocomplete="off" >
+                        <input id="add-price" name="price" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入成本！
                         </div>
@@ -153,14 +155,14 @@
                     </div>
                     <div class="form-group">
                         <label for="update-unit">包装规格/kg</label>
-                        <input id="update-unit" name="unit" type="text" class="form-control" autocomplete="off" >
+                        <input id="update-unit" name="unit" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入包装规格！
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="update-price">成本/元</label>
-                        <input id="update-price" name="price" type="text" class="form-control" autocomplete="off" >
+                        <input id="update-price" name="price" type="text" class="form-control" autocomplete="off" style="height:100px">
                         <div class="invalid-feedback">
                             请输入成本！
                         </div>

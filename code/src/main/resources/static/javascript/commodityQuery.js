@@ -6,6 +6,12 @@ function getList() {
         if (res.code == 200) {
             setTable(res.data);
             //$("#queryTable").bootstrapTable('hideColumn', 'userId');
+            $('#queryTable').colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -134,13 +140,14 @@ function setTable(data) {
     $('#queryTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: 'id',
@@ -178,7 +185,7 @@ function setTable(data) {
             }, {
                 field: 'rawSubmissionCode',
                 title: '原料报送码',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -191,7 +198,7 @@ function setTable(data) {
             }, {
                 field: 'productionPlace',
                 title: '产地',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -204,7 +211,7 @@ function setTable(data) {
             }, {
                 field: 'brandName',
                 title: '品牌名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -217,7 +224,7 @@ function setTable(data) {
             }, {
                 field: 'addAmount',
                 title: '建议添加量',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -230,7 +237,7 @@ function setTable(data) {
             }, {
                 field: 'abbreviation',
                 title: '供应商简称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -243,7 +250,7 @@ function setTable(data) {
             }, {
                 field: 'supplierName',
                 title: '供应商公司名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -256,7 +263,7 @@ function setTable(data) {
             }, {
                 field: 'solubility',
                 title: '溶解性',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -269,7 +276,7 @@ function setTable(data) {
             }, {
                 field: 'appearance',
                 title: '外观',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -282,7 +289,7 @@ function setTable(data) {
             }, {
                 field: 'smell',
                 title: '气味',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -295,7 +302,7 @@ function setTable(data) {
             }, {
                 field: 'substanceLabel',
                 title: '物质标签',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -308,7 +315,7 @@ function setTable(data) {
             }, {
                 field: 'efficacyLabel',
                 title: '功效标签',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -321,7 +328,7 @@ function setTable(data) {
             }, {
                 field: 'rawLabel',
                 title: '原料标签',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -334,7 +341,7 @@ function setTable(data) {
             }, {
                 field: 'patent',
                 title: '专利信息',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -347,7 +354,7 @@ function setTable(data) {
             }, {
                 field: 'performance',
                 title: '产品性能',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -360,7 +367,7 @@ function setTable(data) {
             }, {
                 field: 'taboo',
                 title: '配伍禁忌',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -370,23 +377,25 @@ function setTable(data) {
                         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
                     }
                 }
-            }, {
+            }
+            // , {
+            //     field: '',
+            //     title: '原料画册',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 150,
+            //     formatter: function (value, row, index) {
+            //         if (row.pdf1Name == null || row.pdf1Name == '') {
+            //             return ''
+            //         } else {
+            //             return '<button onclick="javascript:download1(' + row.id + ')" class="btn btn-primary">下载</button>'
+            //         }
+            //     }
+            // }
+            , {
                 field: '',
                 title: '原料画册',
-                align: 'left',
-                sortable: true,
-                width: 150,
-                formatter: function (value, row, index) {
-                    if (row.pdf1Name == null || row.pdf1Name == '') {
-                        return ''
-                    } else {
-                        return '<button onclick="javascript:download1(' + row.id + ')" class="btn btn-primary">下载</button>'
-                    }
-                }
-            }, {
-                field: '',
-                title: '原料画册',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 150,
                 formatter: function (value, row, index) {
@@ -399,7 +408,7 @@ function setTable(data) {
             }, {
                 field: '',
                 title: 'INCI成分信息',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 150,
                 formatter: function (value, row, index) {
@@ -408,7 +417,7 @@ function setTable(data) {
             }, {
                 field: '',
                 title: '原料成本信息',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 150,
                 formatter: function (value, row, index) {

@@ -11,6 +11,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $('#menuSettingsTable').colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -59,13 +65,9 @@ $(function () {
         }, false, '', function (res) {
             if (res.code == 200) {
                 setTable(res.data);
+
             }
         })
-
-
-
-
-
     })
 
     $("#select-btn2").click(function () {
@@ -301,13 +303,14 @@ function setTable(data) {
     $('#menuSettingsTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: 'serialNumber',
@@ -336,7 +339,7 @@ function setTable(data) {
             }, {
                 field: 'englishName',
                 title: 'INCI名称/英文名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 150,
                 formatter:function(value, row , index){
@@ -348,7 +351,7 @@ function setTable(data) {
             }, {
                 field: 'cas',
                 title: 'CAS',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 70,
                 formatter:function(value, row , index){
@@ -360,7 +363,7 @@ function setTable(data) {
             }, {
                 field: 'content',
                 title: '成分含量',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
@@ -373,7 +376,7 @@ function setTable(data) {
             }, {
                 field: 'purpose',
                 title: '主要使用目的',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 130,
                 formatter:function(value, row , index){
@@ -385,7 +388,7 @@ function setTable(data) {
             }, {
                 field: 'rinsingProducts',
                 title: '淋洗类产品最高历史使用量（%）',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 250,
                 formatter:function(value, row , index){
@@ -397,7 +400,7 @@ function setTable(data) {
             }, {
                 field: 'resident_products',
                 title: '驻留类产品最高历史使用量（%）',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 250,
                 formatter:function(value, row , index){
@@ -409,7 +412,7 @@ function setTable(data) {
             }, {
                 field: 'rawRemarks',
                 title: '原料目录备注',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 130,
                 formatter:function(value, row , index){
@@ -421,7 +424,7 @@ function setTable(data) {
             }, {
                 field: 'safetyRisk',
                 title: '安全风险',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
@@ -433,7 +436,7 @@ function setTable(data) {
             }, {
                 field: 'safetyAssessment',
                 title: 'CIR安全评估',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 130,
                 formatter:function(value, row , index){

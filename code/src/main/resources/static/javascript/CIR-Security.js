@@ -7,6 +7,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $('#menuSettingsTable').colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -203,13 +209,14 @@ function setTable(data) {
     $('#menuSettingsTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
         toolbarAlign: 'left',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: 'serialNumber',
@@ -227,7 +234,7 @@ function setTable(data) {
             }, {
                 field: 'chineseName',
                 title: 'INCI名称/中文名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
@@ -239,7 +246,7 @@ function setTable(data) {
             }, {
                 field: 'englishName',
                 title: 'INCI名称/英文名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
@@ -251,7 +258,7 @@ function setTable(data) {
             }, {
                 field: 'safetyAssessment',
                 title: 'CIR安全评估',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){

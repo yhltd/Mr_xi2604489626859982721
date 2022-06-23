@@ -13,8 +13,10 @@
 
     <!--bootstrap-table-->
     <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/bootstrap-table.css">
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
-    <script src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-zh-CN.min.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
@@ -124,7 +126,17 @@
     </div>
 
     <div class="col-md-2 mb-2">
-        <span class="form-control">原料成本</span>
+        <span id="column6" class="form-control" style="border: none">人体功效</span>
+    </div>
+    <div class="col-md-2 mb-2">
+        <select id="condition6" name="viewName1" class="form-control">
+            <option value="">请选择</option>
+            <option value="人体功效">是</option>
+        </select>
+    </div>
+
+    <div class="col-md-2 mb-2">
+        <span class="form-control" style="border: none">原料成本：</span>
     </div>
     <div class="col-md-2 mb-2">
         <input id="priceMin" type="number" class="form-control" placeholder="" autocomplete="off">
@@ -134,7 +146,7 @@
     </div>
 
     <div class="col-md-2 mb-2">
-        <span class="form-control" style="border: none">成分含量</span>
+        <span class="form-control" style="border: none">成分含量：</span>
     </div>
     <div class="col-md-2 mb-2">
         <input id="contentMin" type="number" class="form-control" placeholder="" autocomplete="off">
@@ -143,15 +155,7 @@
         <input id="contentMax" type="number" class="form-control" placeholder="" autocomplete="off">
     </div>
 
-    <div class="col-md-2 mb-2">
-        <span id="column6" class="form-control" style="border: none">人体功效</span>
-    </div>
-    <div class="col-md-2 mb-2">
-        <select id="condition6" name="viewName1" class="form-control">
-            <option value="">请选择</option>
-            <option value="人体功效">是</option>
-        </select>
-    </div>
+
 
     <div class="col-md-2 mb-2">
         <button id="select-btn" class="btn btn-primary">
@@ -216,6 +220,8 @@
         </div>
     </div>
 </div>
+
+
 
 </body>
 </html>

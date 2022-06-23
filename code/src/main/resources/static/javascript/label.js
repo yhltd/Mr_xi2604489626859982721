@@ -11,6 +11,12 @@ function getList() {
     }, false, '', function (res) {
         if (res.code == 200) {
             setTable(res.data);
+            $('#labelTable').colResizable({
+                liveDrag:true,
+                gripInnerHtml:"<div class='grip'></div>",
+                draggingClass:"dragging",
+                resizeMode:'fit'
+            });
         }
     })
 }
@@ -81,7 +87,13 @@ $(function () {
             return;
         }
         $('#update-modal').modal('show');
-        setForm(rows[0].data, '#update-form');
+        $('#update-label1').tagsinput('removeAll')
+        $('#id').val(rows[0].data.id);
+        $('#update-type').val(rows[0].data.type);
+        $('#update-label1').tagsinput('add',rows[0].data.label1);
+
+
+
     })
 
     //修改弹窗点击关闭按钮
@@ -153,13 +165,14 @@ function setTable(data) {
     $('#labelTable').bootstrapTable({
         data: data,
         sortStable: true,
-        classes: 'table table-hover',
+        classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: false,
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
-        toolbarAlign: 'left',
+        toolbarAlign: 'center',
+        theadClasses: "thead-light",//这里设置表头样式
         columns: [
             {
                 field: '',
@@ -172,7 +185,7 @@ function setTable(data) {
             }, {
                 field: 'type',
                 title: '分类',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -180,8 +193,8 @@ function setTable(data) {
                 }
             }, {
                 field: 'label1',
-                title: '标签1',
-                align: 'left',
+                title: '标签',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -192,38 +205,42 @@ function setTable(data) {
                         return {css: {"background-color": "#f08080"}};
                     }
                     return '';
-                }
-            }, {
-                field: 'label2',
-                title: '标签2',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 },
-                cellStyle: function (value, row, index) {
-                    if(row.label2==row.label1 || row.label2==row.label3){
-                        return {css: {"background-color": "#f08080"}};
-                    }
-                    return '';
-                }
-            }, {
-                field: 'label3',
-                title: '标签3',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                },
-                cellStyle: function (value, row, index) {
-                    if(row.label3==row.label1 || row.label3==row.label2){
-                        return {css: {"background-color": "#f08080"}};
-                    }
-                    return '';
-                }
+                // formatter: function (value, row, index) {
+                //     return "<input type='text' data-role='tagsinput' value='value' >";
+                // }
             }
+            // , {
+            //     field: 'label2',
+            //     title: '标签2',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //     },
+            //     cellStyle: function (value, row, index) {
+            //         if(row.label2==row.label1 || row.label2==row.label3){
+            //             return {css: {"background-color": "#f08080"}};
+            //         }
+            //         return '';
+            //     }
+            // }, {
+            //     field: 'label3',
+            //     title: '标签3',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //     },
+            //     cellStyle: function (value, row, index) {
+            //         if(row.label3==row.label1 || row.label3==row.label2){
+            //             return {css: {"background-color": "#f08080"}};
+            //         }
+            //         return '';
+            //     }
+            // }
         ],
         onClickRow: function (row, el) {
             let isSelect = $(el).hasClass('selected')
