@@ -74,13 +74,13 @@ public class SupplierController {
      */
     @RequestMapping("/add")
     public ResultInfo add(String supplierCode, String type, String abbreviation, String supplierName,
-                          String url, String pdf1, String pdf2,HttpSession session ) {
+                          String url, String pdf1, String pdf2,String company,HttpSession session ) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
         if (!powerUtil.isAdd("供应商")) {
             return ResultInfo.error(401, "无权限");
         }
         try {
-            iSupplierService.add(supplierCode,type,abbreviation,supplierName,url,pdf1,pdf2);
+            iSupplierService.add(supplierCode,type,abbreviation,supplierName,url,pdf1,pdf2,company);
             return ResultInfo.success("添加成功", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +109,8 @@ public class SupplierController {
             String abbreviation = supplier.getAbbreviation();
             String supplierName = supplier.getSupplierName();
             String url = supplier.getUrl();
-            iSupplierService.update(id, supplierCode, type, abbreviation, supplierName, url);
+            String company = supplier.getCompany();
+            iSupplierService.update(id, supplierCode, type, abbreviation, supplierName, url,company);
             return ResultInfo.success("修改成功", supplier);
         } catch (Exception e) {
             e.printStackTrace();

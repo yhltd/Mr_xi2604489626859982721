@@ -57,6 +57,9 @@ public class Supplier {
      * 文件名2
      */
     private String pdf2Name;
-
+    /**
+     * 公司
+     */
+    private String company;
 
 }

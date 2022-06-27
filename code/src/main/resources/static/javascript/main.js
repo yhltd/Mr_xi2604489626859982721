@@ -8,6 +8,16 @@
 //     $alerts.append($alert)
 // }
 
+$(function () {
+
+    var onload_url = $.session.get('onload_url');
+    if (onload_url != undefined && onload_url !=''){
+        $('#iframe').attr('src', onload_url);
+    }
+    $.session.set('onload_url', '')
+
+})
+
 function $ajax(options, isLoading, loadingEl, success) {
     $.ajax({
         timeout: 10000,

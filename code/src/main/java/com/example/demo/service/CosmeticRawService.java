@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.entity.CosmeticRaw;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,4 +85,7 @@ public interface CosmeticRawService extends IService<CosmeticRaw> {
      * 下载文件
      */
     List<CosmeticRaw> getFile1(int id);
+
+
+    List<CosmeticRaw>getBianma();
 }

@@ -558,6 +558,21 @@ public class CommodityController {
 
     }
 
-
+    /**
+     * 查编号
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getBianma")
+    public ResultInfo getBianma() {
+        try {
+            List<Commodity> getList = iCommodityService.getBianma();
+            return ResultInfo.success("获取成功", getList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
 
 }

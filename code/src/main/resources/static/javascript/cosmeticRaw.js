@@ -27,6 +27,30 @@ $(function () {
     //刷新
     getList();
 
+    $("#add-brandCode").focus(function (){
+        $ajax({
+            type: 'post',
+            url: '/cosmetic_raw/getBianma',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                if (res.data.length>0){
+                    var num=res.data[0].brandCode;
+                }
+                if (res.data.length=0){
+                    $("#add-brandCode").val("HOYL_0001")
+                }else{
+                    var len=4;
+                    num=parseInt(num.split("_")[1],10)+1
+                    num=num.toString();
+                    while(num.length<len){
+                        num="0"+num;
+                    }
+                    $("#add-brandCode").val("HOYL_"+num)
+                }
+            }
+        })
+    })
+
     $("#select-btn").click(function () {
         var query=$('#query').val()
         $ajax({
@@ -64,6 +88,7 @@ $(function () {
     //点击新增按钮显示弹窗
     $("#add-btn").click(function () {
         $('#add-modal').modal('show');
+        $("#add-brandCode").val('');
     })
 
     //新增弹窗里点击关闭按钮

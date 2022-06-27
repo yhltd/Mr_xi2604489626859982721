@@ -2,6 +2,7 @@ var operation = ""
 var label_name = ""
 var this_column = ""
 var this_id = ""
+var commodity_id=""
 
 function getList() {
     $('#query').val('')
@@ -69,6 +70,30 @@ function getLabelList() {
 $(function () {
     //刷新
     getList();
+
+    $("#add-rawCode").focus(function (){
+        $ajax({
+            type: 'post',
+            url: '/commodity/getBianma',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                if (res.data.length>0){
+                    var num=res.data[0].rawCode;
+                }
+                if (res.data.length=0){
+                    $("#add-rawCode").val("HOYL_0001")
+                }else{
+                    var len=4;
+                    num=parseInt(num.split("_")[1],10)+1
+                    num=num.toString();
+                    while(num.length<len){
+                        num="0"+num;
+                    }
+                    $("#add-rawCode").val("HOYL_"+num)
+                }
+            }
+        })
+    })
 
     $("#select-btn").click(function () {
         var column_name1 = $('#column_name1').val()
@@ -180,6 +205,7 @@ $(function () {
     //点击新增按钮显示弹窗
     $("#add-btn").click(function () {
         $('#add-modal').modal('show');
+        $("#add-rawCode").val('');
     })
 
     //新增弹窗里点击关闭按钮
@@ -732,6 +758,121 @@ $(function () {
     $('#file-close-btn').click(function () {
         $('#show-file-modal').modal('hide');
     })
+
+    //选择INCI数据关闭按钮
+    $("#inci-close-btn").click(function () {
+        $('#show-inci-modal').modal('hide');
+    })
+
+    //inci新增
+    $("#inci-submit-btn").click(function () {
+        $ajax({
+            type: 'post',
+            url: '/inci_information/getList',
+            data:{
+                query: ''
+            }
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                setINCIAddTable(res.data);
+                $("#add-table-inci").bootstrapTable('hideColumn', 'id');
+                $('#add-inci-modal').modal('show');
+            }
+            console.log(res)
+        })
+    })
+
+    //新增INCI数据关闭按钮
+    $("#add-inci-close-btn").click(function () {
+        $('#add-inci-modal').modal('hide');
+    })
+
+    //新增INCI数据确定按钮
+    $("#add-inci-submit-btn").click(function () {
+        let rows = getRows("#add-table-inci");
+        if (rows.length == 0) {
+            alert('请选择要保存的数据！')
+            return;
+        }
+        $.each(rows, function (index, row) {
+            $ajax({
+                type: 'post',
+                url: '/commodity_inci/insert',
+                data:{
+                    commodityId:commodity_id,
+                    cas:row.cas,
+                    content:row.content,
+                    inciId:row.data.id,
+                }
+            }, false, '', function (res) {
+
+            })
+        })
+        alert('添加成功！')
+        $('#add-inci-modal').modal('hide');
+        $ajax({
+            type: 'post',
+            url: '/commodity_inci/getListById',
+            data:{
+                id:commodity_id,
+            }
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                setINCITable(res.data);
+                $("#show-table-inci").bootstrapTable('hideColumn', 'id');
+                $('#show-inci-modal').modal('show');
+            }else{
+                return;
+            }
+            console.log(res)
+        })
+    })
+
+    //点击删除按钮
+    $('#inci-delete-btn').click(function () {
+        var msg = confirm("确认要删除吗？")
+        if (msg) {
+            let rows = getTableSelection("#show-table-inci");
+            if (rows.length == 0) {
+                alert('请选择要删除的数据！')
+                return;
+            }
+            let idList = [];
+            $.each(rows, function (index, row) {
+                idList.push(row.data.id)
+            })
+            $ajax({
+                type: 'post',
+                url: '/commodity_inci/delete',
+                data: JSON.stringify({
+                    idList: idList
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg);
+                if (res.code == 200) {
+                    $ajax({
+                        type: 'post',
+                        url: '/commodity_inci/getListById',
+                        data:{
+                            id:commodity_id,
+                        }
+                    }, false, '', function (res) {
+                        if (res.code == 200) {
+                            setINCITable(res.data);
+                            $("#show-table-inci").bootstrapTable('hideColumn', 'id');
+                            $('#show-inci-modal').modal('show');
+                        }else{
+                            return;
+                        }
+                        console.log(res)
+                    })
+                }
+            })
+        }
+    })
+
 })
 
 function fileShow(id) {
@@ -752,6 +893,27 @@ function fileShow(id) {
         }
         console.log(res)
     })
+}
+
+function inciShow(id) {
+    $ajax({
+        type: 'post',
+        url: '/commodity_inci/getListById',
+        data:{
+            id:id,
+        }
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setINCITable(res.data);
+            $("#show-table-inci").bootstrapTable('hideColumn', 'id');
+            $('#show-inci-modal').modal('show');
+            commodity_id=id;
+        }else{
+            return;
+        }
+        console.log(res)
+    })
+
 }
 
 function setTable(data) {
@@ -908,6 +1070,15 @@ function setTable(data) {
                 width: 200,
                 formatter:function(value, row , index){
                     return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
+                }
+            },{
+                field: '',
+                title: 'INCI信息',
+                align: 'center',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    return '<button onclick="javascript:inciShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
                 }
             },
         ],
@@ -1162,43 +1333,44 @@ function setLabelTable(data) {
                     }
                     return '';
                 }
-            }, {
-                field: 'label2',
-                title: '标签2',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if(value == null || value == ''){
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                },
-                cellStyle: function (value, row, index) {
-                    if(row.label2==row.label1 || row.label2==row.label3){
-                        return {css: {"background-color": "#f08080"}};
-                    }
-                    return '';
-                }
-            }, {
-                field: 'label3',
-                title: '标签3',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if(value == null || value == ''){
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                },
-                cellStyle: function (value, row, index) {
-                    if(row.label3==row.label1 || row.label3==row.label2){
-                        return {css: {"background-color": "#f08080"}};
-                    }
-                    return '';
-                }
             }
+            // , {
+            //     field: 'label2',
+            //     title: '标签2',
+            //     align: 'left',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         if(value == null || value == ''){
+            //             value = '-'
+            //         }
+            //         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //     },
+            //     cellStyle: function (value, row, index) {
+            //         if(row.label2==row.label1 || row.label2==row.label3){
+            //             return {css: {"background-color": "#f08080"}};
+            //         }
+            //         return '';
+            //     }
+            // }, {
+            //     field: 'label3',
+            //     title: '标签3',
+            //     align: 'left',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         if(value == null || value == ''){
+            //             value = '-'
+            //         }
+            //         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //     },
+            //     cellStyle: function (value, row, index) {
+            //         if(row.label3==row.label1 || row.label3==row.label2){
+            //             return {css: {"background-color": "#f08080"}};
+            //         }
+            //         return '';
+            //     }
+            // }
         ],
         onClickRow: function (row, el) {
             let isSelect = $(el).hasClass('selected')
@@ -1331,4 +1503,370 @@ function setShowFileTable(data) {
             }
         }
     })
+}
+
+function setINCITable(data) {
+    console.log(data)
+    if ($('#show-table-inci').html() != '') {
+        $('#show-table-inci').bootstrapTable('load', data);
+        return;
+    }
+    $('#show-table-inci').bootstrapTable({
+        data: data,
+        sortStable: true,
+        classes: 'table table-hover',
+        idField: 'id',
+        pagination: true,
+        search: true,
+        searchAlign: 'left',
+        clickToSelect: true,
+        locale: 'zh-CN',
+        columns: [
+            {
+                field: 'serialNumber',
+                title: '序号',
+                align: 'center',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'chineseName',
+                title: 'INCI名称/中文名称',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'englishName',
+                title: 'INCI名称/英文名称',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'rinsingProducts',
+                title: '淋洗类产品最高历史使用量（%）',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'residentProducts',
+                title: '驻留类产品最高历史使用量（%）',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'rawRemarks',
+                title: '原料目录备注',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'purpose',
+                title: '主要使用目的',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'riskSubstance',
+                title: '是否可能存在安全性风险物质',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'safetyRisk',
+                title: '安全风险',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'cas',
+                title: 'CAS',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'content',
+                title: '成分含量',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'safetyAssessment',
+                title: 'CIR安全评估',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'id',
+                title: 'id',
+                align: 'left',
+                sortable: true,
+                width: 200,
+            }
+        ],
+        onClickRow: function (row, el) {
+            let isSelect = $(el).hasClass('selected')
+            if (isSelect) {
+                $(el).removeClass('selected')
+            } else {
+                $(el).addClass('selected')
+            }
+        }
+    })
+}
+
+function setINCIAddTable(data) {
+    console.log(data)
+    if ($('#add-table-inci').html() != '') {
+        $('#add-table-inci').bootstrapTable('load', data);
+        return;
+    }
+    $('#add-table-inci').bootstrapTable({
+        data: data,
+        sortStable: true,
+        classes: 'table table-hover',
+        idField: 'id',
+        pagination: true,
+        search: true,
+        searchAlign: 'left',
+        clickToSelect: true,
+        locale: 'zh-CN',
+        columns: [
+            {
+                field: 'cas',
+                title: 'CAS',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter: function (value, row, index) {
+                    return '<input type="text" class="form-control" />'
+                }
+            },{
+                field: 'content',
+                title: '成分含量',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter: function (value, row, index) {
+                    return '<input type="number" class="form-control" />'
+                }
+            }, {
+                field: 'serialNumber',
+                title: '序号',
+                align: 'center',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'chineseName',
+                title: 'INCI名称/中文名称',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'englishName',
+                title: 'INCI名称/英文名称',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'rinsingProducts',
+                title: '淋洗类产品最高历史使用量（%）',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'residentProducts',
+                title: '驻留类产品最高历史使用量（%）',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'rawRemarks',
+                title: '原料目录备注',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'purpose',
+                title: '主要使用目的',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'riskSubstance',
+                title: '是否可能存在安全性风险物质',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'safetyRisk',
+                title: '安全风险',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
+                field: 'id',
+                title: 'id',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            }
+        ],
+        onClickRow: function (row, el) {
+            let isSelect = $(el).hasClass('selected')
+            if (isSelect) {
+                $(el).removeClass('selected')
+            } else {
+                $(el).addClass('selected')
+            }
+        }
+    })
+}
+
+function getRows(tableEl) {
+    let result = [];
+    let tableData = $(tableEl).bootstrapTable('getData');
+    $(tableEl + ' tr').each(function (i, tr) {
+        let cas = $(tr).children().first().children().val();
+        let content = $(tr).children().eq(1).children().val();
+        let index = $(tr).data('index');
+        if (index != undefined) {
+            if ($(tr).hasClass('selected')) {
+                result.push({
+                    index: index,
+                    data: tableData[index],
+                    cas:cas,
+                    content:content
+                })
+            }
+        }
+    })
+    return result;
 }

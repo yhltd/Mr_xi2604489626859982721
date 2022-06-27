@@ -149,4 +149,9 @@ public class CommodityImpl extends ServiceImpl<CommodityMapper, Commodity> imple
     public List<Commodity> getListChineseNameNot8(String priceMax, String priceMin, String contentMax, String contentMin, String column1, String condition1, String column2, String condition2, String column3, String condition3, String column4, String condition4, String column5, String condition5, String column6, String condition6, String column7, String condition7) {
         return commodityMapper.getListChineseNameNot8(priceMax,priceMin,contentMax,contentMin, column1, condition1, column2, condition2, column3, condition3, column4, condition4, column5, condition5,column6,condition6,column7,condition7);
     }
+
+    @Override
+    public List<Commodity> getBianma() {
+        return commodityMapper.getBianMa();
+    }
 }

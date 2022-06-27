@@ -87,6 +87,8 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     @Select("select c.commodity_id,id,raw_code,goods_name,raw_submission_code,production_place,brand_name,add_amount,abbreviation,supplier_name,solubility,appearance,smell,substance_label,efficacy_label,raw_label,patent,performance,taboo,pdf1_name,pdf2_name from (select a.commodity_id from (select commodity_id from commodity_inci ci left join inci_information ii on ci.inci_id=ii.id where convert(content,float)>=#{contentMin} and convert(content,float)<=#{contentMax} group by commodity_id) as a left join (select commodity_id from commodity_price where convert(price,float)>=#{priceMin} and convert(price,float)<=#{priceMax} group by commodity_id) as b on a.commodity_id=b.commodity_id where b.commodity_id is not null) as c left join commodity as com on c.commodity_id=com.id where ${column1} like concat('%',#{condition1},'%') and ${column2} like concat('%',#{condition2},'%') and ${column3} like concat('%',#{condition3},'%') and ${column4} like concat('%',#{condition4},'%') and ${column5} like concat('%',#{condition5},'%') and ${column6} like concat('%',#{condition7},'%')  and ${column6} like concat('%',#{condition7},'%') ")
     List<Commodity> getListChineseNameNot8(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5,String column6,String condition6,String column7,String condition7);
 
+    @Select("select * from commodity order by raw_code desc limit 0,1")
+    List<Commodity>getBianMa();
 
 }
 

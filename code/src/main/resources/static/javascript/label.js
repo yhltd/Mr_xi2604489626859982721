@@ -25,6 +25,8 @@ $(function () {
     //刷新
     getList();
 
+
+
     $("#select-btn").click(function () {
         var type = $.session.get('label');
         var query = $('#query').val()
@@ -60,23 +62,56 @@ $(function () {
     //新增弹窗里点击提交按钮
     $("#add-submit-btn").click(function () {
         let params = formToJson("#add-form")
-        $ajax({
-            type: 'post',
-            url: '/label/add',
-            data: JSON.stringify({
-                addInfo: params
-            }),
-            dataType: 'json',
-            contentType: 'application/json;charset=utf-8'
-        }, false, '', function (res) {
-            alert(res.msg)
-            if(res.code == 200){
-                $('#add-form')[0].reset();
-                $('#add-type').val($.session.get('type'))
-                getList();
-                $('#add-close-btn').click();
+        let type = params.type
+        let label1 = params.label1
+        console.log(type + ' ' + label1)
+        console.log(params)
+        label1 = label1.split(',')
+        console.log(label1)
+        let this_params = []
+        if(label1.length > 1){
+            for(let i = 0;i<label1.length;i++){
+                let this_params = {type:type, label1:label1[i]}
+                $ajax({
+                    type: 'post',
+                    url: '/label/add',
+                    data: JSON.stringify({
+                        addInfo: this_params
+                    }),
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8'
+                }, false, '', function (res) {
+                    if(res.code == 200){
+                        if(i == label1.length - 1){
+                            alert(res.msg)
+                            $('#add-form')[0].reset();
+                            $('#add-type').val($.session.get('type'))
+                            getList();
+                            $('#add-close-btn').click();
+                        }
+                    }
+                })
             }
-        })
+        }else{
+            this_params = params
+            $ajax({
+                type: 'post',
+                url: '/label/add',
+                data: JSON.stringify({
+                    addInfo: this_params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg)
+                if(res.code == 200){
+                    $('#add-form')[0].reset();
+                    $('#add-type').val($.session.get('type'))
+                    getList();
+                    $('#add-close-btn').click();
+                }
+            })
+        }
     })
 
     //点击修改按钮显示弹窗
@@ -87,10 +122,11 @@ $(function () {
             return;
         }
         $('#update-modal').modal('show');
-        $('#update-label1').tagsinput('removeAll')
+        // $('#update-label1').tagsinput('removeAll')
         $('#id').val(rows[0].data.id);
         $('#update-type').val(rows[0].data.type);
-        $('#update-label1').tagsinput('add',rows[0].data.label1);
+        $('#update-label1').val(rows[0].data.label1)
+        // $('#update-label1').tagsinput('add',rows[0].data.label1);
 
 
 
@@ -200,12 +236,12 @@ function setTable(data) {
                 formatter: function (value, row, index) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 },
-                cellStyle: function (value, row, index) {
-                    if(row.label1==row.label2 || row.label1==row.label3){
-                        return {css: {"background-color": "#f08080"}};
-                    }
-                    return '';
-                },
+                // cellStyle: function (value, row, index) {
+                //     if(row.label1==row.label2 || row.label1==row.label3){
+                //         return {css: {"background-color": "#f08080"}};
+                //     }
+                //     return '';
+                // },
                 // formatter: function (value, row, index) {
                 //     return "<input type='text' data-role='tagsinput' value='value' >";
                 // }

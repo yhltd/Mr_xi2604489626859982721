@@ -50,4 +50,9 @@ public class Commodity_INCIImpl extends ServiceImpl<Commodity_INCIMapper, Commod
         return commodity_INCIMapper.getListById(id);
     }
 
+    @Override
+    public void insert(int commodityId, String cas, String content, int inciId) {
+        commodity_INCIMapper.insert(commodityId,cas,content,inciId);
+    }
+
 }

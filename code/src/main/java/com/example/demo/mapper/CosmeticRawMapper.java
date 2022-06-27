@@ -33,4 +33,6 @@ public interface CosmeticRawMapper extends BaseMapper<CosmeticRaw> {
     @Select("select * from cosmetic_raw where id=#{id}")
     List<CosmeticRaw> getFile1(int id);
 
+    @Select("select * from cosmetic_raw order by brand_code desc limit 0,1")
+    List<CosmeticRaw>getBianMa();
 }

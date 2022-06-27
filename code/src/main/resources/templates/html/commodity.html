@@ -458,5 +458,59 @@
     </div>
 </div>
 
+<!--    查询INCI信息窗体-->
+<div id="show-inci-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">INCI信息</div>
+            </div>
+            <div class="modal-body">
+                <input id="showINCIInfoId" type="hidden"/>
+                <table id="show-table-inci"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="inci-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    新增
+                </button>
+                <button id="inci-delete-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-trash icon"></i>
+                    删除
+                </button>
+                <button id="inci-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    查询INCI信息窗体-->
+<div id="add-inci-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">选择INCI信息</div>
+            </div>
+            <div class="modal-body">
+                <table id="add-table-inci"></table>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="add-inci-submit-btn" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="add-inci-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

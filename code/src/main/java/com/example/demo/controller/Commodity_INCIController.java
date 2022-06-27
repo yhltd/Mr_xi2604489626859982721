@@ -175,6 +175,25 @@ public class Commodity_INCIController {
         }
     }
 
-
+    /**
+     * 添加
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/insert")
+    public ResultInfo insert(HttpSession session,int commodityId,String cas,String content,int inciId) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("录入原料商品")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            iCommodity_INCIService.insert(commodityId,cas,content,inciId);
+                return ResultInfo.success("添加失败", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("添加失败：{}", e.getMessage());
+            return ResultInfo.error("添加失败");
+        }
+    }
 
 }

@@ -13,13 +13,13 @@ import java.util.List;
  */
 @Mapper
 public interface SupplierMapper extends BaseMapper<Supplier> {
-    @Select("select id,supplier_code,type,abbreviation,s.supplier_name,url," +
+    @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url," +
             "ifnull(c.brand,'') as brand,pdf1_name,pdf2_name from supplier s left join (select supplier_name," +
             "group_concat(brand_name) as brand from commodity group by supplier_name) as c " +
             "on c.supplier_name=s.supplier_name where type=#{supplier}")
     List<Supplier> getList(String supplier);
 
-    @Select("select id,supplier_code,type,abbreviation,s.supplier_name,url,ifnull(c.brand,'') as brand,c.brand,pdf1_name,pdf2_name " +
+    @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url,ifnull(c.brand,'') as brand,c.brand,pdf1_name,pdf2_name " +
             "from supplier s left join (select supplier_name,group_concat(brand_name) as brand from " +
             "commodity group by supplier_name) as c on c.supplier_name=s.supplier_name where " +
             "type=#{supplier} and (supplier_code like concat('%',#{query},'%') or abbreviation like " +
@@ -27,13 +27,13 @@ public interface SupplierMapper extends BaseMapper<Supplier> {
     List<Supplier> queryList(String supplier, String query);
 
     @Select("update supplier set supplier_code=#{supplierCode},type=#{type},abbreviation=#{abbreviation}" +
-            ",supplier_name=#{supplierName},url=#{url} where id=#{id}")
-    void update(int id, String supplierCode, String type, String abbreviation,String supplierName, String url);
+            ",supplier_name=#{supplierName},url=#{url},company=#{company} where id=#{id}")
+    void update(int id, String supplierCode, String type, String abbreviation,String supplierName, String url,String company);
 
-    @Select("insert into supplier (supplier_code,type,abbreviation,supplier_name,url,pdf1,pdf2) values(#{supplierCode}," +
-            "#{type},#{abbreviation},#{supplierName},#{url},#{pdf1},#{pdf2}) ")
+    @Select("insert into supplier (supplier_code,type,abbreviation,supplier_name,url,pdf1,pdf2,company) values(#{supplierCode}," +
+            "#{type},#{abbreviation},#{supplierName},#{url},#{pdf1},#{pdf2},#{company}) ")
     void insert(String supplierCode, String type, String abbreviation,
-                String supplierName, String url, String pdf1, String pdf2);
+                String supplierName, String url, String pdf1, String pdf2,String company);
 
     @Select("update supplier set pdf1=#{pdf},pdf1_name=#{pdfName} where id=#{id}")
     void upfile1(int id, String pdf, String pdfName);

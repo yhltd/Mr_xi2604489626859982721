@@ -30,13 +30,13 @@ public class SupplierImpl extends ServiceImpl<SupplierMapper, Supplier> implemen
 
     @Override
     public void add(String supplierCode, String type, String abbreviation, String supplierName,
-                        String url, String pdf1, String pdf2) {
-        supplierMapper.insert(supplierCode,type,abbreviation,supplierName,url,pdf1,pdf2);
+                        String url, String pdf1, String pdf2,String company) {
+        supplierMapper.insert(supplierCode,type,abbreviation,supplierName,url,pdf1,pdf2,company);
     }
 
     @Override
-    public void update(int id, String supplierCode, String type, String abbreviation, String supplierName, String url) {
-        supplierMapper.update(id,supplierCode,type,abbreviation,supplierName,url);
+    public void update(int id, String supplierCode, String type, String abbreviation, String supplierName, String url,String company) {
+        supplierMapper.update(id,supplierCode,type,abbreviation,supplierName,url,company);
     }
 
     @Override

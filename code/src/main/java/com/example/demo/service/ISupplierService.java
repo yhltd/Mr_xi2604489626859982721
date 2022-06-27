@@ -34,13 +34,13 @@ public interface ISupplierService extends IService<Supplier> {
      * @return 是否添加成功
      */
     void add(String supplierCode, String type, String abbreviation, String supplierName,
-             String url, String pdf1, String pdf2);
+             String url, String pdf1, String pdf2,String company);
 
     /**
      * 修改
      */
     void update(int id, String supplierCode, String type, String abbreviation, String supplierName,
-                String url);
+                String url,String company);
 
     /**
      * 删除

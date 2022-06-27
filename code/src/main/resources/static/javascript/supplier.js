@@ -90,6 +90,7 @@ $(function () {
         var abbreviation = $('#add-abbreviation').val();
         var supplierName = $('#add-supplierName').val();
         var url = $('#add-url').val();
+        var company=$('#add-company').val();
         var pdf1 = "";
         var pdf2 = "";
         $ajax({
@@ -103,6 +104,7 @@ $(function () {
                 url: url,
                 pdf1: pdf1,
                 pdf2: pdf2,
+                company:company,
             },
         }, false, '', function (res) {
             alert(res.msg)
@@ -327,6 +329,15 @@ function setTable(data) {
             }, {
                 field: 'supplierCode',
                 title: '供应商编码',
+                align: 'center',
+                sortable: true,
+                width: 100,
+                formatter: function (value, row, index) {
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                }
+            }, {
+                field: 'company',
+                title: '公司',
                 align: 'center',
                 sortable: true,
                 width: 100,

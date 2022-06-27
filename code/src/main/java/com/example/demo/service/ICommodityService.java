@@ -123,4 +123,6 @@ public interface ICommodityService extends IService<Commodity> {
     List<Commodity> getListChineseNameNot7(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5,String column6,String condition6);
 
     List<Commodity> getListChineseNameNot8(String priceMax,String priceMin,String contentMax,String contentMin,String column1,String condition1,String column2,String condition2,String column3,String condition3,String column4,String condition4,String column5,String condition5,String column6,String condition6,String column7,String condition7);
+
+    List<Commodity>getBianma();
 }

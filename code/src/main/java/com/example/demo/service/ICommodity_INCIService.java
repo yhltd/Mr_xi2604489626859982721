@@ -58,4 +58,6 @@ public interface ICommodity_INCIService extends IService<Commodity_INCI> {
      */
     List<Commodity_INCI> getListById(int id);
 
+    void insert(int commodityId,String cas,String content,int inciId);
+
 }

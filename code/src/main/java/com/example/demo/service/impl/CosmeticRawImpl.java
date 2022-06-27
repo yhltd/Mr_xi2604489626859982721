@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.demo.entity.Commodity;
 import com.example.demo.entity.CosmeticRaw;
 import com.example.demo.mapper.CosmeticRawMapper;
 import com.example.demo.service.CosmeticRawService;
@@ -67,5 +68,10 @@ public class CosmeticRawImpl extends ServiceImpl<CosmeticRawMapper, CosmeticRaw>
     @Override
     public List<CosmeticRaw> getFile1(int id) {
         return cosmeticRawMapper.getFile1(id);
+    }
+
+    @Override
+    public List<CosmeticRaw> getBianma() {
+        return cosmeticRawMapper.getBianMa();
     }
 }

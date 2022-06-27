@@ -27,10 +27,13 @@
                     } else if (src == "label.html") {
                         $.session.set('label', $(this).text())
                     }
-                    $('#iframe').attr('src', src);
-                    if ($('#navbarSupportedContent').hasClass('show')) {
-                        $('.navbar-toggler').click();
-                    }
+                    // $('#iframe').attr('src', src);
+                    $.session.set('onload_url', src)
+                    window.open("main.html")
+
+                    // if ($('#navbarSupportedContent').hasClass('show')) {
+                    //     $('.navbar-toggler').click();
+                    // }
                 }
             })
         })
@@ -155,7 +158,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="dataNavbarDropdown" style="width:15%;font-size: 14px">
                 <a class="dropdown-item" data-src="commodity.html">录入原料商品</a>
-                <a class="dropdown-item" data-src="commodity-inci.html">录入原料商品-INCI</a>
+<!--                <a class="dropdown-item" data-src="commodity-inci.html">录入原料商品-INCI</a>-->
                 <a class="dropdown-item" data-src="commodity-price.html">录入原料成本信息</a>
             </div>
         </li>
@@ -185,7 +188,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" data-src="">v0.2</a>
+            <a class="nav-link" data-src="">v0.3</a>
         </li>
 
         <li class="nav-item">
