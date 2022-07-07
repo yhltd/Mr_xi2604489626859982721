@@ -51,4 +51,7 @@ public interface ILabelService extends IService<Label> {
      */
     boolean delete(List<Integer> idList);
 
+
+    List<Label> wuzhiList();
+
 }

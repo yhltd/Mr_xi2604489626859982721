@@ -51,5 +51,9 @@ public class CosmeticRaw {
      * 目录画册1名称
      */
     private String pictureAlbum2Name;
+    /**
+     * 公司
+     */
+    private String company;
 
 }

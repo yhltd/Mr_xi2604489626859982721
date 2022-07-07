@@ -12,10 +12,10 @@ function getList() {
         if (res.code == 200) {
             setTable(res.data);
             $("#menuSettingsTable").colResizable({
-                liveDrag:true,
-                gripInnerHtml:"<div class='grip'></div>",
-                draggingClass:"dragging",
-                resizeMode:'fit'
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging",
+                resizeMode: 'fit'
             });
         }
     })
@@ -100,26 +100,85 @@ $(function () {
 
     //新增弹窗里点击提交按钮
     $("#add-submit-btn").click(function () {
+        if ($('#add-commodityId').val() == '') {
+            alert("请选择原料信息！");
+            return;
+        }
         let params = formToJson("#add-form")
-        console.log(params)
-        if (checkForm('#add-form')) {
+        var unit1 = params.unit1;
+        var price1 = params.price1;
+        var unit2 = params.unit2;
+        var price2 = params.price2;
+        var unit3 = params.unit3;
+        var price3 = params.price3;
+        var unit4 = params.unit4;
+        var price4 = params.price4;
+        var unit5 = params.unit5;
+        var price5 = params.price5;
+        if(unit1!="" || price1!=""){
+            let this_params = {commodityId:$('#add-commodityId').val(), price:price1,unit:unit1}
             $ajax({
                 type: 'post',
                 url: '/commodity_price/add',
                 data: JSON.stringify({
-                    addUserInfo: params
+                    addUserInfo: this_params
                 }),
                 dataType: 'json',
                 contentType: 'application/json;charset=utf-8'
-            }, false, '', function (res) {
-                alert(res.msg)
-                if (res.code == 200) {
-                    $('#add-form')[0].reset();
-                    getList();
-                    $('#add-close-btn').click();
-                }
-            })
+            }, false, '', function (res) {})
         }
+        if(unit2!="" || price2!=""){
+            let this_params = {commodityId:$('#add-commodityId').val(),unit:unit2, price:price2}
+            $ajax({
+                type: 'post',
+                url: '/commodity_price/add',
+                data: JSON.stringify({
+                    addUserInfo: this_params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {})
+        }
+        if(unit3!="" || price3!=""){
+            let this_params = {commodityId:$('#add-commodityId').val(),unit:unit3, price:price3}
+            $ajax({
+                type: 'post',
+                url: '/commodity_price/add',
+                data: JSON.stringify({
+                    addUserInfo: this_params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {})
+        }
+        if(unit4!="" || price4!=""){
+            let this_params = {commodityId:$('#add-commodityId').val(),unit:unit4, price:price4}
+            $ajax({
+                type: 'post',
+                url: '/commodity_price/add',
+                data: JSON.stringify({
+                    addUserInfo: this_params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {})
+        }
+        if(unit5!="" || price5!=""){
+            let this_params = {commodityId:$('#add-commodityId').val(),unit:unit5, price:price5}
+            $ajax({
+                type: 'post',
+                url: '/commodity_price/add',
+                data: JSON.stringify({
+                    addUserInfo: this_params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {})
+        }
+        alert("添加成功！")
+        $('#add-form')[0].reset();
+        getList();
+        $('#add-close-btn').click();
     })
 
     //点击修改按钮显示弹窗
@@ -129,8 +188,24 @@ $(function () {
             alert('请选择一条数据修改');
             return;
         }
-        $('#update-modal').modal('show');
         setForm(rows[0].data, '#update-form');
+        var id=$('#update-commodityId').val();
+        if(id!=''){
+            $ajax({
+                type: 'post',
+                url: '/commodity/getListById',
+                data:{
+                    id:id,
+                }
+            }, false, '', function (res) {
+                if (res.code == 200) {
+                    $("#update-code").val(res.data[0].rawCode);
+                    $("#update-item").val(res.data[0].goodsName);
+                    $("#update-inci").val(res.data[0].inciPin);
+                }
+            })
+        }
+        $('#update-modal').modal('show');
     })
 
     //修改弹窗点击关闭按钮
@@ -224,6 +299,9 @@ $(function () {
                 let rows = getTableSelection("#show-table-commodity");
                 $.each(rows, function (index, row) {
                     $("#add-commodityId").val(row.data.id);
+                    $("#add-code").val(row.data.rawCode);
+                    $("#add-item").val(row.data.goodsName);
+                    $("#add-inci").val(row.data.inciPin);
                 })
                 $('#show-commodity-modal').modal('hide');
             }
@@ -337,7 +415,7 @@ function setTable(data) {
                 title: '供应商简称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 120,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -471,7 +549,7 @@ function setCommodityTable(data) {
             }, {
                 field: 'goodsName',
                 title: '商品名称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -483,9 +561,9 @@ function setCommodityTable(data) {
             }, {
                 field: 'rawSubmissionCode',
                 title: '原料报送码',
-                align: 'left',
+                align: 'center',
                 sortable: true,
-                width: 100,
+                width: 130,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -495,7 +573,7 @@ function setCommodityTable(data) {
             }, {
                 field: 'productionPlace',
                 title: '产地',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -507,19 +585,7 @@ function setCommodityTable(data) {
             }, {
                 field: 'brandName',
                 title: '品牌名称',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'addAmount',
-                title: '建议添加量',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -531,57 +597,9 @@ function setCommodityTable(data) {
             }, {
                 field: 'abbreviation',
                 title: '供应商简称',
-                align: 'left',
+                align: 'center',
                 sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'supplierName',
-                title: '供应商公司名称',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'solubility',
-                title: '溶解性',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'appearance',
-                title: '外观',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'smell',
-                title: '气味',
-                align: 'left',
-                sortable: true,
-                width: 100,
+                width: 120,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -591,7 +609,7 @@ function setCommodityTable(data) {
             }, {
                 field: 'substanceLabel',
                 title: '物质标签',
-                align: 'left',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -601,11 +619,11 @@ function setCommodityTable(data) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
-                field: 'efficacyLabel',
-                title: '功效标签',
-                align: 'left',
+                field: 'inciPin',
+                title: 'INCI中文名称及含量',
+                align: 'center',
                 sortable: true,
-                width: 100,
+                width: 200,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -613,9 +631,9 @@ function setCommodityTable(data) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
-                field: 'rawLabel',
-                title: '原料标签',
-                align: 'left',
+                field: 'wuliPin',
+                title: '物理形态',
+                align: 'center',
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
@@ -624,55 +642,7 @@ function setCommodityTable(data) {
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
-            }, {
-                field: 'rawLabel',
-                title: '原料标签',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'patent',
-                title: '专利信息',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'performance',
-                title: '产品性能',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
-                field: 'taboo',
-                title: '配伍禁忌',
-                align: 'left',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (value == null || value == '') {
-                        value = '-'
-                    }
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            },
+            }
         ],
         onClickRow: function (row, el) {
             let isSelect = $(el).hasClass('selected')

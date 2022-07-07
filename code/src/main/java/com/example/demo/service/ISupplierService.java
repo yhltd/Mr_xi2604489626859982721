@@ -66,4 +66,11 @@ public interface ISupplierService extends IService<Supplier> {
     List<Supplier> getFile1(int id);
 
     List<Supplier>getBianma();
+
+    /**
+     * 查询
+     *
+     * @return 信息集合
+     */
+    List<Supplier> getAllList();
 }

@@ -130,7 +130,202 @@ $(function () {
         getList();
     })
 
+
+    $('#file-up-btn').click(function () {
+        $('#upload-file').trigger('click');
+    })
+
+    $('#file-down-btn').click(function () {
+        let rows = getTableSelection('#show-table-file')
+        if (rows.length > 1 || rows.length == 0) {
+            alert('请选择一个文件下载');
+            return;
+        }
+        $ajax({
+            type: 'post',
+            url: '/file_table/getFile',
+            data: {
+                id: rows[0].data.id,
+            },
+        }, false, '', function (res) {
+            if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                downloadFileByBase64(res.data[0].fileName, res.data[0].files.split(',')[1])
+            }
+        })
+    })
+
+    $('#file-yulan-btn').click(function () {
+        let rows = getTableSelection('#show-table-file')
+        if (rows.length > 1 || rows.length == 0) {
+            alert('请选择一个文件预览');
+            return;
+        }
+        if(rows[0].data.fileName.split(".")[1]!='pdf'){
+            alert('请选择pdf文件');
+            return;
+        }
+        $ajax({
+            type: 'post',
+            url: '/file_table/getFile',
+            data: {
+                id: rows[0].data.id,
+            },
+        }, false, '', function (res) {
+            if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                const blob = this.base64ToBlob(res.data[0].files.split(',')[1]);
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveOrOpenBlob(blob)
+                } else {
+                    const fileURL = URL.createObjectURL(blob)
+                    window.open(fileURL)
+                }
+            }
+        })
+    })
+
+    $('#file-delete-btn').click(function () {
+        var msg = confirm("确认要删除吗？")
+        if (msg) {
+            let rows = getTableSelection("#show-table-file");
+            if (rows.length == 0) {
+                alert('请选择要删除的数据！')
+                return;
+            }
+            let idList = [];
+            $.each(rows, function (index, row) {
+                idList.push(row.data.id)
+            })
+            $ajax({
+                type: 'post',
+                url: '/file_table/delete',
+                data: JSON.stringify({
+                    idList: idList
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg);
+                if (res.code == 200) {
+                    fileShow(otherId);
+                }
+            })
+        }
+    })
+
+    $('#file-close-btn').click(function () {
+        $('#show-file-modal').modal('hide');
+    })
+
+
+    //判断文件名改变
+    $('#upload-file').change(function () {
+        var file = document.getElementById("upload-file").files[0];
+        var fileName = "";
+        if (typeof (file) != "undefined") {
+            fileName = file.name;
+            var oFReader = new FileReader();
+            oFReader.readAsDataURL(file);
+            oFReader.onloadend = function (oFRevent) {
+                file = oFRevent.target.result;
+                $ajax({
+                    type: 'post',
+                    url: '/file_table/add',
+                    data: {
+                        otherId: otherId,
+                        files: file,
+                        fileName: fileName,
+                        type:'原料商品',
+                    },
+                }, false, '', function (res) {
+                    alert(res.msg)
+                    fileShow(otherId);
+                })
+            }
+        }
+    })
+
+    //详情弹窗里点击关闭按钮
+    $('#add-close-btn').click(function () {
+        $('#add-modal').modal('hide');
+    })
+
 })
+
+function fileShow(id) {
+    $ajax({
+        type: 'post',
+        url: '/file_table/getList',
+        data:{
+            otherId:id,
+            type:"原料商品",
+        }
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setShowFileTable(res.data);
+            $('#show-file-modal').modal('show');
+            otherId=id;
+        }else{
+            return;
+        }
+        console.log(res)
+    })
+}
+
+function base64ToBlob(code) {
+    code = code.replace(/[\n\r]/g, '');
+    const raw = window.atob(code);
+    const rawLength = raw.length;
+    const uInt8Array = new Uint8Array(rawLength);
+    for (let i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i)
+    }
+    return new Blob([uInt8Array], { type: 'application/pdf' })
+}
+
+function setShowFileTable(data) {
+    console.log(data)
+    if ($('#show-table-file').html() != '') {
+        $('#show-table-file').bootstrapTable('load', data);
+        return;
+    }
+    $('#show-table-file').bootstrapTable({
+        data: data,
+        sortStable: true,
+        classes: 'table table-hover',
+        idField: 'id',
+        pagination: true,
+        search: true,
+        searchAlign: 'left',
+        clickToSelect: true,
+        locale: 'zh-CN',
+        columns: [
+            {
+                field: 'id',
+                title: '序号',
+                align: 'center',
+                width: 50,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            }, {
+                field: 'fileName',
+                title: '文件名',
+                align: 'left',
+                sortable: true,
+                width: 100
+            }
+        ],
+        onClickRow: function (row, el) {
+            let isSelect = $(el).hasClass('selected')
+            if (isSelect) {
+                $(el).removeClass('selected')
+            } else {
+                $(el).addClass('selected')
+            }
+        }
+    })
+}
+
 
 function setTable(data) {
     if ($('#queryTable').html != '') {
@@ -226,7 +421,7 @@ function setTable(data) {
                 title: '建议添加量',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 120,
                 formatter: function (value, row, index) {
                     if (row.addAmount != null && row.addAmount != '') {
                         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -239,7 +434,7 @@ function setTable(data) {
                 title: '供应商简称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 120,
                 formatter: function (value, row, index) {
                     if (row.abbreviation != null && row.abbreviation != '') {
                         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -252,7 +447,7 @@ function setTable(data) {
                 title: '供应商公司名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 150,
                 formatter: function (value, row, index) {
                     if (row.supplierName != null && row.supplierName != '') {
                         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -358,11 +553,11 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if (row.performance != null && row.performance != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                    } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
-                    }
+                    console.log(value)
+                    var reg = new RegExp("<br><br>","g")
+                    let this_value = value.replace(reg,"<br>")
+                    console.log(this_value)
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:xiangqingShow1("+ index +")'>"+ this_value +"</span></div>";
                 }
             }, {
                 field: 'taboo',
@@ -371,11 +566,11 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if (row.taboo != null && row.taboo != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                    } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
-                    }
+                    console.log(value)
+                    var reg = new RegExp("<br><br>","g")
+                    let this_value = value.replace(reg,"<br>")
+                    console.log(this_value)
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:xiangqingShow2("+ index +")'>"+ this_value +"</span></div>";
                 }
             }
             // , {
@@ -397,35 +592,92 @@ function setTable(data) {
                 title: '原料画册',
                 align: 'center',
                 sortable: true,
-                width: 150,
-                formatter: function (value, row, index) {
-                    if (row.pdf2Name == null || row.pdf2Name == '') {
-                        return ''
-                    } else {
-                        return '<button onclick="javascript:download2(' + row.id + ')" class="btn btn-primary">下载</button>'
-                    }
+                width: 120,
+                formatter:function(value, row , index){
+                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn-xs btn-primary">&nbsp;查看</button> '
                 }
             }, {
-                field: '',
+                field: 'inciPin',
                 title: 'INCI成分信息',
                 align: 'center',
                 sortable: true,
                 width: 150,
                 formatter: function (value, row, index) {
-                    return '<button onclick="javascript:getInci(' + row.id + ')" class="btn btn-primary">查看</button>'
+                    // return '<button onclick="javascript:getInci(' + row.id + ')" class="btn btn-primary">查看</button>'
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:getInci("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
-                field: '',
+                field: 'chengbenPin',
                 title: '原料成本信息',
                 align: 'center',
                 sortable: true,
                 width: 150,
                 formatter: function (value, row, index) {
-                    return '<button onclick="javascript:getPrice(' + row.id + ')" class="btn btn-primary">查看</button>'
+                    // return '<button onclick="javascript:getPrice(' + row.id + ')" class="btn btn-primary">查看</button>'
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:getPrice("+ row.id +")'>"+ value +"</span></div>";
                 }
             }
         ],
     })
+}
+
+function xiangqingShow1(index){
+
+    let this_text = ""
+    let rows = get_table_list("#queryTable");
+    console.log(rows)
+    for(let i=0;i<rows.length;i++){
+        if(rows[i].index == index){
+            this_text = rows[i].data.performance
+            var reg = new RegExp("<br><br>","g")
+            this_text = this_text.replace(reg,"\n")
+            break;
+        }
+    }
+
+
+    console.log(this_text)
+    $('#add-textBox').val(this_text)
+
+    $('#add-modal').modal('show');
+
+
+}
+
+function xiangqingShow2(index){
+
+    let this_text = ""
+    let rows = get_table_list("#queryTable");
+    console.log(rows)
+    for(let i=0;i<rows.length;i++){
+        if(rows[i].index == index){
+            this_text = rows[i].data.taboo
+            var reg = new RegExp("<br><br>","g")
+            this_text = this_text.replace(reg,"\n")
+            break;
+        }
+    }
+    console.log(this_text)
+    $('#add-textBox').val(this_text)
+
+    $('#add-modal').modal('show');
+
+
+}
+
+function get_table_list(tableEl){
+    let result = [];
+    let tableData = $(tableEl).bootstrapTable('getData');
+    $(tableEl + ' tr').each(function (i, tr) {
+        let index = $(tr).data('index');
+        if (index != undefined)  {
+            result.push({
+                index: index,
+                data: tableData[index]
+            })
+        }
+    })
+    return result;
 }
 
 function setInciTable(data) {

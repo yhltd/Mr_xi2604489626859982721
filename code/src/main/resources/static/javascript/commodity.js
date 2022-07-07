@@ -38,10 +38,7 @@ function getCosmeticRawList() {
 function getSupplierList() {
     $ajax({
         type: 'post',
-        url: '/supplier/queryList',
-        data:{
-            query: ''
-        }
+        url: '/supplier/getAllList',
     }, false, '', function (res) {
         if (res.code == 200) {
             setSupplierTable(res.data);
@@ -246,6 +243,9 @@ $(function () {
         }
         $('#update-modal').modal('show');
         setForm(rows[0].data, '#update-form');
+        console.log(rows[0].data)
+        setTextArea(rows[0].data, '#update-form');
+
     })
 
     //修改弹窗点击关闭按钮
@@ -311,6 +311,7 @@ $(function () {
     })
 
     //上传excel
+
     $('#upload-btn').click(function () {
         $('#file').trigger('click');
 
@@ -319,30 +320,18 @@ $(function () {
     //判断文件名改变
     $('#file').change(function () {
         var url = null;
-        var id = this_id
-        var pdfName= ""
-        console.log(id)
         if ($('#file').val() != '') {
-            if ($('#file').val().substr(-4) == '.pdf') {
+            if ($('#file').val().substr(-5) == '.xlsx') {
                 var excel = document.getElementById("file").files[0]
-                pdfName = excel.name;
                 var oFReader = new FileReader();
                 oFReader.readAsDataURL(excel);
                 oFReader.onloadend = function (oFRevent) {
                     url = oFRevent.target.result;
-                    var this_ajax_url
-                    if(this_column == '1'){
-                        this_ajax_url = '/commodity/up1'
-                    }else{
-                        this_ajax_url = '/commodity/up2'
-                    }
                     $ajax({
                         type: 'post',
-                        url: this_ajax_url,
+                        url: '/commodity/upload',
                         data: {
-                            query: url,
-                            id:id,
-                            pdfName:pdfName
+                            excel: url
                         },
                     }, false, '', function (res) {
                         $('#file').val('');
@@ -353,7 +342,7 @@ $(function () {
                     })
                 }
             } else {
-                alert("请选择正确的pdf文件！")
+                alert("请选择正确的Excel文件！")
                 $('#file').val('');
             }
         }
@@ -483,7 +472,17 @@ $(function () {
     $("#add-substanceLabel").click(function () {
         operation = "添加";
         label_name = "物质标签"
-        getLabelList();
+
+        $ajax({
+            type: 'post',
+            url: '/label/wuzhiList',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                setLabelTable(res.data);
+                $('#show-label-modal').modal('show');
+            }
+            console.log(res)
+        })
     })
 
     //添加窗体点击功效标签文本框
@@ -643,7 +642,7 @@ $(function () {
 
     //上传excel
     $('#uploadexcel-btn').click(function () {
-        $('#upload-file').trigger('click');
+        $('#file').trigger('click');
 
     })
 
@@ -873,6 +872,96 @@ $(function () {
         }
     })
 
+    //新增标签
+    $('#label-add-btn').click(function () {
+        $('#add-modal-label').modal('show');
+    })
+
+    //新增标签窗体关闭
+    $('#add-close-btn-label').click(function () {
+        $('#add-modal-label').modal('hide');
+    })
+
+    //点击提交按钮
+    $('#add-submit-btn-label').click(function () {
+        let params = formToJson("#add-form-label")
+        let type = params.type
+        let label1 = params.label1
+        console.log(type + ' ' + label1)
+        console.log(params)
+        label1 = label1.split(',')
+        console.log(label1)
+        let this_params = []
+        if(label1.length > 1){
+            for(let i = 0;i<label1.length;i++){
+                let this_params = {type:type, label1:label1[i]}
+                $ajax({
+                    type: 'post',
+                    url: '/label/add',
+                    data: JSON.stringify({
+                        addInfo: this_params
+                    }),
+                    dataType: 'json',
+                    contentType: 'application/json;charset=utf-8'
+                }, false, '', function (res) {
+                    if(res.code == 200){
+                        if(i == label1.length - 1){
+                            alert(res.msg)
+                            $('#add-form-label')[0].reset();
+                            $('#add-type-label').val($.session.get
+                            ('type'))
+                            if(label_name!="物质标签"){
+                                getLabelList();
+                            }else{
+                                $ajax({
+                                    type: 'post',
+                                    url: '/label/wuzhiList',
+                                }, false, '', function (res) {
+                                    if (res.code == 200) {
+                                        setLabelTable(res.data);
+                                        $('#show-label-modal').modal
+                                        ('show');
+                                    }
+                                    console.log(res)
+                                })
+                            }
+                        }
+                    }
+                })
+            }
+        }else{
+            this_params = params
+            $ajax({
+                type: 'post',
+                url: '/label/add',
+                data: JSON.stringify({
+                    addInfo: this_params
+                }),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8'
+            }, false, '', function (res) {
+                alert(res.msg)
+                if(res.code == 200){
+                    $('#add-form-label')[0].reset();
+                    if(label_name!="物质标签"){
+                        getLabelList();
+                    }else{
+                        $ajax({
+                            type: 'post',
+                            url: '/label/wuzhiList',
+                        }, false, '', function (res) {
+                            if (res.code == 200) {
+                                setLabelTable(res.data);
+                                $('#show-label-modal').modal('show');
+                            }
+                            console.log(res)
+                        })
+                    }
+                }
+            })
+        }
+    })
+
 })
 
 function fileShow(id) {
@@ -1007,7 +1096,7 @@ function setTable(data) {
                 title: '供应商简称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 120,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -1036,7 +1125,8 @@ function setTable(data) {
                     if(value == null || value == ''){
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    // return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:inciShow("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
                 field: 'wuliPin',
@@ -1067,20 +1157,21 @@ function setTable(data) {
                 title: '目录画册',
                 align: 'center',
                 sortable: true,
-                width: 200,
+                width: 120,
                 formatter:function(value, row , index){
-                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
+                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn-xs btn-primary">&nbsp;查看</button> '
                 }
-            },{
-                field: '',
-                title: 'INCI信息',
-                align: 'center',
-                sortable: true,
-                width: 200,
-                formatter:function(value, row , index){
-                    return '<button onclick="javascript:inciShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
-                }
-            },
+            }
+            // ,{
+            //     field: '',
+            //     title: 'INCI信息',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 200,
+            //     formatter:function(value, row , index){
+            //         return '<button onclick="javascript:inciShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
+            //     }
+            // },
         ],
         onClickRow: function (row, el) {
             let isSelect = $(el).hasClass('selected')

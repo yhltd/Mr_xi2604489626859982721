@@ -90,5 +90,8 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     @Select("select * from commodity order by raw_code desc limit 0,1")
     List<Commodity>getBianMa();
 
+    @Select("select a.id,a.raw_code,a.goods_name,a.raw_submission_code,a.production_place,a.brand_name,a.add_amount,a.abbreviation,a.supplier_name,a.solubility,a.appearance,a.smell,a.substance_label,a.efficacy_label,a.raw_label,a.patent,a.performance,a.taboo,a.pdf1,a.pdf1_name,a.pdf2,a.pdf2_name,a.inci_pin,b.chengben_pin,CONCAT(a.solubility,a.appearance,a.smell) as wuli_pin from (select * from commodity as com left join (select commodity_id,group_concat(info.serial_number,' ',info.chinese_name,' ',inci.content) as inci_pin from commodity_inci  as inci  left join inci_information as info on info.id = inci.inci_id group by commodity_id) as inc on inc.commodity_id = com.id) as a left join (select commodity_id,group_concat(unit,'kg-',price,'元') as chengben_pin from commodity_price group by commodity_id) as b on a.id = b.commodity_id where id=#{id}")
+    List<Commodity> getListById(int id);
+
 }
 

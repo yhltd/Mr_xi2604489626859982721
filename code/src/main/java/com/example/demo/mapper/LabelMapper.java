@@ -19,4 +19,7 @@ public interface LabelMapper extends BaseMapper<Label> {
     @Select("select * from label where type=#{type} and (label1 like concat('%',#{query},'%') " +
             "or label2 like concat('%',#{query},'%') or label3 like concat('%',#{query},'%')) ")
     List<Label> queryList(String type,String query);
+
+    @Select("select * from label where type='抗敏剂' or type='抗氧化剂' or type='美白剂' ")
+    List<Label> wuzhiList();
 }

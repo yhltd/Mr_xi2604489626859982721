@@ -575,4 +575,26 @@ public class CommodityController {
         }
     }
 
+
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getListById")
+    public ResultInfo getList(int id,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("录入原料商品")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            List<Commodity> getList = iCommodityService.getListById(id);
+            return ResultInfo.success("获取成功", getList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
 }

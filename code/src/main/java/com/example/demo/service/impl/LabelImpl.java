@@ -43,4 +43,9 @@ public class LabelImpl extends ServiceImpl<LabelMapper, Label> implements ILabel
     public boolean delete(List<Integer> idList) {
         return removeByIds(idList);
     }
+
+    @Override
+    public List<Label> wuzhiList() {
+        return labelMapper.wuzhiList();
+    }
 }

@@ -230,4 +230,26 @@ public class SupplierController {
         }
     }
 
+
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getAllList")
+    public ResultInfo getAllList(HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("供应商")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            List<Supplier> list = iSupplierService.getAllList();
+            return ResultInfo.success("获取成功", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
 }

@@ -335,16 +335,18 @@ function setTable(data) {
                 formatter: function (value, row, index) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
-            }, {
-                field: 'company',
-                title: '公司',
-                align: 'center',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                }
-            }, {
+            }
+            // , {
+            //     field: 'company',
+            //     title: '公司',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //     }
+            // }
+            , {
                 field: 'type',
                 title: '供应商分类',
                 align: 'center',
@@ -388,7 +390,7 @@ function setTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button> '
+                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn-xs btn-primary">&nbsp;查看</button> '
                 }
             },{
                 field: 'brand',

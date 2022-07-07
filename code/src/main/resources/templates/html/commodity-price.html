@@ -68,7 +68,7 @@
     </div>
 </div>
 
-
+<input type="file" id="upload-file" hidden="hidden">
 
 <div class="table-div border-top">
     <table id="menuSettingsTable"></table>
@@ -98,18 +98,56 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="add-unit">包装规格/kg</label>
-                        <input id="add-unit" name="unit" type="text" class="form-control" autocomplete="off" style="height:100px">
-                        <div class="invalid-feedback">
-                            请输入包装规格！
-                        </div>
+                        <label for="add-code">原料编码</label>
+                        <input id="add-code" name="add-code" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <label for="add-price">成本/元</label>
-                        <input id="add-price" name="price" type="text" class="form-control" autocomplete="off" style="height:100px">
-                        <div class="invalid-feedback">
-                            请输入成本！
-                        </div>
+                        <label for="add-item">商品名称</label>
+                        <input id="add-item" name="add-item" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-inci">INCI信息</label>
+                        <input id="add-inci" name="add-inci" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-unit1">1.包装规格/kg</label>
+                        <input id="add-unit1" name="unit1" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-price1">1.成本/元</label>
+                        <input id="add-price1" name="price1" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-unit2">2.包装规格/kg</label>
+                        <input id="add-unit2" name="unit2" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-price2">2.成本/元</label>
+                        <input id="add-price2" name="price2" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-unit3">3.包装规格/kg</label>
+                        <input id="add-unit3" name="unit3" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-price3">3.成本/元</label>
+                        <input id="add-price3" name="price3" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-unit4">4.包装规格/kg</label>
+                        <input id="add-unit4" name="unit4" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-price4">4.成本/元</label>
+                        <input id="add-price4" name="price4" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-unit5">5.包装规格/kg</label>
+                        <input id="add-unit5" name="unit5" type="text" class="form-control" autocomplete="off" data-required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="add-price5">5.成本/元</label>
+                        <input id="add-price5" name="price5" type="text" class="form-control" autocomplete="off" data-required="1">
                     </div>
                 </form>
             </div>
@@ -149,23 +187,26 @@
                     </div>
                     <div class="form-group">
                         <input id="update-commodityId" name="commodityId" type="hidden">
-                        <div class="invalid-feedback">
-                            请选择原料信息！
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="update-code">原料编码</label>
+                        <input id="update-code" name="add-code" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="update-item">商品名称</label>
+                        <input id="update-item" name="add-item" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
+                    </div>
+                    <div class="form-group">
+                        <label for="update-inci">INCI信息</label>
+                        <input id="update-inci" name="add-inci" type="text" class="form-control" autocomplete="off" data-required="1" readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label for="update-unit">包装规格/kg</label>
-                        <input id="update-unit" name="unit" type="text" class="form-control" autocomplete="off" style="height:100px">
-                        <div class="invalid-feedback">
-                            请输入包装规格！
-                        </div>
+                        <input id="update-unit" name="unit" type="number" class="form-control" autocomplete="off" data-required="1">
                     </div>
                     <div class="form-group">
                         <label for="update-price">成本/元</label>
-                        <input id="update-price" name="price" type="text" class="form-control" autocomplete="off" style="height:100px">
-                        <div class="invalid-feedback">
-                            请输入成本！
-                        </div>
+                        <input id="update-price" name="price" type="number" class="form-control" autocomplete="off" data-required="1">
                     </div>
                 </form>
             </div>

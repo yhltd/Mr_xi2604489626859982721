@@ -154,4 +154,9 @@ public class CommodityImpl extends ServiceImpl<CommodityMapper, Commodity> imple
     public List<Commodity> getBianma() {
         return commodityMapper.getBianMa();
     }
+
+    @Override
+    public List<Commodity> getListById(int id) {
+        return commodityMapper.getListById(id);
+    }
 }

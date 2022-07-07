@@ -46,4 +46,10 @@ public interface SupplierMapper extends BaseMapper<Supplier> {
 
     @Select("select * from supplier order by supplier_code desc limit 0,1")
     List<Supplier>getBianMa();
+
+    @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url," +
+            "ifnull(c.brand,'') as brand,pdf1_name,pdf2_name from supplier s left join (select supplier_name," +
+            "group_concat(brand_name) as brand from commodity group by supplier_name) as c " +
+            "on c.supplier_name=s.supplier_name")
+    List<Supplier> getAllList();
 }

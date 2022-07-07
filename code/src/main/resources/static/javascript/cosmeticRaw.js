@@ -37,7 +37,7 @@ $(function () {
                     var num=res.data[0].brandCode;
                 }
                 if (res.data.length=0){
-                    $("#add-brandCode").val("HOYL_0001")
+                    $("#add-brandCode").val("HOPZ_0001")
                 }else{
                     var len=4;
                     num=parseInt(num.split("_")[1],10)+1
@@ -45,7 +45,7 @@ $(function () {
                     while(num.length<len){
                         num="0"+num;
                     }
-                    $("#add-brandCode").val("HOYL_"+num)
+                    $("#add-brandCode").val("HOPZ_"+num)
                 }
             }
         })
@@ -367,13 +367,22 @@ function setTable(data) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:goTo("+ row.id +")'>"+ value +"</span></div>";
                 }
             }, {
+                field: 'company',
+                title: '公司',
+                align: 'center',
+                sortable: true,
+                width: 100,
+                formatter:function(value, row , index){
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            }, {
                 field: '',
                 title: '目录画册',
                 align: 'center',
                 sortable: true,
                 width: 100,
                 formatter:function(value, row , index){
-                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn btn-primary"><i class="bi bi-search"></i>&nbsp;查看</button>'
+                    return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn-xs btn-primary">&nbsp;查看</button>'
                 }
             }
         ],

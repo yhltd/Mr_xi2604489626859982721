@@ -82,6 +82,22 @@ function setForm(params, el) {
     }
 }
 
+function setTextArea(params, el) {
+    for (let param in params) {
+        $(el + ' textarea').each(function (index, textarea) {
+            if ($(textarea).attr('name') == param) {
+                let str = params[param]
+                console.log(str)
+                var reg = new RegExp("<br><br>","g")
+                var newstr = str.replace(reg,"\n")
+                console.log(newstr)
+                $(textarea).val(newstr);
+                return false;
+            }
+        })
+    }
+}
+
 function checkForm(el) {
     let result = true
     $(el + ' input').each(function(index,input){
