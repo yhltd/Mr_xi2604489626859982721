@@ -18,6 +18,11 @@
     <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
     <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/fileinput.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/fileinput.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/fileinput.mim.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/zh.js"></script>
+
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
     <script type="text/javascript" src="../javascript/commodity.js"></script>
@@ -349,7 +354,7 @@
 
 <!--    查询化妆品原料信息窗体-->
 <div id="show-essential-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">选择化妆品原料信息</div>
@@ -374,7 +379,7 @@
 
 <!--    查询供应商信息窗体-->
 <div id="show-supplier-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">选择供应商信息</div>
@@ -440,7 +445,10 @@
                 <form id="add-form-label" class="needs-validation">
                     <div class="form-group">
                         <label for="add-type">分类</label>
-                        <input id="add-type" name="type" type="text" class="form-control" autocomplete="off">
+<!--                        <input id="add-type" name="type" type="text" class="form-control" autocomplete="off">-->
+                        <select id="add-type" name="type" type="text" class="form-control" autocomplete="off">
+
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="add-label1">标签</label>
@@ -464,13 +472,16 @@
 
 <!--    查询窗体-->
 <div id="show-file-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">文件操作</div>
             </div>
             <div class="modal-body">
                 <table id="show-table-file"></table>
+            </div>
+            <div class="progress" style="margin-left: 10px;margin-right: 10px">
+                <div id="content" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div class="border-top" style="padding: 15px;">
                 <button id="file-up-btn" type="button" class="btn btn-primary">
@@ -493,6 +504,18 @@
                     <i class="bi bi-x-circle icon"></i>
                     关闭
                 </button>
+                <div class="file-loading">
+                    <input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2">
+                </div>
+                <script>
+                    initFileInput();
+                    function initFileInput() {
+                        $("#file-1").fileinput({//#file-5是input框的id
+                            showUpload : false,
+                            language: 'zh'//设置语言为中文
+                        })
+                    }
+                </script>
             </div>
         </div>
     </div>
@@ -500,7 +523,7 @@
 
 <!--    查询INCI信息窗体-->
 <div id="show-inci-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">INCI信息</div>
@@ -529,7 +552,7 @@
 
 <!--    查询INCI信息窗体-->
 <div id="add-inci-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">选择INCI信息</div>

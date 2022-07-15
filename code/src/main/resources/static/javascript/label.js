@@ -223,7 +223,7 @@ function setTable(data) {
                 title: '分类',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 200,
                 formatter: function (value, row, index) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
@@ -232,7 +232,7 @@ function setTable(data) {
                 title: '标签',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 700,
                 formatter: function (value, row, index) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 },

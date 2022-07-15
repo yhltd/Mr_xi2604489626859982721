@@ -52,4 +52,8 @@ public interface SupplierMapper extends BaseMapper<Supplier> {
             "group_concat(brand_name) as brand from commodity group by supplier_name) as c " +
             "on c.supplier_name=s.supplier_name")
     List<Supplier> getAllList();
+
+
+    @Select("update supplier set type=#{new_gongyingshang} where type=#{old_gongyingshang}")
+    void update_supplier(String new_gongyingshang,String old_gongyingshang);
 }

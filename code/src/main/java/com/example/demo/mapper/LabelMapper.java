@@ -22,4 +22,7 @@ public interface LabelMapper extends BaseMapper<Label> {
 
     @Select("select * from label where type='抗敏剂' or type='抗氧化剂' or type='美白剂' ")
     List<Label> wuzhiList();
+
+    @Select("update supplier set type=#{new_label} where type=#{old_label}")
+    void update_label(String new_label,String old_label);
 }

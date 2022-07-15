@@ -68,6 +68,33 @@ $(function () {
     //刷新
     getList();
 
+    $(document).ready(function () {
+        var item1 = '';
+        var item2 = '';
+        var item3 = '';
+        var item4 = '';
+        $ajax({
+            type: 'post',
+            url: '/menu_settings/getList',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                for (var i = 0; i < res.data.length; i++) {
+                    if (res.data[i].shape != '') {
+                        item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
+                        $("#add-type").append(item4);
+                    }
+                }
+
+                for (var i = 0; i < res.data.length; i++) {
+                    if (res.data[i].shape != '') {
+                        item4 = "<option value=\"" + res.data[i].shape + "\">" + res.data[i].shape + "</option>"
+                        $("#add-type").append(item4);
+                    }
+                }
+            }
+        })
+    });
+
     $("#add-rawCode").focus(function (){
         $ajax({
             type: 'post',
@@ -665,6 +692,7 @@ $(function () {
                         fileName: fileName,
                         type:'原料商品',
                     },
+                    async : false,
                 }, false, '', function (res) {
                     alert(res.msg)
                     fileShow(otherId);
@@ -674,7 +702,64 @@ $(function () {
     })
 
     $('#file-up-btn').click(function () {
-        $('#upload-file').trigger('click');
+        var file = document.getElementById("file-1").files
+        if(file.length == 0){
+            alert('未选择上传文件');
+            return;
+        }
+        var fileName_list = []
+        var fileName_num = -1
+        for(var i = 0 ; i < file.length;i++){
+            var this_file = file[i];
+            var fileName = "";
+
+            if (typeof (this_file) != "undefined") {
+                fileName = this_file.name;
+                fileName_list.push(
+                    fileName
+                )
+                console.log(fileName_list)
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(this_file);
+                oFReader.onloadend = function (oFRevent) {
+                    this_file = oFRevent.target.result;
+                    fileName_num = fileName_num + 1
+                    $ajax({
+                        type: 'post',
+                        url: '/file_table/add',
+                        data: {
+                            otherId: otherId,
+                            files: this_file,
+                            fileName: fileName_list[fileName_num],
+                            type:'原料商品',
+                        },
+                        async : true,
+                        xhr:function(){
+                            var myXhr = $.ajaxSettings.xhr();
+                            if(myXhr.upload){ //检查上传的文件是否存在
+                                myXhr.upload.addEventListener('progress',function(e){
+                                    var loaded = e.loaded; //已经上传大小情况
+                                    var total = e.total; //附件总大小
+                                    var percent = Math.floor(100*loaded/total)+"%"; //已经上传的百分比
+                                    //console.log("已经上传了："+percent);
+                                    //显示进度条
+                                    $("#content").css("width",percent).css("height",20).css("backgroundColor","#33CCFF").css("color","white").html("<b>"+percent+"</b>");
+                                }, false); // for handling the progress of the upload
+                            }
+                            return myXhr;
+                        },
+                    }, false, '', function (res) {
+                        fileShow(otherId);
+                        $("#content").css("width",0).css("height",0).css("margin-top",0).css("backgroundColor","").text("");
+                        // fileName_num = fileName_num + 1
+                        if (fileName_num == i){
+                            alert(res.msg);
+                        }
+                    })
+                }
+            }
+        }
+
     })
 
     $('#file-down-btn').click(function () {
@@ -689,6 +774,7 @@ $(function () {
             data: {
                 id: rows[0].data.id,
             },
+            async : false,
         }, false, '', function (res) {
             if (res.data[0].fileName != '' && res.data[0].fileName != null) {
                 downloadFileByBase64(res.data[0].fileName, res.data[0].files.split(',')[1])
@@ -712,6 +798,21 @@ $(function () {
             data: {
                 id: rows[0].data.id,
             },
+            async : true,
+            xhr:function(){
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){ //检查上传的文件是否存在
+                    myXhr.upload.addEventListener('progress',function(e){
+                        var loaded = e.loaded; //已经上传大小情况
+                        var total = e.total; //附件总大小
+                        var percent = Math.floor(100*loaded/total)+"%"; //已经上传的百分比
+                        //console.log("已经上传了："+percent);
+                        //显示进度条
+                        $("#content").css("width",percent).css("height",20).css("backgroundColor","#33CCFF").css("color","white").html("<b>"+percent+"</b>");
+                    }, false); // for handling the progress of the upload
+                }
+                return myXhr;
+            },
         }, false, '', function (res) {
             if (res.data[0].fileName != '' && res.data[0].fileName != null) {
                 const blob = this.base64ToBlob(res.data[0].files.split(',')[1]);
@@ -722,6 +823,7 @@ $(function () {
                     window.open(fileURL)
                 }
             }
+            $("#content").css("width",0).css("height",0).css("margin-top",0).css("backgroundColor","").text("");
         })
     })
 
@@ -885,7 +987,7 @@ $(function () {
     //点击提交按钮
     $('#add-submit-btn-label').click(function () {
         let params = formToJson("#add-form-label")
-        let type = params.type
+        let type = $('#add-type').val();
         let label1 = params.label1
         console.log(type + ' ' + label1)
         console.log(params)
@@ -1048,7 +1150,7 @@ function setTable(data) {
                 title: '商品名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 120,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -1060,7 +1162,32 @@ function setTable(data) {
                 title: '原料报送码',
                 align: 'center',
                 sortable: true,
-                width: 130,
+                width: 80,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
+            },{
+                field: 'inciPin',
+                title: 'INCI中文名称及含量',
+                align: 'center',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    // return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:inciShow("+ row.id +")'>"+ value +"</span></div>";
+                }
+            }, {
+                field: 'chengbenPin',
+                title: '原料成本',
+                align: 'center',
+                sortable: true,
+                width: 100,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -1084,7 +1211,7 @@ function setTable(data) {
                 title: '品牌名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 130,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -1096,7 +1223,7 @@ function setTable(data) {
                 title: '供应商简称',
                 align: 'center',
                 sortable: true,
-                width: 120,
+                width: 90,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -1116,43 +1243,18 @@ function setTable(data) {
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
-                field: 'inciPin',
-                title: 'INCI中文名称及含量',
-                align: 'center',
-                sortable: true,
-                width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
-                        value = '-'
-                    }
-                    // return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:inciShow("+ row.id +")'>"+ value +"</span></div>";
-                }
-            }, {
                 field: 'wuliPin',
                 title: '物理形态',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 180,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
                     }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
-            }, {
-                field: 'chengbenPin',
-                title: '原料成本',
-                align: 'center',
-                sortable: true,
-                width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
-                        value = '-'
-                    }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
-                }
-            }, {
+            },  {
                 field: '',
                 title: '目录画册',
                 align: 'center',
@@ -1649,7 +1751,31 @@ function setINCITable(data) {
                     }
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
+            },{
+                field: 'cas',
+                title: 'CAS',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                }
             }, {
+                field: 'content',
+                title: '成分含量',
+                align: 'left',
+                sortable: true,
+                width: 200,
+                formatter:function(value, row , index){
+                    if(value == null || value == ''){
+                        value = '-'
+                    }
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"%</div>";
+                }
+            },  {
                 field: 'rinsingProducts',
                 title: '淋洗类产品最高历史使用量（%）',
                 align: 'left',
@@ -1659,7 +1785,7 @@ function setINCITable(data) {
                     if(value == null || value == ''){
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"%</div>";
                 }
             }, {
                 field: 'residentProducts',
@@ -1671,7 +1797,7 @@ function setINCITable(data) {
                     if(value == null || value == ''){
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"%</div>";
                 }
             }, {
                 field: 'rawRemarks',
@@ -1712,30 +1838,6 @@ function setINCITable(data) {
             }, {
                 field: 'safetyRisk',
                 title: '安全风险',
-                align: 'left',
-                sortable: true,
-                width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
-                        value = '-'
-                    }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
-                }
-            }, {
-                field: 'cas',
-                title: 'CAS',
-                align: 'left',
-                sortable: true,
-                width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
-                        value = '-'
-                    }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
-                }
-            }, {
-                field: 'content',
-                title: '成分含量',
                 align: 'left',
                 sortable: true,
                 width: 200,

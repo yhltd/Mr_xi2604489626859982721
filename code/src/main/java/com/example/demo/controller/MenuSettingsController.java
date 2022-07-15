@@ -2,7 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.MenuSettings;
 import com.example.demo.entity.UserInfo;
+import com.example.demo.service.CosmeticRawService;
+import com.example.demo.service.ILabelService;
 import com.example.demo.service.IMenuSettingsService;
+import com.example.demo.service.ISupplierService;
 import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ import java.util.List;
 public class MenuSettingsController {
 
     @Autowired IMenuSettingsService iMenuSettingsService;
+    @Autowired ISupplierService iSupplierService;
+    @Autowired CosmeticRawService cosmeticRawService;
+    @Autowired ILabelService iLabelService;
 
     /**
      * 查询
@@ -96,28 +102,33 @@ public class MenuSettingsController {
             return ResultInfo.error("添加失败");
         }
     }
-
-
     /**
      * 修改
      *
-     * @param menuSettingsJson
      * @return ResultInfo
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResultInfo update(@RequestBody String menuSettingsJson,HttpSession session) {
+    @RequestMapping(value = "/update")
+    public ResultInfo update(int id,HttpSession session,String new_gongyingshang,String old_gongyingshang,String new_yuanliaopinpai,String old_yuanliaopinpai,String new_wuzhifenlei,String old_wuzhifenlei,String new_wulixingtai,String old_wulixingtai) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
         if (!powerUtil.isUpdate("系统设置")) {
             return ResultInfo.error(401, "无权限");
         }
         MenuSettings menuSettings = null;
         try {
-            menuSettings = DecodeUtil.decodeToJson(menuSettingsJson, MenuSettings.class);
-            if (iMenuSettingsService.update(menuSettings)) {
-                return ResultInfo.success("修改成功", menuSettings);
-            } else {
-                return ResultInfo.success("修改失败", menuSettings);
+            iMenuSettingsService.update_id(id,new_gongyingshang,new_yuanliaopinpai,new_wuzhifenlei,new_wulixingtai);
+            if(new_gongyingshang != "" && old_gongyingshang != ""){
+                iSupplierService.update_supplier(new_gongyingshang,old_gongyingshang);
             }
+            if(new_yuanliaopinpai != "" && old_yuanliaopinpai != ""){
+                cosmeticRawService.update_brand(new_yuanliaopinpai,old_yuanliaopinpai);
+            }
+            if(new_wuzhifenlei != "" && old_wuzhifenlei != ""){
+                iLabelService.update_label(new_wuzhifenlei,old_wuzhifenlei);
+            }
+            if(new_wulixingtai != "" && old_wulixingtai != ""){
+                iLabelService.update_label(new_wulixingtai,old_wulixingtai);
+            }
+            return ResultInfo.success("修改成功", menuSettings);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("修改失败：{}", e.getMessage());

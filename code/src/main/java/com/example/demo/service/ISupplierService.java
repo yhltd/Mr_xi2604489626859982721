@@ -73,4 +73,9 @@ public interface ISupplierService extends IService<Supplier> {
      * @return 信息集合
      */
     List<Supplier> getAllList();
+
+    /**
+     * 修改
+     */
+    void update_supplier(String new_gongyingshang,String old_gongyingshang);
 }

@@ -18,6 +18,11 @@
     <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/colResizable-1.6.js"></script>
     <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/bootstrap-table-resizable.js"></script>
 
+    <link rel="stylesheet" href="../bootstrap-4.5.0-dist/css/fileinput.css">
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/fileinput.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/fileinput.mim.js"></script>
+    <script type="text/javascript" src="../bootstrap-4.5.0-dist/js/zh.js"></script>
+
     <link rel="stylesheet" href="../css/main.css">
     <script type="text/javascript" src="../javascript/main.js"></script>
     <script type="text/javascript" src="../javascript/commodityQuery.js"></script>
@@ -135,22 +140,24 @@
         </select>
     </div>
 
-    <div class="col-md-2 mb-2">
+    <div class="col-md-1.8 mb-1">
         <span class="form-control" style="border: none">原料成本：</span>
     </div>
     <div class="col-md-2 mb-2">
         <input id="priceMin" type="number" class="form-control" placeholder="" autocomplete="off">
     </div>
+    —
     <div class="col-md-2 mb-2">
         <input id="priceMax" type="number" class="form-control" placeholder="" autocomplete="off">
     </div>
 
-    <div class="col-md-2 mb-2">
+    <div class="col-md-1.8 mb-1">
         <span class="form-control" style="border: none">成分含量：</span>
     </div>
     <div class="col-md-2 mb-2">
         <input id="contentMin" type="number" class="form-control" placeholder="" autocomplete="off">
     </div>
+    —
     <div class="col-md-2 mb-2">
         <input id="contentMax" type="number" class="form-control" placeholder="" autocomplete="off">
     </div>
@@ -212,6 +219,9 @@
             <div class="modal-body">
                 <table id="show-table-file"></table>
             </div>
+            <div class="progress" style="margin-left: 10px;margin-right: 10px">
+                <div id="content" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
             <div class="border-top" style="padding: 15px;">
                 <button id="file-up-btn" type="button" class="btn btn-primary">
                     <i class="bi bi-arrow-bar-up icon"></i>
@@ -225,22 +235,35 @@
                     <i class="bi bi-file-earmark"></i>
                     pdf预览
                 </button>
-                <button id="file-delete-btn" type="button" class="btn btn-primary left-margin">
-                    <i class="bi bi-trash icon"></i>
-                    删除
-                </button>
+<!--                <button id="file-delete-btn" type="button" class="btn btn-primary left-margin">-->
+<!--                    <i class="bi bi-trash icon"></i>-->
+<!--                    删除-->
+<!--                </button>-->
                 <button id="file-close-btn" type="button" class="btn btn-primary left-margin">
                     <i class="bi bi-x-circle icon"></i>
                     关闭
                 </button>
+                <div class="file-loading">
+                    <input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2">
+                </div>
+                <script>
+                    initFileInput();
+                    function initFileInput() {
+                        $("#file-1").fileinput({//#file-5是input框的id
+                            showUpload : false,
+                            language: 'zh'//设置语言为中文
+                        })
+                    }
+                </script>
             </div>
+
         </div>
     </div>
 </div>
 
 <!--    窗体-->
 <div id="show-inci-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">INCI成分信息</div>

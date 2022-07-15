@@ -49,4 +49,10 @@ public interface IMenuSettingsService extends IService<MenuSettings> {
      * @return 是否删除成功
      */
     boolean delete(List<Integer> idList);
+
+
+    /**
+     * 修改
+     */
+    void update_id(int id , String new_gongyingshang,String new_yuanliaopinpai,String new_wuzhifenlei,String new_wulixingtai);
 }

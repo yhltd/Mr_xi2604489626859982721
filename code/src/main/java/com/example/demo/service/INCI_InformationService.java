@@ -35,6 +35,13 @@ public interface INCI_InformationService extends IService<INCI_Information> {
     List<INCI_Information> preciseQueryList(String query);
 
     /**
+     * 使用编号查询ID
+     *
+     * @return 信息集合
+     */
+    List<INCI_Information> getInciId(String query);
+
+    /**
      * 添加
      *
      * @param iNCI_Information 添加对象

@@ -48,4 +48,9 @@ public class LabelImpl extends ServiceImpl<LabelMapper, Label> implements ILabel
     public List<Label> wuzhiList() {
         return labelMapper.wuzhiList();
     }
+
+    @Override
+    public void update_label(String new_label,String old_label){
+        labelMapper.update_label(new_label,old_label);
+    }
 }

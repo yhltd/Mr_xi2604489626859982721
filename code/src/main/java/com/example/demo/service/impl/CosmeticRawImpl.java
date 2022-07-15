@@ -74,4 +74,11 @@ public class CosmeticRawImpl extends ServiceImpl<CosmeticRawMapper, CosmeticRaw>
     public List<CosmeticRaw> getBianma() {
         return cosmeticRawMapper.getBianMa();
     }
+
+    @Override
+    public void update_brand(String new_yuanliaopinpai,String old_yuanliaopinpai){
+        cosmeticRawMapper.update_brand(new_yuanliaopinpai,old_yuanliaopinpai);
+    }
+
+
 }

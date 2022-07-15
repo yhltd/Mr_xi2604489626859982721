@@ -68,4 +68,9 @@ public class SupplierImpl extends ServiceImpl<SupplierMapper, Supplier> implemen
     public List<Supplier> getAllList() {
         return supplierMapper.getAllList();
     }
+
+    @Override
+    public void update_supplier(String new_gongyingshang,String old_gongyingshang){
+        supplierMapper.update_supplier(new_gongyingshang,old_gongyingshang);
+    }
 }

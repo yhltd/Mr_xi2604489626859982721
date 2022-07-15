@@ -256,7 +256,20 @@ public class INCI_InformationController {
                     iNCI_Information.setSafetyRisk(safetyRisk.getStringCellValue());
                 }
                 //保存到数据库
-                iNCI_InformationService.add(iNCI_Information);
+                try {
+                    List<INCI_Information> this_id = iNCI_InformationService.getInciId(serialNumber.getStringCellValue());
+                    int this_row = this_id.size();
+                    if(this_row > 0){
+                        iNCI_Information.setId(this_id.get(0).getId());
+                        iNCI_InformationService.update(iNCI_Information);
+                    }else{
+                        iNCI_InformationService.add(iNCI_Information);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.error("获取id失败：{}", e.getMessage());
+                    return ResultInfo.error("获取id错误!");
+                }
             }
             return ResultInfo.success("上传成功");
         } catch (Exception e) {

@@ -35,4 +35,7 @@ public interface CosmeticRawMapper extends BaseMapper<CosmeticRaw> {
 
     @Select("select * from cosmetic_raw order by brand_code desc limit 0,1")
     List<CosmeticRaw>getBianMa();
+
+    @Select("update supplier set production_place=#{new_yuanliaopinpai} where production_place=#{old_yuanliaopinpai}")
+    void update_brand(String new_yuanliaopinpai,String old_yuanliaopinpai);
 }

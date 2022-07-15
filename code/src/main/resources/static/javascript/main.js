@@ -20,7 +20,7 @@ $(function () {
 
 function $ajax(options, isLoading, loadingEl, success) {
     $.ajax({
-        timeout: 10000,
+        timeout: 1000000,
         ...options,
         beforeSend: function () {
             if (isLoading) {

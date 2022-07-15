@@ -345,7 +345,7 @@ function setTable(data) {
                 field: '',
                 title: '序号',
                 align: 'center',
-                width: 50,
+                width: 40,
                 formatter: function (value, row, index) {
                     return index + 1;
                 }
@@ -354,7 +354,7 @@ function setTable(data) {
                 title: '原料编码',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 90,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -367,7 +367,7 @@ function setTable(data) {
                 title: '商品名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 90,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -403,7 +403,7 @@ function setTable(data) {
                 title: '品牌名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 120,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'
@@ -427,7 +427,7 @@ function setTable(data) {
                 title: '供应商公司名称',
                 align: 'center',
                 sortable: true,
-                width: 130,
+                width: 150,
                 formatter: function (value, row, index) {
                     if (value == null || value == '') {
                         value = '-'

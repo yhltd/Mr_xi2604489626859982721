@@ -30,6 +30,11 @@ public class INCI_InformationImpl extends ServiceImpl<INCI_InformationMapper, IN
     }
 
     @Override
+    public List<INCI_Information> getInciId(String query) {
+        return iNCI_InformationMapper.getInciId(query);
+    }
+
+    @Override
     public List<INCI_Information> preciseQueryList(String query) {
         return iNCI_InformationMapper.preciseQueryList(query);
     }

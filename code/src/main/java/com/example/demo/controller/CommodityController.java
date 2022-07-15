@@ -472,7 +472,7 @@ public class CommodityController {
                         pinjie=pinjie+"`"+column6;
                     }
                 }
-                if(pinjie.split("`").length==0){
+                if(pinjie==""){
                     queryList=iCommodityService.getListChineseName1(cn,priceMax,priceMin,contentMax,contentMin);
                 }else if(pinjie.split("`").length==2){
                     queryList=iCommodityService.getListChineseName2(cn,priceMax,priceMin,contentMax,contentMin,pinjie.split("`")[0],pinjie.split("`")[1]);
@@ -530,7 +530,7 @@ public class CommodityController {
                         pinjie=pinjie+"`"+column6;
                     }
                 }
-                if(pinjie.split("`").length==0){
+                if(pinjie==""){
                     queryList=iCommodityService.getListChineseNameNot1(priceMax,priceMin,contentMax,contentMin);
                 }else if(pinjie.split("`").length==2){
                     queryList=iCommodityService.getListChineseNameNot2(priceMax,priceMin,contentMax,contentMin,pinjie.split("`")[0],pinjie.split("`")[1]);

@@ -88,4 +88,11 @@ public interface CosmeticRawService extends IService<CosmeticRaw> {
 
 
     List<CosmeticRaw>getBianma();
+
+    /**
+     * 修改
+     */
+    void update_brand(String new_yuanliaopinpai,String old_yuanliaopinpai);
+
+
 }

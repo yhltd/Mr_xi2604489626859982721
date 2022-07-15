@@ -54,4 +54,9 @@ public interface ILabelService extends IService<Label> {
 
     List<Label> wuzhiList();
 
+    /**
+     * 修改
+     */
+    void update_label(String new_label,String old_label);
+
 }

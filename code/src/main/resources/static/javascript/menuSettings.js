@@ -1,3 +1,8 @@
+let gongyingshang='';
+let yuanliaopinpai=''
+let wuzhifenlei='';
+let wulixingtai='';
+
 function getList() {
     $('#query').val('')
     $ajax({
@@ -77,6 +82,10 @@ $(function () {
             alert('请选择一条数据修改');
             return;
         }
+        gongyingshang=rows[0].data.supplier;
+        yuanliaopinpai=rows[0].data.brand;
+        wuzhifenlei=rows[0].data.sort;
+        wulixingtai=rows[0].data.shape;
         $('#update-modal').modal('show');
         setForm(rows[0].data, '#update-form');
     })
@@ -92,14 +101,31 @@ $(function () {
         var msg = confirm("确认要修改吗？")
         if (msg) {
             let params = formToJson('#update-form');
+            console.log(gongyingshang)
+            console.log(yuanliaopinpai)
+            console.log(wuzhifenlei)
+            console.log(wulixingtai)
+            console.log(params)
+            let new_gongyingshang = params.supplier
+            let new_yuanliaopinpai=params.brand
+            let new_wuzhifenlei=params.sort
+            let new_wulixingtai=params.shape
+            let this_id = params.id
+            console.log(this_id)
             $ajax({
                 type: 'post',
                 url: '/menu_settings/update',
                 data: {
-                    userInfoJson: JSON.stringify(params)
+                    new_gongyingshang : new_gongyingshang,
+                    new_yuanliaopinpai : new_yuanliaopinpai,
+                    new_wuzhifenlei : new_wuzhifenlei,
+                    new_wulixingtai : new_wulixingtai,
+                    old_gongyingshang : gongyingshang,
+                    old_yuanliaopinpai : yuanliaopinpai,
+                    old_wuzhifenlei : wuzhifenlei,
+                    old_wulixingtai : wulixingtai,
+                    id : this_id,
                 },
-                dataType: 'json',
-                contentType: 'application/json;charset=utf-8'
             }, false, '', function (res) {
                 alert(res.msg);
                 if (res.code == 200) {

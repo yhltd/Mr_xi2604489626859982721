@@ -42,4 +42,9 @@ public class MenuSettingsImpl extends ServiceImpl<MenuSettingsMapper, MenuSettin
     public boolean delete(List<Integer> idList) {
         return removeByIds(idList);
     }
+
+    @Override
+    public void update_id(int id , String new_gongyingshang,String new_yuanliaopinpai,String new_wuzhifenlei,String new_wulixingtai) {
+        menuSettingsMapper.update_id(id,new_gongyingshang,new_yuanliaopinpai,new_wuzhifenlei,new_wulixingtai);
+    }
 }

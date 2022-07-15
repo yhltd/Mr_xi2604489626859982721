@@ -222,7 +222,7 @@ function setTable(data) {
                 title: '序号',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 50,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -234,7 +234,7 @@ function setTable(data) {
                 title: 'INCI名称/中文名称',
                 align: 'center',
                 sortable: true,
-                width: 170,
+                width: 160,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -246,7 +246,7 @@ function setTable(data) {
                 title: 'INCI名称/英文名称',
                 align: 'center',
                 sortable: true,
-                width: 170,
+                width: 160,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -258,7 +258,7 @@ function setTable(data) {
                 title: '淋洗类产品最高历史使用量（%）',
                 align: 'center',
                 sortable: true,
-                width: 260,
+                width: 125,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -270,7 +270,7 @@ function setTable(data) {
                 title: '驻留类产品最高历史使用量（%）',
                 align: 'center',
                 sortable: true,
-                width: 260,
+                width: 250,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -282,7 +282,7 @@ function setTable(data) {
                 title: '原料目录备注',
                 align: 'center',
                 sortable: true,
-                width: 130,
+                width: 190,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -294,7 +294,7 @@ function setTable(data) {
                 title: '主要使用目的',
                 align: 'center',
                 sortable: true,
-                width: 130,
+                width: 175,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -306,7 +306,7 @@ function setTable(data) {
                 title: '是否可能存在安全性风险物质',
                 align: 'center',
                 sortable: true,
-                width: 230,
+                width: 115,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -318,7 +318,7 @@ function setTable(data) {
                 title: '安全风险',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 270,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'

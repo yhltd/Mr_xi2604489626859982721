@@ -18,4 +18,7 @@ public interface INCI_InformationMapper extends BaseMapper<INCI_Information> {
 
     @Select("select * from inci_information where serial_number = #{query} or chinese_name = #{query} or english_name = #{query} ")
     List<INCI_Information> preciseQueryList(String query);
+
+    @Select("select id from inci_information where serial_number = #{query}")
+    List<INCI_Information> getInciId(String query);
 }

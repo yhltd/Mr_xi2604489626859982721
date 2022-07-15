@@ -223,7 +223,7 @@ function setTable(data) {
                 title: '序号',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 70,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -236,7 +236,7 @@ function setTable(data) {
                 title: 'INCI名称/中文名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 140,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -248,7 +248,7 @@ function setTable(data) {
                 title: 'INCI名称/英文名称',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 170,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
@@ -260,7 +260,7 @@ function setTable(data) {
                 title: 'CIR安全评估',
                 align: 'center',
                 sortable: true,
-                width: 100,
+                width: 600,
                 formatter:function(value, row , index){
                     if(value == null || value == ''){
                         value = '-'
