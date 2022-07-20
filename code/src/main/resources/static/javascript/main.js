@@ -192,6 +192,10 @@ $(function () {
         window.location.href = '/';
     })
 
+    $('#refresh_btn').click(function(){
+        location.reload();
+    })
+
     // //点击修改密码显示弹窗
     // $("#updPwd-a").click(function () {
     //     $('#update-modal').modal('show');
