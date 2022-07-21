@@ -143,6 +143,7 @@ $(function () {
         for(var i = 0 ; i < file.length;i++){
             var this_file = file[i];
             var fileName = "";
+            var obj={};
 
             if (typeof (this_file) != "undefined") {
                 fileName = this_file.name;
@@ -155,16 +156,21 @@ $(function () {
                 oFReader.onloadend = function (oFRevent) {
                     this_file = oFRevent.target.result;
                     fileName_num = fileName_num + 1
+                    obj={
+                        "otherId":otherId,
+                        "type":'原料商品',
+                        "fileName": fileName_list[fileName_num],
+                        "files": this_file,
+                    }
                     $ajax({
                         type: 'post',
                         url: '/file_table/add',
-                        data: {
-                            otherId: otherId,
-                            files: this_file,
-                            fileName: fileName_list[fileName_num],
-                            type:'原料商品',
-                        },
+                        data: JSON.stringify({
+                            addInfo: obj
+                        }),
                         async : true,
+                        dataType: 'json',
+                        contentType: 'application/json;charset=utf-8',
                         xhr:function(){
                             var myXhr = $.ajaxSettings.xhr();
                             if(myXhr.upload){ //检查上传的文件是否存在

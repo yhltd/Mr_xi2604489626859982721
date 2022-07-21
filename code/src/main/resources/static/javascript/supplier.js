@@ -228,6 +228,7 @@ $(function () {
         for(var i = 0 ; i < file.length;i++){
             var this_file = file[i];
             var fileName = "";
+            var obj={};
 
             if (typeof (this_file) != "undefined") {
                 fileName = this_file.name;
@@ -240,15 +241,20 @@ $(function () {
                 oFReader.onloadend = function (oFRevent) {
                     this_file = oFRevent.target.result;
                     fileName_num = fileName_num + 1
+                    obj={
+                        "otherId":otherId,
+                        "type":'供应商',
+                        "fileName": fileName_list[fileName_num],
+                        "files": this_file,
+                    }
                     $ajax({
                         type: 'post',
                         url: '/file_table/add',
-                        data: {
-                            otherId: otherId,
-                            files: this_file,
-                            fileName: fileName_list[fileName_num],
-                            type:'供应商',
-                        },
+                        data: JSON.stringify({
+                            addInfo: obj
+                        }),
+                        dataType: 'json',
+                        contentType: 'application/json;charset=utf-8',
                         async : true,
                         xhr:function(){
                             var myXhr = $.ajaxSettings.xhr();
@@ -345,7 +351,8 @@ $(function () {
                     myXhr.upload.addEventListener('progress',function(e){
                         var loaded = e.loaded; //已经上传大小情况
                         var total = e.total; //附件总大小
-                        var percent = Math.floor(100*loaded/total)+"%"; //已经上传的百分比
+                        var percent = Math.floor(100)+"%"; //已经上传的百分比
+
                         //console.log("已经上传了："+percent);
                         //显示进度条
                         $("#content").css("width",percent).css("height",20).css("backgroundColor","#33CCFF").css("color","white").html("<b>"+percent+"</b>");
@@ -355,6 +362,10 @@ $(function () {
             },
         }, false, '', function (res) {
             if (res.data[0].fileName != '' && res.data[0].fileName != null) {
+                //显示进度条
+                // var percent2=Math.floor(100)+"%";
+                // $("#content").css("width",percent2).css("height",20).css("backgroundColor","#33CCFF").css("color","white").html("<b>"+percent2+"</b>");
+
                 const blob = this.base64ToBlob(res.data[0].files.split(',')[1]);
                 if (window.navigator && window.navigator.msSaveOrOpenBlob) {
                     window.navigator.msSaveOrOpenBlob(blob)
@@ -363,6 +374,7 @@ $(function () {
                     window.open(fileURL)
                 }
             }
+
             $("#content").css("width",0).css("height",0).css("margin-top",0).css("backgroundColor","").text("");
         })
     })

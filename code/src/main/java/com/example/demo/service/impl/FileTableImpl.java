@@ -19,21 +19,27 @@ public class FileTableImpl extends ServiceImpl<FileTableMapper, FileTable> imple
 
     @Override
     public List<FileTable> getList(int otherId, String type) {
-        return fileTableMapper.getList(otherId,type);
+        return fileTableMapper.getList(otherId,type,"是");
     }
 
     @Override
-    public void insert(String fileName, String files, int otherId, String type) {
-        fileTableMapper.insert(fileName,files,otherId,type);
+    public boolean insert(FileTable fileTable) {
+        //return this.save(fileTable) ? fileTable : null;
+        this.save(fileTable);
+        return true;
+//        fileTableMapper.insert(fileName,files,otherId,type);
     }
 
     @Override
     public boolean delete(List<Integer> idList) {
-        return removeByIds(idList);
+        for(int i=0;i<idList.size();i++){
+            fileTableMapper.update("是",idList.get(i));
+        }
+        return true;
     }
 
     @Override
     public List<FileTable> getFile(int id) {
-        return fileTableMapper.getFile(id);
+        return fileTableMapper.getFile(id,"是");
     }
 }

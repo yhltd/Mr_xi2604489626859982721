@@ -9,9 +9,9 @@ spring:
       max-wait: 10000
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://yhocn.cn/mr_xi2604489626859982721_20220513?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://106.52.237.177/mr_xi2604489626859982721_20220513?autoReconnect=true&allowMultiQueries=true&characterEncoding=utf8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
     username: root
-    password: Lyh07910
+    password: Biii2010_2022
   mvc:
     view:
       suffix: .html

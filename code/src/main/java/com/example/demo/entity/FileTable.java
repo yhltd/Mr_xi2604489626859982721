@@ -33,4 +33,9 @@ public class FileTable {
      * 类型
      */
     private String type;
+    /**
+     * 是否删除
+     */
+    private String isDelete;
+
 }

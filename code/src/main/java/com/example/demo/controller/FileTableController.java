@@ -1,16 +1,26 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.FileTable;
+import com.example.demo.entity.Label;
+import com.example.demo.entity.UserPower;
 import com.example.demo.service.IFileTableService;
+import com.example.demo.util.DecodeUtil;
 import com.example.demo.util.GsonUtil;
 import com.example.demo.util.ResultInfo;
+import com.example.demo.util.StringUtils;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Array;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,16 +58,31 @@ public class FileTableController {
      * @return ResultInfo
      */
     @RequestMapping("/add")
-    public ResultInfo add(String fileName,String files,int otherId,String type){
+    public ResultInfo add(@RequestBody HashMap map,HttpSession session){
+        GsonUtil gsonUtil = new GsonUtil(GsonUtil.toJson(map));
         try{
-            iFileTableService.insert(fileName,files,otherId,type);
-            return ResultInfo.success("添加成功", null);
+            FileTable fileTable= GsonUtil.toEntity(gsonUtil.get("addInfo"), FileTable.class);
+            if (iFileTableService.insert(fileTable)) {
+                return ResultInfo.success("添加成功", fileTable);
+            } else {
+                return ResultInfo.success("添加失败", null);
+            }
         }catch (Exception e){
             e.printStackTrace();
             log.error("添加失败：{}", e.getMessage());
             return ResultInfo.error("添加失败");
         }
     }
+//    public ResultInfo add(String fileName,String files,int otherId,String type){
+//        try{
+//            iFileTableService.insert(fileName,files,otherId,type);
+//            return ResultInfo.success("添加成功", null);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            log.error("添加失败：{}", e.getMessage());
+//            return ResultInfo.error("添加失败");
+//        }
+//    }
 
 
     /**

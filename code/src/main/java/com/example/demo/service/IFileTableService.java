@@ -20,7 +20,7 @@ public interface IFileTableService extends IService<FileTable> {
     /**
      * 添加
      * */
-    void insert(String fileName, String files, int otherId,String type);
+    boolean insert(FileTable fileTable);
 
     /**
      * 删除
