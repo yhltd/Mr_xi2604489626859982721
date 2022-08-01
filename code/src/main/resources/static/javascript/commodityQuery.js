@@ -420,7 +420,8 @@ function setTable(data) {
         sortStable: true,
         classes: 'table table-hover table table-bordered',
         idField: 'id',
-        pagination: false,
+        pagination: true,
+        pageSize : 15,//单页记录数
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
@@ -572,46 +573,48 @@ function setTable(data) {
                         return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
                     }
                 }
-            }, {
-                field: 'solubility',
-                title: '溶解性',
-                align: 'center',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (row.solubility != null && row.solubility != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                    } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
-                    }
-                }
-            }, {
-                field: 'appearance',
-                title: '外观',
-                align: 'center',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (row.appearance != null && row.appearance != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                    } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
-                    }
-                }
-            }, {
-                field: 'smell',
-                title: '气味',
-                align: 'center',
-                sortable: true,
-                width: 100,
-                formatter: function (value, row, index) {
-                    if (row.smell != null && row.smell != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
-                    } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
-                    }
-                }
-            }, {
+            },
+            // {
+            //     field: 'solubility',
+            //     title: '溶解性',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         if (row.solubility != null && row.solubility != '') {
+            //             return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //         } else {
+            //             return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+            //         }
+            //     }
+            // }, {
+            //     field: 'appearance',
+            //     title: '外观',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         if (row.appearance != null && row.appearance != '') {
+            //             return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //         } else {
+            //             return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+            //         }
+            //     }
+            // }, {
+            //     field: 'smell',
+            //     title: '气味',
+            //     align: 'center',
+            //     sortable: true,
+            //     width: 100,
+            //     formatter: function (value, row, index) {
+            //         if (row.smell != null && row.smell != '') {
+            //             return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+            //         } else {
+            //             return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+            //         }
+            //     }
+            // },
+            {
                 field: 'substanceLabel',
                 title: '物质标签',
                 align: 'center',

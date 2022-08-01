@@ -64,6 +64,32 @@ function getLabelList() {
     })
 }
 
+function getWuZhi() {
+    $ajax({
+        type: 'post',
+        url: '/label/getListByWuZhi',
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setLabelTable(res.data);
+            $('#show-label-modal').modal('show');
+        }
+        console.log(res)
+    })
+}
+
+function getWuLi() {
+    $ajax({
+        type: 'post',
+        url: '/label/getListByWuLi',
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setLabelTable(res.data);
+            $('#show-label-modal').modal('show');
+        }
+        console.log(res)
+    })
+}
+
 $(function () {
     //刷新
     getList();
@@ -80,7 +106,7 @@ $(function () {
             if (res.code == 200) {
                 for (var i = 0; i < res.data.length; i++) {
                     if (res.data[i].shape != '') {
-                        item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
+                        item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].shape + "</option>"
                         $("#add-type").append(item4);
                     }
                 }
@@ -104,7 +130,7 @@ $(function () {
                 if (res.data.length>0){
                     var num=res.data[0].rawCode;
                 }
-                if (res.data.length=0){
+                if (res.data.length==0){
                     $("#add-rawCode").val("HOYL_0001")
                 }else{
                     var len=4;
@@ -474,42 +500,42 @@ $(function () {
         }
     })
 
-    //添加窗体点击溶解性文本框
+    //添加窗体点击物理文本框
     $("#add-solubility").click(function () {
         operation = "添加";
         label_name = "溶解性"
-        getLabelList();
+        getWuLi();
     })
 
-    //添加窗体点击外观文本框
-    $("#add-appearance").click(function () {
-        operation = "添加";
-        label_name = "外观"
-        getLabelList();
-    })
+    // //添加窗体点击外观文本框
+    // $("#add-appearance").click(function () {
+    //     operation = "添加";
+    //     label_name = "外观"
+    //     getWuZhi();
+    // })
 
-    //添加窗体点击气味文本框
-    $("#add-smell").click(function () {
-        operation = "添加";
-        label_name = "气味"
-        getLabelList();
-    })
+    // //添加窗体点击气味文本框
+    // $("#add-smell").click(function () {
+    //     operation = "添加";
+    //     label_name = "气味"
+    //     getLabelList();
+    // })
 
     //添加窗体点击物质标签文本框
     $("#add-substanceLabel").click(function () {
         operation = "添加";
         label_name = "物质标签"
-
-        $ajax({
-            type: 'post',
-            url: '/label/wuzhiList',
-        }, false, '', function (res) {
-            if (res.code == 200) {
-                setLabelTable(res.data);
-                $('#show-label-modal').modal('show');
-            }
-            console.log(res)
-        })
+        getWuZhi();
+        // $ajax({
+        //     type: 'post',
+        //     url: '/label/wuzhiList',
+        // }, false, '', function (res) {
+        //     if (res.code == 200) {
+        //         setLabelTable(res.data);
+        //         $('#show-label-modal').modal('show');
+        //     }
+        //     console.log(res)
+        // })
     })
 
     //添加窗体点击功效标签文本框
@@ -527,32 +553,32 @@ $(function () {
     })
 
 
-    //修改窗体点击溶解性文本框
+    //修改窗体点击物理文本框
     $("#update-solubility").click(function () {
         operation = "修改";
         label_name = "溶解性"
-        getLabelList();
+        getWuLi();
     })
 
-    //修改窗体点击外观文本框
-    $("#update-appearance").click(function () {
-        operation = "修改";
-        label_name = "外观"
-        getLabelList();
-    })
-
-    //修改窗体点击气味文本框
-    $("#update-smell").click(function () {
-        operation = "修改";
-        label_name = "气味"
-        getLabelList();
-    })
+    // //修改窗体点击外观文本框
+    // $("#update-appearance").click(function () {
+    //     operation = "修改";
+    //     label_name = "外观"
+    //     getLabelList();
+    // })
+    //
+    // //修改窗体点击气味文本框
+    // $("#update-smell").click(function () {
+    //     operation = "修改";
+    //     label_name = "气味"
+    //     getLabelList();
+    // })
 
     //修改窗体点击物质标签文本框
     $("#update-substanceLabel").click(function () {
         operation = "修改";
         label_name = "物质标签"
-        getLabelList();
+        getWuZhi();
     })
 
     //修改窗体点击功效标签文本框
@@ -1123,7 +1149,8 @@ function setTable(data) {
         sortStable: true,
         classes: 'table table-hover table table-bordered',
         idField: 'id',
-        pagination: false,
+        pagination: true,
+        pageSize : 15,//单页记录数
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
@@ -1249,7 +1276,7 @@ function setTable(data) {
                     return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
                 }
             }, {
-                field: 'wuliPin',
+                field: 'solubility',
                 title: '物理形态',
                 align: 'center',
                 sortable: true,

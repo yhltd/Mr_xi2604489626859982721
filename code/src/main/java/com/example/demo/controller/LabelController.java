@@ -54,6 +54,48 @@ public class LabelController {
      *
      * @return ResultInfo
      */
+    @RequestMapping("/getListByWuZhi")
+    public ResultInfo getListByWuZhi( HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("标签")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            List<Label> getList = iLabelService.getListByWuZhi();
+            return ResultInfo.success("获取成功", getList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getListByWuLi")
+    public ResultInfo getListByWuLi( HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isSelect("标签")) {
+            return ResultInfo.error(401, "无权限");
+        }
+        try {
+            List<Label> getList = iLabelService.getListByWuLi();
+            return ResultInfo.success("获取成功", getList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
     @RequestMapping("/queryList")
     public ResultInfo queryList(String type,String query, HttpSession session) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);

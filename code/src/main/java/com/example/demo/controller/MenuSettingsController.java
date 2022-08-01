@@ -58,6 +58,23 @@ public class MenuSettingsController {
      *
      * @return ResultInfo
      */
+    @RequestMapping("/getMenuSettings")
+    public ResultInfo getMenuSettings(HttpSession session) {
+        try {
+            List<MenuSettings> getList = iMenuSettingsService.getList();
+            return ResultInfo.success("获取成功", getList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
     @RequestMapping("/queryList")
     public ResultInfo queryList(String query,HttpSession session) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);

@@ -59,4 +59,8 @@ public interface ILabelService extends IService<Label> {
      */
     void update_label(String new_label,String old_label);
 
+    List<Label> getListByWuZhi();
+
+    List<Label> getListByWuLi();
+
 }
