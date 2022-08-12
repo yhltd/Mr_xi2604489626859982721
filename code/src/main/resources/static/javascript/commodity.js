@@ -101,12 +101,12 @@ $(function () {
         var item4 = '';
         $ajax({
             type: 'post',
-            url: '/menu_settings/getList',
+            url: '/menu_settings/getMenuSettings',
         }, false, '', function (res) {
             if (res.code == 200) {
                 for (var i = 0; i < res.data.length; i++) {
-                    if (res.data[i].shape != '') {
-                        item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].shape + "</option>"
+                    if (res.data[i].sort != '') {
+                        item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
                         $("#add-type").append(item4);
                     }
                 }
@@ -117,6 +117,12 @@ $(function () {
                         $("#add-type").append(item4);
                     }
                 }
+                var label="功效标签";
+                item4 = "<option value=\"" + label + "\">"+label+"</option>"
+                $("#add-type").append(item4);
+                label="原料标签";
+                item4 = "<option value=\"" + label + "\">"+label+"</option>"
+                $("#add-type").append(item4);
             }
         })
     });
@@ -285,6 +291,14 @@ $(function () {
                 }
             })
         }
+    })
+
+    $("#add-reset-btn").click(function () {
+        $('#add-form')[0].reset();
+    })
+
+    $("#update-reset-btn").click(function () {
+        $('#update-form')[0].reset();
     })
 
     //点击修改按钮显示弹窗
@@ -501,7 +515,7 @@ $(function () {
     })
 
     //添加窗体点击物理文本框
-    $("#add-solubility").click(function () {
+    $("#add-solubility-label").click(function () {
         operation = "添加";
         label_name = "溶解性"
         getWuLi();
@@ -522,7 +536,7 @@ $(function () {
     // })
 
     //添加窗体点击物质标签文本框
-    $("#add-substanceLabel").click(function () {
+    $("#add-substanceLabel-label").click(function () {
         operation = "添加";
         label_name = "物质标签"
         getWuZhi();
@@ -539,14 +553,14 @@ $(function () {
     })
 
     //添加窗体点击功效标签文本框
-    $("#add-efficacyLabel").click(function () {
+    $("#add-efficacyLabel-label").click(function () {
         operation = "添加";
         label_name = "功效标签"
         getLabelList();
     })
 
     //添加窗体点击原料标签文本框
-    $("#add-rawLabel").click(function () {
+    $("#add-rawLabel-label").click(function () {
         operation = "添加";
         label_name = "原料标签"
         getLabelList();
@@ -554,7 +568,7 @@ $(function () {
 
 
     //修改窗体点击物理文本框
-    $("#update-solubility").click(function () {
+    $("#update-solubility-label").click(function () {
         operation = "修改";
         label_name = "溶解性"
         getWuLi();
@@ -575,21 +589,21 @@ $(function () {
     // })
 
     //修改窗体点击物质标签文本框
-    $("#update-substanceLabel").click(function () {
+    $("#update-substanceLabel-label").click(function () {
         operation = "修改";
         label_name = "物质标签"
         getWuZhi();
     })
 
     //修改窗体点击功效标签文本框
-    $("#update-efficacyLabel").click(function () {
+    $("#update-efficacyLabel-label").click(function () {
         operation = "修改";
         label_name = "功效标签"
         getLabelList();
     })
 
     //修改窗体点击原料标签文本框
-    $("#update-rawLabel").click(function () {
+    $("#update-rawLabel-label").click(function () {
         operation = "修改";
         label_name = "原料标签"
         getLabelList();
@@ -635,17 +649,41 @@ $(function () {
                     }
                 })
                 if(label_name == '溶解性'){
-                    $("#add-solubility").val(this_str);
+                    if($("#add-solubility").val()==""){
+                        $("#add-solubility").val(this_str);
+                    }else{
+                        $("#add-solubility").val($("#add-solubility").val()+"、"+this_str);
+                    }
                 }else if(label_name == '外观'){
-                    $("#add-appearance").val(this_str);
+                    if($("#add-appearance").val()==""){
+                        $("#add-appearance").val(this_str);
+                    }else{
+                        $("#add-appearance").val($("#add-appearance").val()+"、"+this_str);
+                    }
                 }else if(label_name == '气味'){
-                    $("#add-smell").val(this_str);
+                    if($("#add-smell").val()==""){
+                        $("#add-smell").val(this_str);
+                    }else{
+                        $("#add-smell").val($("#add-smell").val()+"、"+this_str);
+                    }
                 }else if(label_name == '物质标签'){
-                    $("#add-substanceLabel").val(this_str);
+                    if($("#add-substanceLabel").val()==""){
+                        $("#add-substanceLabel").val(this_str);
+                    }else{
+                        $("#add-substanceLabel").val($("#add-substanceLabel").val()+"、"+this_str);
+                    }
                 }else if(label_name == '功效标签'){
-                    $("#add-efficacyLabel").val(this_str);
+                    if($("#add-efficacyLabel").val()==""){
+                        $("#add-efficacyLabel").val(this_str);
+                    }else{
+                        $("#add-efficacyLabel").val($("#add-efficacyLabel").val()+"、"+this_str);
+                    }
                 }else if(label_name == '原料标签'){
-                    $("#add-rawLabel").val(this_str);
+                    if($("#add-rawLabel").val()==""){
+                        $("#add-rawLabel").val(this_str);
+                    }else{
+                        $("#add-rawLabel").val($("#add-rawLabel").val()+"、"+this_str);
+                    }
                 }
                 $('#show-label-modal').modal('hide');
             }
@@ -676,18 +714,43 @@ $(function () {
                     }
                 }
             })
+
             if(label_name == '溶解性'){
-                $("#update-solubility").val(this_str);
+                if($("#update-solubility").val()==""){
+                    $("#update-solubility").val(this_str);
+                }else{
+                    $("#update-solubility").val($("#update-solubility").val()+"、"+this_str);
+                }
             }else if(label_name == '外观'){
-                $("#update-appearance").val(this_str);
+                if($("#update-appearance").val()==""){
+                    $("#update-appearance").val(this_str);
+                }else{
+                    $("#update-appearance").val($("#update-appearance").val()+"、"+this_str);
+                }
             }else if(label_name == '气味'){
-                $("#update-smell").val(this_str);
+                if($("#update-smell").val()==""){
+                    $("#update-smell").val(this_str);
+                }else{
+                    $("#update-smell").val($("#update-smell").val()+"、"+this_str);
+                }
             }else if(label_name == '物质标签'){
-                $("#update-substanceLabel").val(this_str);
+                if($("#update-substanceLabel").val()==""){
+                    $("#update-substanceLabel").val(this_str);
+                }else{
+                    $("#update-substanceLabel").val($("#update-substanceLabel").val()+"、"+this_str);
+                }
             }else if(label_name == '功效标签'){
-                $("#update-efficacyLabel").val(this_str);
+                if($("#update-efficacyLabel").val()==""){
+                    $("#update-efficacyLabel").val(this_str);
+                }else{
+                    $("#update-efficacyLabel").val($("#update-efficacyLabel").val()+"、"+this_str);
+                }
             }else if(label_name == '原料标签'){
-                $("#update-rawLabel").val(this_str);
+                if($("#update-rawLabel").val()==""){
+                    $("#update-rawLabel").val(this_str);
+                }else{
+                    $("#update-rawLabel").val($("#update-rawLabel").val()+"、"+this_str);
+                }
             }
             $('#show-label-modal').modal('hide');
         }

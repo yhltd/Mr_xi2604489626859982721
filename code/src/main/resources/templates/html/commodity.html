@@ -177,8 +177,8 @@
                         <input id="add-supplierName" name="supplierName" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
                     </div>
                     <div class="form-group">
-                        <label for="add-solubility">物理形态(点击文本框选择)</label>
-                        <input id="add-solubility" name="solubility" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="add-solubility" id="add-solubility-label">物理形态(点击此处选择)</label>
+                        <input id="add-solubility" name="solubility" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <!--                    <div class="form-group">-->
                     <!--                        <label for="add-appearance">外观(点击文本框选择)</label>-->
@@ -189,16 +189,16 @@
                     <!--                        <input id="add-smell" name="smell" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >-->
                     <!--                    </div>-->
                     <div class="form-group">
-                        <label for="add-substanceLabel">物质标签(点击文本框选择)</label>
-                        <input id="add-substanceLabel" name="substanceLabel" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="add-substanceLabel" id="add-substanceLabel-label">物质标签(点击此处选择)</label>
+                        <input id="add-substanceLabel" name="substanceLabel" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <div class="form-group">
-                        <label for="add-efficacyLabel">功效标签(点击文本框选择)</label>
-                        <input id="add-efficacyLabel" name="efficacyLabel" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="add-efficacyLabel" id="add-efficacyLabel-label">功效标签(点击此处选择)</label>
+                        <input id="add-efficacyLabel" name="efficacyLabel" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <div class="form-group">
-                        <label for="add-rawLabel">原料标签(点击文本框选择)</label>
-                        <input id="add-rawLabel" name="rawLabel" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="add-rawLabel" id="add-rawLabel-label">原料标签(点击此处选择)</label>
+                        <input id="add-rawLabel" name="rawLabel" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <div class="form-group">
                         <label for="add-patent">专利信息</label>
@@ -223,6 +223,11 @@
                     <i class="bi bi-x-circle icon"></i>
                     关闭
                 </button>
+                <button id="add-reset-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-arrow-repeat"></i>
+                    重置
+                </button>
+
             </div>
         </div>
     </div>
@@ -278,8 +283,8 @@
                         <input id="update-supplierName" name="supplierName" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
                     </div>
                     <div class="form-group">
-                        <label for="update-solubility">物理形态(点击文本框选择)</label>
-                        <input id="update-solubility" name="solubility" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="update-solubility" id="update-solubility-label" >物理形态(点击此处选择)</label>
+                        <input id="update-solubility" name="solubility" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <!--                    <div class="form-group">-->
                     <!--                        <label for="update-appearance">外观(点击文本框选择)</label>-->
@@ -290,16 +295,16 @@
                     <!--                        <input id="update-smell" name="smell" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >-->
                     <!--                    </div>-->
                     <div class="form-group">
-                        <label for="update-substanceLabel">物质标签(点击文本框选择)</label>
-                        <input id="update-substanceLabel" name="substanceLabel" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="update-substanceLabel" id="update-substanceLabel-label">物质标签(点击此处选择)</label>
+                        <input id="update-substanceLabel" name="substanceLabel" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <div class="form-group">
-                        <label for="update-efficacyLabel">功效标签(点击文本框选择)</label>
-                        <input id="update-efficacyLabel" name="efficacyLabel" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="update-efficacyLabel" id="update-efficacyLabel-label" >功效标签(点击此处选择)</label>
+                        <input id="update-efficacyLabel" name="efficacyLabel" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <div class="form-group">
-                        <label for="update-rawLabel">原料标签(点击文本框选择)</label>
-                        <input id="update-rawLabel" name="rawLabel" type="text" class="form-control" autocomplete="off" readonly="readonly" data-required="1" >
+                        <label for="update-rawLabel" id="update-rawLabel-label">原料标签(点击此处选择)</label>
+                        <input id="update-rawLabel" name="rawLabel" type="text" class="form-control" autocomplete="off" data-required="1" >
                     </div>
                     <div class="form-group">
                         <label for="update-patent">专利信息</label>
@@ -323,6 +328,10 @@
                 <button id="update-close-btn" type="button" class="btn btn-primary left-margin">
                     <i class="bi bi-x-circle icon"></i>
                     关闭
+                </button>
+                <button id="update-reset-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-arrow-repeat"></i>
+                    重置
                 </button>
             </div>
         </div>
