@@ -451,7 +451,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="add-form-label" class="needs-validation">
+                <form id="add-form-label" class="needs-validation" οnkeydοwn="if(event.keyCode==13)return false;">
                     <div class="form-group">
                         <label for="add-type">分类</label>
                         <!--                        <input id="add-type" name="type" type="text" class="form-control" autocomplete="off">-->
@@ -462,6 +462,7 @@
                     <div class="form-group">
                         <label for="add-label1">标签</label>
                         <input id="add-label1" name="label1" type="text" class="form-control" autocomplete="off" data-role="tagsinput" style="width:100%">
+
                     </div>
                 </form>
             </div>

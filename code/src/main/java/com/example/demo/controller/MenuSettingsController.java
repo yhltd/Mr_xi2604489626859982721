@@ -69,6 +69,22 @@ public class MenuSettingsController {
             return ResultInfo.error("错误!");
         }
     }
+    /**
+     * 标签查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getMenuSettingslabel")
+    public ResultInfo getMenuSettingslabel(HttpSession session,String add_type) {
+        try {
+            List<MenuSettings> queryListlabel = iMenuSettingsService.queryListlabel(add_type);
+            return ResultInfo.success("获取成功", queryListlabel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
 
     /**
      * 查询

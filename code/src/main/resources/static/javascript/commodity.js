@@ -93,6 +93,29 @@ function getWuLi() {
 $(function () {
     //刷新
     getList();
+    // $(document).ready(function () {
+    //     document.getElementById("main").innerHTML = '<object type="text/html" data="main-item.html"></object>';
+    //     var item1 = '';
+    //     var item2 = '';
+    //     var item3 = '';
+    //     var item4 = '';
+    //     $ajax({
+    //         type: 'post',
+    //         url: '/menu_settings/getMenuSettings',
+    //     }, false, '', function (res) {
+    //         if (res.code == 200) {
+    //             //if(label_name="溶解性"){
+    //                 for (var i = 0; i < res.data.length; i++) {
+    //                     if (res.data[i].shape != '') {
+    //                         item4 = "<option value=\"" + res.data[i].shape + "\">" + res.data[i].shape + "</option>"
+    //                         $("#add-type").append(item4);
+    //                     }
+    //                 }
+    //             //}
+    //
+    //         }
+    //     })
+    // });
 
     $(document).ready(function () {
         var item1 = '';
@@ -126,6 +149,38 @@ $(function () {
             }
         })
     });
+
+
+    $(document).ready(function () {
+        var item1 = '';
+        var item2 = '';
+        var item3 = '';
+        var item4 = '';
+        $ajax({
+            type: 'post',
+            url: '/menu_settings/getMenuSettings',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                if (res.data[i].supplier != '') {
+                    item1 = " <a class=\"dropdown-item\" data-src=\"supplier.html\">" + res.data[i].supplier + "</a>"
+                    $("#supplier").append(item1);
+                }
+                if (res.data[i].brand != '') {
+                    item2 = " <a class=\"dropdown-item\" data-src=\"cosmeticRaw.html\">" + res.data[i].brand + "</a>"
+                    $("#yuanliao").append(item2);
+                }
+                if (res.data[i].sort != '') {
+                    item3 = " <a class=\"dropdown-item\" data-src=\"label.html\">" + res.data[i].sort + "</a>"
+                    $("#wuzhi").append(item3);
+                }
+                if (res.data[i].shape != '') {
+                    item4 = " <a class=\"dropdown-item\" data-src=\"label.html\">" + res.data[i].shape + "</a>"
+                    $("#wuli").append(item4);
+                }
+            }
+        })
+    });
+
 
     $("#add-rawCode").focus(function (){
         $ajax({
@@ -1072,14 +1127,24 @@ $(function () {
     //新增标签
     $('#label-add-btn').click(function () {
         $('#add-modal-label').modal('show');
+        gosearch();
     })
 
     //新增标签窗体关闭
     $('#add-close-btn-label').click(function () {
         $('#add-modal-label').modal('hide');
     })
-
+    //CDialog::OnOk()
     //点击提交按钮
+
+    function gosearch() {
+        if(window.event.keyCode == 13)
+        {
+            search();
+            return false;
+        }
+    }
+
     $('#add-submit-btn-label').click(function () {
         let params = formToJson("#add-form-label")
         let type = $('#add-type').val();

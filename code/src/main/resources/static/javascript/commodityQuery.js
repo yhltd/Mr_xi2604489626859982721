@@ -63,7 +63,7 @@ $(function () {
         var column3=$('#column3').val();
         var condition3=$('#condition3').val();
         var column4=$('#column4').val();
-        var condition4=$('#condition14').val();
+        var condition4=$('#condition4').val();
         var column5=$('#column5').val();
         var condition5=$('#condition5').val();
         var column6=$('#column6').text();
@@ -622,9 +622,22 @@ function setTable(data) {
                 width: 100,
                 formatter: function (value, row, index) {
                     if (row.substanceLabel != null && row.substanceLabel != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>" + value + "</span></div>";
                     } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>-</span></div>";
+                    }
+                }
+            },{
+                field: 'solubility',
+                title: '物理形态',
+                align: 'center',
+                sortable: true,
+                width: 100,
+                formatter: function (value, row, index) {
+                    if (row.substanceLabel != null && row.substanceLabel != '') {
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>" + value + "</span></div>";
+                    } else {
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>-</span></div>";
                     }
                 }
             }, {
@@ -635,9 +648,9 @@ function setTable(data) {
                 width: 100,
                 formatter: function (value, row, index) {
                     if (row.efficacyLabel != null && row.efficacyLabel != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>" + value + "</span></div>";
                     } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>-</span></div>";
                     }
                 }
             }, {
@@ -648,9 +661,9 @@ function setTable(data) {
                 width: 100,
                 formatter: function (value, row, index) {
                     if (row.rawLabel != null && row.rawLabel != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>" + value + "</span></div>";
                     } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>-</span></div>";
                     }
                 }
             }, {
@@ -661,9 +674,9 @@ function setTable(data) {
                 width: 100,
                 formatter: function (value, row, index) {
                     if (row.patent != null && row.patent != '') {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>" + value + "</span></div>";
                     } else {
-                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>-</div>";
+                        return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>-</span></div>";
                     }
                 }
             }, {
@@ -690,7 +703,7 @@ function setTable(data) {
                     var reg = new RegExp("<br><br>","g")
                     let this_value = value.replace(reg,"<br>")
                     console.log(this_value)
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:xiangqingShow2("+ index +")'>"+ this_value +"</span></div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:xiangqingShow2("+ index +")'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>"+ this_value +"</span></span></div>";
                 }
             }
             // , {

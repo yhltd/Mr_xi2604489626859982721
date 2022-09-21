@@ -198,6 +198,8 @@ function setTable(data) {
         $('#labelTable').bootstrapTable('load', data);
     }
 
+
+
     $('#labelTable').bootstrapTable({
         data: data,
         sortStable: true,
@@ -219,7 +221,8 @@ function setTable(data) {
                 formatter: function (value, row, index) {
                     return index + 1;
                 }
-            }, {
+            },
+            {
                 field: 'type',
                 title: '分类',
                 align: 'center',

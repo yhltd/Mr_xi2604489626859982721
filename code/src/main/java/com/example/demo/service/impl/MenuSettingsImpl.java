@@ -24,6 +24,11 @@ public class MenuSettingsImpl extends ServiceImpl<MenuSettingsMapper, MenuSettin
     }
 
     @Override
+    public List<MenuSettings> queryListlabel(String add_type) {
+        return menuSettingsMapper.queryListlabel(add_type);
+    }
+
+    @Override
     public List<MenuSettings> queryList(String query) {
         return menuSettingsMapper.queryList(query);
     }

@@ -13,11 +13,15 @@ import java.util.List;
  */
 @Mapper
 public interface SupplierMapper extends BaseMapper<Supplier> {
-    @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url," +
-            "ifnull(c.brand,'') as brand,pdf1_name,pdf2_name from supplier s left join (select supplier_name," +
-            "group_concat(brand_name) as brand from commodity group by supplier_name) as c " +
-            "on c.supplier_name=s.supplier_name where type=#{supplier}")
+//    @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url," +
+//            "ifnull(c.brand,'') as brand,pdf1_name,pdf2_name from supplier s left join (select supplier_name," +
+//            "group_concat(brand_name) as brand from commodity group by supplier_name) as c " +
+//            "on c.supplier_name=s.supplier_name where type=#{supplier}")
+//    List<Supplier> getList(String supplier);
+
+    @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url,ifnull(c.brand,'') as brand,pdf1_name,pdf2_name from supplier s left join (select supplier_name,brand_name as brand from commodity group by supplier_name) as c on c.supplier_name=s.supplier_name where type=#{supplier}")
     List<Supplier> getList(String supplier);
+
 
     @Select("select id,supplier_code,company,type,abbreviation,s.supplier_name,url,ifnull(c.brand,'') as brand,c.brand,pdf1_name,pdf2_name " +
             "from supplier s left join (select supplier_name,group_concat(brand_name) as brand from " +

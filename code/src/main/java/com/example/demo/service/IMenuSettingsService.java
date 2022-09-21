@@ -18,7 +18,12 @@ public interface IMenuSettingsService extends IService<MenuSettings> {
      * @return 信息集合
      */
     List<MenuSettings> getList();
-
+    /**
+     * 查询
+     *
+     * @return 信息集合
+     */
+    List<MenuSettings> queryListlabel(String add_type);
     /**
      * 查询
      *
