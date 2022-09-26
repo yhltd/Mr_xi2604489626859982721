@@ -25,6 +25,20 @@ public interface INCI_InformationService extends IService<INCI_Information> {
      *
      * @return 信息集合
      */
+    List<INCI_Information> getlistobscure(String chineseName_a,String englishName_a);
+
+    /**
+     * 精准查询
+     *
+     * @return 信息集合
+     */
+    List<INCI_Information> getlistprecision(String chineseName_a,String englishName_a);
+
+    /**
+     * 模糊查询
+     *
+     * @return 信息集合
+     */
     List<INCI_Information> queryList(String query);
 
     /**
@@ -58,10 +72,18 @@ public interface INCI_InformationService extends IService<INCI_Information> {
     boolean update(INCI_Information iNCI_Information);
 
     /**
+    /**
      * 删除
      *
      * @param idList 根据id集合删除
      * @return 是否删除成功
      */
     boolean delete(List<Integer> idList);
+
+    /**
+     *  根据中文名查询
+     * */
+    List<INCI_Information>getListByChnName(String chn_name);
+
+
 }

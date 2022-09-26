@@ -28,5 +28,4 @@ public interface Commodity_INCIMapper extends BaseMapper<Commodity_INCI> {
     @Select("insert into commodity_inci (commodity_id,cas,content,inci_id) values(#{commodityId},#{cas},#{content},#{inciId})")
     void insert(int commodityId,String cas,String content,int inciId);
 
-
 }

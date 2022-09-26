@@ -21,4 +21,15 @@ public interface INCI_InformationMapper extends BaseMapper<INCI_Information> {
 
     @Select("select id from inci_information where serial_number = #{query}")
     List<INCI_Information> getInciId(String query);
+
+    @Select("select * from inci_information where  chinese_name like concat('%',#{chineseName_a},'%') or english_name like concat('%',#{englishName_a},'%')")
+    List<INCI_Information> getlistobscure(String chineseName_a,String englishName_a);
+
+    @Select("select * from inci_information where chinese_name=#{chineseName_a} or english_name=#{englishName_a}")
+    List<INCI_Information> getlistprecision(String chineseName_a,String englishName_a);
+
+    @Select("select * from inci_information where chinese_name=#{chn_name} limit 1")
+    List<INCI_Information>getListByChnName(String chn_name);
+
+
 }

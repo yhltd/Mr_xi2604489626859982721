@@ -25,6 +25,16 @@ public class INCI_InformationImpl extends ServiceImpl<INCI_InformationMapper, IN
     }
 
     @Override
+    public List<INCI_Information> getlistobscure(String chineseName_a,String englishName_a) {
+        return iNCI_InformationMapper.getlistobscure(chineseName_a,englishName_a);
+    }
+
+    @Override
+    public List<INCI_Information> getlistprecision(String chineseName_a,String englishName_a) {
+        return iNCI_InformationMapper.getlistprecision(chineseName_a,englishName_a);
+    }
+
+    @Override
     public List<INCI_Information> queryList(String query) {
         return iNCI_InformationMapper.queryList(query);
     }
@@ -52,5 +62,10 @@ public class INCI_InformationImpl extends ServiceImpl<INCI_InformationMapper, IN
     @Override
     public boolean delete(List<Integer> idList) {
         return removeByIds(idList);
+    }
+
+    @Override
+    public List<INCI_Information> getListByChnName(String chn_name) {
+        return iNCI_InformationMapper.getListByChnName(chn_name);
     }
 }

@@ -60,6 +60,11 @@ public class LabelImpl extends ServiceImpl<LabelMapper, Label> implements ILabel
     }
 
     @Override
+    public List<Label> getListByWuLiwuli(String label1) {
+        return labelMapper.getListByWuLiwuli(label1);
+    }
+
+    @Override
     public List<Label> getListByWuLi() {
         return labelMapper.getListByWuLi();
     }

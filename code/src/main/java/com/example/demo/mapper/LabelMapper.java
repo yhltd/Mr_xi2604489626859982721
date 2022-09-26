@@ -19,6 +19,9 @@ public interface LabelMapper extends BaseMapper<Label> {
     @Select("select * from label as l right join (select sort from menu_settings where sort!='') as ms on ms.sort=l.type where label1 is not null")
     List<Label> getListByWuZhi();
 
+    @Select("select * from label as l right join (select shape from menu_settings where shape!='') as ms on ms.shape=l.type where label1 in(#{label1})")
+    List<Label> getListByWuLiwuli(String label1);
+
     @Select("select * from label as l right join (select shape from menu_settings where shape!='') as ms on ms.shape=l.type where label1 is not null")
     List<Label> getListByWuLi();
 

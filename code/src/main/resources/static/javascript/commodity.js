@@ -2,7 +2,19 @@ var operation = ""
 var label_name = ""
 var this_column = ""
 var this_id = ""
-var commodity_id=""
+var commodity_id = ""
+
+
+//禁用回车键
+$(window).keydown( function(e) {
+    var key = window.event?e.keyCode:e.which;
+    if(key.toString() == "13"){
+        return false;
+    }
+});
+
+
+
 
 function getList() {
     $('#query').val('')
@@ -13,10 +25,10 @@ function getList() {
         if (res.code == 200) {
             setTable(res.data);
             $("#menuSettingsTable").colResizable({
-                liveDrag:true,
-                gripInnerHtml:"<div class='grip'></div>",
-                draggingClass:"dragging",
-                resizeMode:'fit'
+                liveDrag: true,
+                gripInnerHtml: "<div class='grip'></div>",
+                draggingClass: "dragging",
+                resizeMode: 'fit'
             });
         }
     })
@@ -52,12 +64,88 @@ function getLabelList() {
     $ajax({
         type: 'post',
         url: '/label/getList',
-        data:{
+        data: {
             type: label_name
         }
     }, false, '', function (res) {
+        // if (res.code == 200) {
+        //     setLabelTable(res.data);
+        //     $('#show-label-modal').modal('show');
+        // }
         if (res.code == 200) {
-            setLabelTable(res.data);
+            if (label_name == "功效标签") {
+                if ($('#add-efficacyLabel').val() != "") {
+                    var arr = $('#add-efficacyLabel').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+            }
+            if (label_name == "功效标签") {
+                if ($('#update-efficacyLabel').val() != "") {
+                    var arr = $('#update-efficacyLabel').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+            }
+            if (label_name == "原料标签") {
+                if ($('#add-rawLabel').val() != "") {
+                    var arr = $('#add-rawLabel').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+            }
+            if (label_name == "原料标签") {
+                if ($('#update-rawLabel').val() != "") {
+                    var arr = $('#update-rawLabel').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+            }
+
             $('#show-label-modal').modal('show');
         }
         console.log(res)
@@ -70,12 +158,89 @@ function getWuZhi() {
         url: '/label/getListByWuZhi',
     }, false, '', function (res) {
         if (res.code == 200) {
-            setLabelTable(res.data);
+
+            if (label_name == "物质标签") {
+                if ($('#add-substanceLabel').val() != "" ) {
+                    var arr = $('#add-substanceLabel').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+
+            }
+            if (label_name == "物质标签") {
+                if ($('#update-substanceLabel').val() != "") {
+                    var arr = $('#update-substanceLabel').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+
+            }
+
             $('#show-label-modal').modal('show');
         }
         console.log(res)
     })
 }
+
+$("#select").click(function () {
+    var item4=""
+    $ajax({
+        type: 'post',
+        url: '/label/getListByWuLi',
+        data: {
+            label1_a: label1_a
+        }
+    }, false, '', function (res) {
+        if (res.code == 200) {
+            setLabelTable(res.data);
+            $('#show-label-modal').modal('show');
+            $("#add-solubility-label").bootstrapTable('hideColumn', 'id');
+
+        }
+        console.log(res)
+    })
+
+    // $ajax({
+    //     type: 'post',
+    //     url: '/menu_settings/getMenuSettings',
+    // }, false, '', function (res) {
+    //     if (res.code == 200) {
+    //         for (var i = 0; i < res.data.length; i++) {
+    //            // if (res.data[i].sort != '') {
+    //            //      item3 = " <a class=\"dropdown-item\" data-src=\"label.html\">" + res.data[i].sort + "</a>"
+    //            //      $("#wuzhi").append(item3);
+    //            //  }
+    //            if (res.data[i].sort != '') {
+    //                 item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
+    //                 $("#add-type").append(item4);
+    //            }
+    //         }
+    //
+    //     }
+    // })
+})
 
 function getWuLi() {
     $ajax({
@@ -83,7 +248,43 @@ function getWuLi() {
         url: '/label/getListByWuLi',
     }, false, '', function (res) {
         if (res.code == 200) {
-            setLabelTable(res.data);
+            if (label_name == "溶解性") {
+                if ($('#add-solubility').val() != "") {
+                    var arr = $('#add-solubility').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+            }
+            if (label_name == "溶解性") {
+                if ($('#update-solubility').val() != "") {
+                    var arr = $('#update-solubility').val().split("、")
+                    var item = [];
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (arr.indexOf(res.data[i].label1) == -1) {
+                            item.push({
+                                id: res.data[i].id,
+                                type: res.data[i].type,
+                                label1: res.data[i].label1,
+                            })
+                        }
+                    }
+                    setLabelTable(item);
+                } else {
+                    setLabelTable(res.data);
+                }
+            }
+
             $('#show-label-modal').modal('show');
         }
         console.log(res)
@@ -93,8 +294,8 @@ function getWuLi() {
 $(function () {
     //刷新
     getList();
+
     // $(document).ready(function () {
-    //     document.getElementById("main").innerHTML = '<object type="text/html" data="main-item.html"></object>';
     //     var item1 = '';
     //     var item2 = '';
     //     var item3 = '';
@@ -104,103 +305,52 @@ $(function () {
     //         url: '/menu_settings/getMenuSettings',
     //     }, false, '', function (res) {
     //         if (res.code == 200) {
-    //             //if(label_name="溶解性"){
-    //                 for (var i = 0; i < res.data.length; i++) {
-    //                     if (res.data[i].shape != '') {
-    //                         item4 = "<option value=\"" + res.data[i].shape + "\">" + res.data[i].shape + "</option>"
-    //                         $("#add-type").append(item4);
-    //                     }
+    //             for (var i = 0; i < res.data.length; i++) {
+    //                 if (res.data[i].sort != '') {
+    //                     item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
+    //                     $("#add-type").append(item4);
     //                 }
-    //             //}
+    //             }
     //
+    //             for (var i = 0; i < res.data.length; i++) {
+    //                 if (res.data[i].shape != '') {
+    //                     item4 = "<option value=\"" + res.data[i].shape + "\">" + res.data[i].shape + "</option>"
+    //                     $("#add-type").append(item4);
+    //                 }
+    //             }
+    //             var label = "功效标签";
+    //             item4 = "<option value=\"" + label + "\">" + label + "</option>"
+    //             $("#add-type").append(item4);
+    //             label = "原料标签";
+    //             item4 = "<option value=\"" + label + "\">" + label + "</option>"
+    //             $("#add-type").append(item4);
     //         }
     //     })
     // });
 
-    $(document).ready(function () {
-        var item1 = '';
-        var item2 = '';
-        var item3 = '';
-        var item4 = '';
-        $ajax({
-            type: 'post',
-            url: '/menu_settings/getMenuSettings',
-        }, false, '', function (res) {
-            if (res.code == 200) {
-                for (var i = 0; i < res.data.length; i++) {
-                    if (res.data[i].sort != '') {
-                        item4 = "<option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
-                        $("#add-type").append(item4);
-                    }
-                }
-
-                for (var i = 0; i < res.data.length; i++) {
-                    if (res.data[i].shape != '') {
-                        item4 = "<option value=\"" + res.data[i].shape + "\">" + res.data[i].shape + "</option>"
-                        $("#add-type").append(item4);
-                    }
-                }
-                var label="功效标签";
-                item4 = "<option value=\"" + label + "\">"+label+"</option>"
-                $("#add-type").append(item4);
-                label="原料标签";
-                item4 = "<option value=\"" + label + "\">"+label+"</option>"
-                $("#add-type").append(item4);
-            }
-        })
-    });
 
 
-    $(document).ready(function () {
-        var item1 = '';
-        var item2 = '';
-        var item3 = '';
-        var item4 = '';
-        $ajax({
-            type: 'post',
-            url: '/menu_settings/getMenuSettings',
-        }, false, '', function (res) {
-            if (res.code == 200) {
-                if (res.data[i].supplier != '') {
-                    item1 = " <a class=\"dropdown-item\" data-src=\"supplier.html\">" + res.data[i].supplier + "</a>"
-                    $("#supplier").append(item1);
-                }
-                if (res.data[i].brand != '') {
-                    item2 = " <a class=\"dropdown-item\" data-src=\"cosmeticRaw.html\">" + res.data[i].brand + "</a>"
-                    $("#yuanliao").append(item2);
-                }
-                if (res.data[i].sort != '') {
-                    item3 = " <a class=\"dropdown-item\" data-src=\"label.html\">" + res.data[i].sort + "</a>"
-                    $("#wuzhi").append(item3);
-                }
-                if (res.data[i].shape != '') {
-                    item4 = " <a class=\"dropdown-item\" data-src=\"label.html\">" + res.data[i].shape + "</a>"
-                    $("#wuli").append(item4);
-                }
-            }
-        })
-    });
 
 
-    $("#add-rawCode").focus(function (){
+    $("#add-rawCode").focus(function () {
         $ajax({
             type: 'post',
             url: '/commodity/getBianma',
         }, false, '', function (res) {
             if (res.code == 200) {
-                if (res.data.length>0){
-                    var num=res.data[0].rawCode;
+                if (res.data.length > 0) {
+                    var num = res.data[0].rawCode;
                 }
-                if (res.data.length==0){
+                if (res.data.length == 0) {
                     $("#add-rawCode").val("HOYL_0001")
-                }else{
-                    var len=4;
-                    num=parseInt(num.split("_")[1],10)+1
-                    num=num.toString();
-                    while(num.length<len){
-                        num="0"+num;
+                } else {
+                    var len = 4;
+                    num = parseInt(num.split("_")[1], 10) + 1
+                    num = num.toString();
+                    while (num.length < len) {
+                        num = "0" + num;
                     }
-                    $("#add-rawCode").val("HOYL_"+num)
+                    $("#add-rawCode").val("HOYL_" + num)
                 }
             }
         })
@@ -220,20 +370,20 @@ $(function () {
 
         var this_num = 0
         var this_str2 = ''
-        for(var i=0;i<=4;i=i+2){
-            if(this_arr[i] != ''){
+        for (var i = 0; i <= 4; i = i + 2) {
+            if (this_arr[i] != '') {
                 this_num = this_num + 1
-                if(this_str2 == ''){
-                    this_str2 = this_arr[i] + "`" + this_arr[i+1]
-                }else{
-                    this_str2 = this_str2 + "`" + this_arr[i] + "`" + this_arr[i+1]
+                if (this_str2 == '') {
+                    this_str2 = this_arr[i] + "`" + this_arr[i + 1]
+                } else {
+                    this_str2 = this_str2 + "`" + this_arr[i] + "`" + this_arr[i + 1]
                 }
             }
         }
 
         var this_arr2 = this_str2.split("`")
 
-        if(this_num == 0){
+        if (this_num == 0) {
             $ajax({
                 type: 'post',
                 url: '/commodity/getList',
@@ -242,45 +392,45 @@ $(function () {
                     setTable(res.data);
                 }
             })
-        }else if(this_num == 1){
+        } else if (this_num == 1) {
             $ajax({
                 type: 'post',
                 url: '/commodity/queryList1',
-                data:{
-                    column_name1:this_arr[0],
-                    condition1:this_arr[1]
+                data: {
+                    column_name1: this_arr[0],
+                    condition1: this_arr[1]
                 }
             }, false, '', function (res) {
                 if (res.code == 200) {
                     setTable(res.data);
                 }
             })
-        }else if(this_num == 2){
+        } else if (this_num == 2) {
             $ajax({
                 type: 'post',
                 url: '/commodity/queryList2',
-                data:{
-                    column_name1:this_arr[0],
-                    condition1:this_arr[1],
-                    column_name2:this_arr[2],
-                    condition2:this_arr[3],
+                data: {
+                    column_name1: this_arr[0],
+                    condition1: this_arr[1],
+                    column_name2: this_arr[2],
+                    condition2: this_arr[3],
                 }
             }, false, '', function (res) {
                 if (res.code == 200) {
                     setTable(res.data);
                 }
             })
-        }else if(this_num == 3){
+        } else if (this_num == 3) {
             $ajax({
                 type: 'post',
                 url: '/commodity/queryList3',
-                data:{
-                    column_name1:this_arr[0],
-                    condition1:this_arr[1],
-                    column_name2:this_arr[2],
-                    condition2:this_arr[3],
-                    column_name3:this_arr[4],
-                    condition3:this_arr[5],
+                data: {
+                    column_name1: this_arr[0],
+                    condition1: this_arr[1],
+                    column_name2: this_arr[2],
+                    condition2: this_arr[3],
+                    column_name3: this_arr[4],
+                    condition3: this_arr[5],
                 }
             }, false, '', function (res) {
                 if (res.code == 200) {
@@ -290,17 +440,15 @@ $(function () {
         }
 
 
-
-
     })
 
     $("#select-btn2").click(function () {
-        var query=$('#query').val()
+        var query = $('#query').val()
         $ajax({
             type: 'post',
             url: '/cir_security/preciseQueryList',
-            data:{
-                query:query
+            data: {
+                query: query
             }
         }, false, '', function (res) {
             if (res.code == 200) {
@@ -430,6 +578,7 @@ $(function () {
                 }
             })
         }
+
     })
 
     //上传excel
@@ -573,7 +722,49 @@ $(function () {
     $("#add-solubility-label").click(function () {
         operation = "添加";
         label_name = "溶解性"
+
+        $('#add-type').empty();
+        //document.getElementById("add-type").options.selectedIndex = 0
+        // $("#add-type").selectpicker('refresh');
+
         getWuLi();
+        $('#select-btn5').click(function () {
+            var label1 = $("#label1_a").val()
+            var arr = label1.split(",");
+            var arrr = []
+
+            for (var i = 0; i < arr.length; i++) {
+                arrr[i] = arr[i]
+            }
+            $ajax({
+                type: 'post',
+                url: '/label/getListByWuLiwuli',
+                data: {
+                    arrr: arrr,
+                    arrrType: 0,
+                    time: new Date().getTime()
+                }
+            }, false, '', function (res) {
+                if (res.code == 200) {
+                    setLabelTable(res.data);
+                }
+                console.log(res)
+            })
+        })
+        var item4 = '';
+        $ajax({
+            type: 'post',
+            url: '/menu_settings/getMenuSettings',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                for (var i = 0; i < res.data.length; i++) {
+                    if (res.data[i].shape != '') {
+                        item4 = " <option value=\"" + res.data[i].shape + "\">" + res.data[i].shape + "</option>"
+                        $("#add-type").append(item4);
+                    }
+                }
+            }
+        })
     })
 
     // //添加窗体点击外观文本框
@@ -605,6 +796,22 @@ $(function () {
         //     }
         //     console.log(res)
         // })
+        $('#add-type').empty();
+        var item3 = '';
+        $ajax({
+            type: 'post',
+            url: '/menu_settings/getMenuSettings',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                for (var i = 0; i < res.data.length; i++) {
+                    if (res.data[i].sort != '') {
+                        item3 = " <option value=\"" + res.data[i].sort + "\">" + res.data[i].sort + "</option>"
+                        $("#add-type").append(item3);
+                    }
+                }
+            }
+        })
+
     })
 
     //添加窗体点击功效标签文本框
@@ -612,6 +819,17 @@ $(function () {
         operation = "添加";
         label_name = "功效标签"
         getLabelList();
+        $('#add-type').empty();
+        var item2 = '';
+        $ajax({
+            type: 'post',
+            url: '/commodity/getList',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                item2 = " <option value=\"" + "功效标签" + "\">" + "功效标签" + "</option>"
+                $("#add-type").append(item2);
+            }
+        })
     })
 
     //添加窗体点击原料标签文本框
@@ -619,17 +837,19 @@ $(function () {
         operation = "添加";
         label_name = "原料标签"
         getLabelList();
+        $('#add-type').empty();
+        var item1 = '';
+        $ajax({
+            type: 'post',
+            url: '/commodity/getList',
+        }, false, '', function (res) {
+            if (res.code == 200) {
+                item1 = " <option value=\"" + "原料标签" + "\">" + "原料标签" + "</option>"
+                $("#add-type").append(item1);
+            }
+        })
     })
-
-
-    //修改窗体点击物理文本框
-    $("#update-solubility-label").click(function () {
-        operation = "修改";
-        label_name = "溶解性"
-        getWuLi();
-    })
-
-    // //修改窗体点击外观文本框
+// //修改窗体点击外观文本框
     // $("#update-appearance").click(function () {
     //     operation = "修改";
     //     label_name = "外观"
@@ -643,20 +863,24 @@ $(function () {
     //     getLabelList();
     // })
 
+    //修改窗体点击物理文本框
+    $("#update-solubility-label").click(function () {
+        operation = "修改";
+        label_name = "溶解性"
+        getWuLi();
+    })
     //修改窗体点击物质标签文本框
     $("#update-substanceLabel-label").click(function () {
         operation = "修改";
         label_name = "物质标签"
         getWuZhi();
     })
-
     //修改窗体点击功效标签文本框
     $("#update-efficacyLabel-label").click(function () {
         operation = "修改";
         label_name = "功效标签"
         getLabelList();
     })
-
     //修改窗体点击原料标签文本框
     $("#update-rawLabel-label").click(function () {
         operation = "修改";
@@ -681,63 +905,63 @@ $(function () {
                 this_str = ''
                 let rows = getTableSelection("#show-table-label");
                 $.each(rows, function (index, row) {
-                    if (row.data.label1 != '' && row.data.label1 != null){
-                        if(this_str == ''){
+                    if (row.data.label1 != '' && row.data.label1 != null) {
+                        if (this_str == '') {
                             this_str = row.data.label1
-                        }else{
+                        } else {
                             this_str = this_str + "、" + row.data.label1
                         }
                     }
-                    if (row.data.label2 != '' && row.data.label2 != null){
-                        if(this_str == ''){
+                    if (row.data.label2 != '' && row.data.label2 != null) {
+                        if (this_str == '') {
                             this_str = row.data.label2
-                        }else{
+                        } else {
                             this_str = this_str + "、" + row.data.label2
                         }
                     }
-                    if (row.data.label3 != '' && row.data.label3 != null){
-                        if(this_str == ''){
+                    if (row.data.label3 != '' && row.data.label3 != null) {
+                        if (this_str == '') {
                             this_str = row.data.label3
-                        }else{
+                        } else {
                             this_str = this_str + "、" + row.data.label3
                         }
                     }
                 })
-                if(label_name == '溶解性'){
-                    if($("#add-solubility").val()==""){
+                if (label_name == '溶解性') {
+                    if ($("#add-solubility").val() == "") {
                         $("#add-solubility").val(this_str);
-                    }else{
-                        $("#add-solubility").val($("#add-solubility").val()+"、"+this_str);
+                    } else {
+                        $("#add-solubility").val($("#add-solubility").val() + "、" + this_str);
                     }
-                }else if(label_name == '外观'){
-                    if($("#add-appearance").val()==""){
+                } else if (label_name == '外观') {
+                    if ($("#add-appearance").val() == "") {
                         $("#add-appearance").val(this_str);
-                    }else{
-                        $("#add-appearance").val($("#add-appearance").val()+"、"+this_str);
+                    } else {
+                        $("#add-appearance").val($("#add-appearance").val() + "、" + this_str);
                     }
-                }else if(label_name == '气味'){
-                    if($("#add-smell").val()==""){
+                } else if (label_name == '气味') {
+                    if ($("#add-smell").val() == "") {
                         $("#add-smell").val(this_str);
-                    }else{
-                        $("#add-smell").val($("#add-smell").val()+"、"+this_str);
+                    } else {
+                        $("#add-smell").val($("#add-smell").val() + "、" + this_str);
                     }
-                }else if(label_name == '物质标签'){
-                    if($("#add-substanceLabel").val()==""){
+                } else if (label_name == '物质标签') {
+                    if ($("#add-substanceLabel").val() == "") {
                         $("#add-substanceLabel").val(this_str);
-                    }else{
-                        $("#add-substanceLabel").val($("#add-substanceLabel").val()+"、"+this_str);
+                    } else {
+                        $("#add-substanceLabel").val($("#add-substanceLabel").val() + "、" + this_str);
                     }
-                }else if(label_name == '功效标签'){
-                    if($("#add-efficacyLabel").val()==""){
+                } else if (label_name == '功效标签') {
+                    if ($("#add-efficacyLabel").val() == "") {
                         $("#add-efficacyLabel").val(this_str);
-                    }else{
-                        $("#add-efficacyLabel").val($("#add-efficacyLabel").val()+"、"+this_str);
+                    } else {
+                        $("#add-efficacyLabel").val($("#add-efficacyLabel").val() + "、" + this_str);
                     }
-                }else if(label_name == '原料标签'){
-                    if($("#add-rawLabel").val()==""){
+                } else if (label_name == '原料标签') {
+                    if ($("#add-rawLabel").val() == "") {
                         $("#add-rawLabel").val(this_str);
-                    }else{
-                        $("#add-rawLabel").val($("#add-rawLabel").val()+"、"+this_str);
+                    } else {
+                        $("#add-rawLabel").val($("#add-rawLabel").val() + "、" + this_str);
                     }
                 }
                 $('#show-label-modal').modal('hide');
@@ -747,64 +971,64 @@ $(function () {
             this_str = ''
             let rows = getTableSelection("#show-table-label");
             $.each(rows, function (index, row) {
-                if (row.data.label1 != '' && row.data.label1 != null){
-                    if(this_str == ''){
+                if (row.data.label1 != '' && row.data.label1 != null) {
+                    if (this_str == '') {
                         this_str = row.data.label1
-                    }else{
+                    } else {
                         this_str = this_str + "、" + row.data.label1
                     }
                 }
-                if (row.data.label2 != '' && row.data.label2 != null){
-                    if(this_str == ''){
+                if (row.data.label2 != '' && row.data.label2 != null) {
+                    if (this_str == '') {
                         this_str = row.data.label2
-                    }else{
+                    } else {
                         this_str = this_str + "、" + row.data.label2
                     }
                 }
-                if (row.data.label3 != '' && row.data.label3 != null){
-                    if(this_str == ''){
+                if (row.data.label3 != '' && row.data.label3 != null) {
+                    if (this_str == '') {
                         this_str = row.data.label3
-                    }else{
+                    } else {
                         this_str = this_str + "、" + row.data.label3
                     }
                 }
             })
 
-            if(label_name == '溶解性'){
-                if($("#update-solubility").val()==""){
+            if (label_name == '溶解性') {
+                if ($("#update-solubility").val() == "") {
                     $("#update-solubility").val(this_str);
-                }else{
-                    $("#update-solubility").val($("#update-solubility").val()+"、"+this_str);
+                } else {
+                    $("#update-solubility").val($("#update-solubility").val() + "、" + this_str);
                 }
-            }else if(label_name == '外观'){
-                if($("#update-appearance").val()==""){
+            } else if (label_name == '外观') {
+                if ($("#update-appearance").val() == "") {
                     $("#update-appearance").val(this_str);
-                }else{
-                    $("#update-appearance").val($("#update-appearance").val()+"、"+this_str);
+                } else {
+                    $("#update-appearance").val($("#update-appearance").val() + "、" + this_str);
                 }
-            }else if(label_name == '气味'){
-                if($("#update-smell").val()==""){
+            } else if (label_name == '气味') {
+                if ($("#update-smell").val() == "") {
                     $("#update-smell").val(this_str);
-                }else{
-                    $("#update-smell").val($("#update-smell").val()+"、"+this_str);
+                } else {
+                    $("#update-smell").val($("#update-smell").val() + "、" + this_str);
                 }
-            }else if(label_name == '物质标签'){
-                if($("#update-substanceLabel").val()==""){
+            } else if (label_name == '物质标签') {
+                if ($("#update-substanceLabel").val() == "") {
                     $("#update-substanceLabel").val(this_str);
-                }else{
-                    $("#update-substanceLabel").val($("#update-substanceLabel").val()+"、"+this_str);
+                } else {
+                    $("#update-substanceLabel").val($("#update-substanceLabel").val() + "、" + this_str);
                 }
-            }else if(label_name == '功效标签'){
-                if($("#update-efficacyLabel").val()==""){
+            } else if (label_name == '功效标签') {
+                if ($("#update-efficacyLabel").val() == "") {
                     $("#update-efficacyLabel").val(this_str);
-                }else{
-                    $("#update-efficacyLabel").val($("#update-efficacyLabel").val()+"、"+this_str);
+                } else {
+                    $("#update-efficacyLabel").val($("#update-efficacyLabel").val() + "、" + this_str);
                 }
-            }else if(label_name == '原料标签'){
-                if($("#update-rawLabel").val()==""){
+            } else if (label_name == '原料标签') {
+                if ($("#update-rawLabel").val() == "") {
                     $("#update-rawLabel").val(this_str);
-                }else{
-                    $("#update-rawLabel").val($("#update-rawLabel").val()+"、"+this_str);
+                } else {
+                    $("#update-rawLabel").val($("#update-rawLabel").val() + "、" + this_str);
                 }
             }
             $('#show-label-modal').modal('hide');
@@ -834,9 +1058,9 @@ $(function () {
                         otherId: otherId,
                         files: file,
                         fileName: fileName,
-                        type:'原料商品',
+                        type: '原料商品',
                     },
-                    async : false,
+                    async: false,
                 }, false, '', function (res) {
                     alert(res.msg)
                     fileShow(otherId);
@@ -847,16 +1071,16 @@ $(function () {
 
     $('#file-up-btn').click(function () {
         var file = document.getElementById("file-1").files
-        if(file.length == 0){
+        if (file.length == 0) {
             alert('未选择上传文件');
             return;
         }
         var fileName_list = []
         var fileName_num = -1
-        for(var i = 0 ; i < file.length;i++){
+        for (var i = 0; i < file.length; i++) {
             var this_file = file[i];
             var fileName = "";
-            var obj={};
+            var obj = {};
 
             if (typeof (this_file) != "undefined") {
                 fileName = this_file.name;
@@ -869,9 +1093,9 @@ $(function () {
                 oFReader.onloadend = function (oFRevent) {
                     this_file = oFRevent.target.result;
                     fileName_num = fileName_num + 1
-                    obj={
-                        "otherId":otherId,
-                        "type":'原料商品',
+                    obj = {
+                        "otherId": otherId,
+                        "type": '原料商品',
                         "fileName": fileName_list[fileName_num],
                         "files": this_file,
                     }
@@ -883,26 +1107,26 @@ $(function () {
                         }),
                         dataType: 'json',
                         contentType: 'application/json;charset=utf-8',
-                        async : true,
-                        xhr:function(){
+                        async: true,
+                        xhr: function () {
                             var myXhr = $.ajaxSettings.xhr();
-                            if(myXhr.upload){ //检查上传的文件是否存在
-                                myXhr.upload.addEventListener('progress',function(e){
+                            if (myXhr.upload) { //检查上传的文件是否存在
+                                myXhr.upload.addEventListener('progress', function (e) {
                                     var loaded = e.loaded; //已经上传大小情况
                                     var total = e.total; //附件总大小
-                                    var percent = Math.floor(100*loaded/total)+"%"; //已经上传的百分比
+                                    var percent = Math.floor(100 * loaded / total) + "%"; //已经上传的百分比
                                     //console.log("已经上传了："+percent);
                                     //显示进度条
-                                    $("#content").css("width",percent).css("height",20).css("backgroundColor","#33CCFF").css("color","white").html("<b>"+percent+"</b>");
+                                    $("#content").css("width", percent).css("height", 20).css("backgroundColor", "#33CCFF").css("color", "white").html("<b>" + percent + "</b>");
                                 }, false); // for handling the progress of the upload
                             }
                             return myXhr;
                         },
                     }, false, '', function (res) {
                         fileShow(otherId);
-                        $("#content").css("width",0).css("height",0).css("margin-top",0).css("backgroundColor","").text("");
+                        $("#content").css("width", 0).css("height", 0).css("margin-top", 0).css("backgroundColor", "").text("");
                         // fileName_num = fileName_num + 1
-                        if (fileName_num == i){
+                        if (fileName_num == i) {
                             alert(res.msg);
                         }
                     })
@@ -924,7 +1148,7 @@ $(function () {
             data: {
                 id: rows[0].data.id,
             },
-            async : false,
+            async: false,
         }, false, '', function (res) {
             if (res.data[0].fileName != '' && res.data[0].fileName != null) {
                 downloadFileByBase64(res.data[0].fileName, res.data[0].files.split(',')[1])
@@ -938,7 +1162,7 @@ $(function () {
             alert('请选择一个文件预览');
             return;
         }
-        if(rows[0].data.fileName.split(".")[1]!='pdf'){
+        if (rows[0].data.fileName.split(".")[1] != 'pdf') {
             alert('请选择pdf文件');
             return;
         }
@@ -948,17 +1172,17 @@ $(function () {
             data: {
                 id: rows[0].data.id,
             },
-            async : true,
-            xhr:function(){
+            async: true,
+            xhr: function () {
                 var myXhr = $.ajaxSettings.xhr();
-                if(myXhr.upload){ //检查上传的文件是否存在
-                    myXhr.upload.addEventListener('progress',function(e){
+                if (myXhr.upload) { //检查上传的文件是否存在
+                    myXhr.upload.addEventListener('progress', function (e) {
                         var loaded = e.loaded; //已经上传大小情况
                         var total = e.total; //附件总大小
-                        var percent = Math.floor(100*loaded/total)+"%"; //已经上传的百分比
+                        var percent = Math.floor(100 * loaded / total) + "%"; //已经上传的百分比
                         //console.log("已经上传了："+percent);
                         //显示进度条
-                        $("#content").css("width",percent).css("height",20).css("backgroundColor","#33CCFF").css("color","white").html("<b>"+percent+"</b>");
+                        $("#content").css("width", percent).css("height", 20).css("backgroundColor", "#33CCFF").css("color", "white").html("<b>" + percent + "</b>");
                     }, false); // for handling the progress of the upload
                 }
                 return myXhr;
@@ -973,7 +1197,7 @@ $(function () {
                     window.open(fileURL)
                 }
             }
-            $("#content").css("width",0).css("height",0).css("margin-top",0).css("backgroundColor","").text("");
+            $("#content").css("width", 0).css("height", 0).css("margin-top", 0).css("backgroundColor", "").text("");
         })
     })
 
@@ -1015,27 +1239,127 @@ $(function () {
         $('#show-inci-modal').modal('hide');
     })
 
+    $("#inci-submit-btn2").click(function () {
+        $('#add-inci-luru').modal('show');
+    })
+
+    // $('#add-inci-submit-btn2').click(function () {
+    //     var inci = ('#inci-chn').val().replace("，", ",")
+    //     var arr = inci.split(",")
+    //
+    // })
+
     //inci新增
     $("#inci-submit-btn").click(function () {
-        $ajax({
-            type: 'post',
-            url: '/inci_information/getList',
-            data:{
-                query: ''
-            }
-        }, false, '', function (res) {
-            if (res.code == 200) {
-                setINCIAddTable(res.data);
-                $("#add-table-inci").bootstrapTable('hideColumn', 'id');
-                $('#add-inci-modal').modal('show');
-            }
-            console.log(res)
+
+        $('#add-inci-modal').modal('show');
+        // $ajax({
+        //     type: 'post',
+        //     url: '/inci_information/getList',
+        //     data:{
+        //         query: ''
+        //     }
+        // }, false, '', function (res) {
+        //     if (res.code == 200) {
+        //         setINCIAddTable(res.data);
+        //         $("#add-table-inci").bootstrapTable('hideColumn', 'id');
+        //
+        //     }
+        //     console.log(res)
+        // })
+
+        $("#select-btn1").click(function () {
+            var chineseName_a = $("#chineseName_a").val()
+            var englishName_a = $("#englishName_a").val()
+            $ajax({
+                type: 'post',
+                url: '/inci_information/getlistobscure',
+                data: {
+                    chineseName_a: chineseName_a,
+                    englishName_a: englishName_a
+                }
+            }, false, '', function (res) {
+                if (res.code == 200) {
+                    setINCIAddTable(res.data);
+                    $("#select-btn1").bootstrapTable('hideColumn', 'id');
+                }
+                console.log(res)
+            })
         })
+        $("#select-btn2").click(function () {
+            var chineseName_a = $("#chineseName_a").val()
+            var englishName_a = $("#englishName_a").val()
+            $ajax({
+                type: 'post',
+                url: '/inci_information/getlistprecision',
+                data: {
+                    chineseName_a: chineseName_a,
+                    englishName_a: englishName_a
+                }
+            }, false, '', function (res) {
+                if (res.code == 200) {
+                    setINCIAddTable(res.data);
+                    $("#select-btn2").bootstrapTable('hideColumn', 'id');
+                }
+                console.log(res)
+            })
+        })
+
+
     })
 
     //新增INCI数据关闭按钮
     $("#add-inci-close-btn").click(function () {
         $('#add-inci-modal').modal('hide');
+    })
+    //INCI信息中文关闭
+    $("#add-inci-close-btn2").click(function () {
+        $('#add-inci-luru').modal('hide');
+    })
+    //INCI信息中文确定
+    $("#add-inci-submit-btn2").click(function () {
+        // let rows = getTableSelection("#menuSettingsTable");
+        var id= commodity_id;
+
+        var inci_chn=$('#inci-chn').val();
+        var inci_chn1=$('#inci-chn1').val();
+        var inci_chn2=$('#inci-chn2').val();
+        $ajax({
+            type: 'post',
+            url: '/commodity_inci/incichn',
+            data: {
+                inci_chn: inci_chn,
+                inci_chn1: inci_chn1,
+                inci_chn2: inci_chn2,
+                id:id,
+            }
+        }, false, '', function (res) {
+            if(res.code==200){
+                alert(res.msg);
+                $('#add-inci-luru').modal('hide');
+                $ajax({
+                    type: 'post',
+                    url: '/commodity_inci/getListById',
+                    data: {
+                        id: commodity_id,
+                    }
+                }, false, '', function (res) {
+                    if (res.code == 200) {
+                        setINCITable(res.data);
+                        $("#show-table-inci").bootstrapTable('hideColumn', 'id');
+                        $('#add-inci-luru').modal('show');
+                    } else {
+                        return;
+                    }
+                    console.log(res)
+                })
+                getList();
+            }
+        })
+        //alert('添加成功！')
+
+
+
     })
 
     //新增INCI数据确定按钮
@@ -1049,34 +1373,37 @@ $(function () {
             $ajax({
                 type: 'post',
                 url: '/commodity_inci/insert',
-                data:{
-                    commodityId:commodity_id,
-                    cas:row.cas,
-                    content:row.content,
-                    inciId:row.data.id,
+                data: {
+                    commodityId: commodity_id,
+                    cas: row.cas,
+                    content: row.content,
+                    inciId: row.data.id,
                 }
             }, false, '', function (res) {
 
             })
         })
         alert('添加成功！')
+
         $('#add-inci-modal').modal('hide');
         $ajax({
             type: 'post',
             url: '/commodity_inci/getListById',
-            data:{
-                id:commodity_id,
+            data: {
+                id: commodity_id,
             }
         }, false, '', function (res) {
             if (res.code == 200) {
                 setINCITable(res.data);
                 $("#show-table-inci").bootstrapTable('hideColumn', 'id');
                 $('#show-inci-modal').modal('show');
-            }else{
+            } else {
                 return;
             }
             console.log(res)
         })
+        getList();
+
     })
 
     //点击删除按钮
@@ -1106,15 +1433,15 @@ $(function () {
                     $ajax({
                         type: 'post',
                         url: '/commodity_inci/getListById',
-                        data:{
-                            id:commodity_id,
+                        data: {
+                            id: commodity_id,
                         }
                     }, false, '', function (res) {
                         if (res.code == 200) {
                             setINCITable(res.data);
                             $("#show-table-inci").bootstrapTable('hideColumn', 'id');
                             $('#show-inci-modal').modal('show');
-                        }else{
+                        } else {
                             return;
                         }
                         console.log(res)
@@ -1122,6 +1449,7 @@ $(function () {
                 }
             })
         }
+        getList();
     })
 
     //新增标签
@@ -1138,8 +1466,7 @@ $(function () {
     //点击提交按钮
 
     function gosearch() {
-        if(window.event.keyCode == 13)
-        {
+        if (window.event.keyCode == 13) {
             search();
             return false;
         }
@@ -1154,9 +1481,9 @@ $(function () {
         label1 = label1.split(',')
         console.log(label1)
         let this_params = []
-        if(label1.length > 1){
-            for(let i = 0;i<label1.length;i++){
-                let this_params = {type:type, label1:label1[i]}
+        if (label1.length > 1) {
+            for (let i = 0; i < label1.length; i++) {
+                let this_params = {type: type, label1: label1[i]}
                 $ajax({
                     type: 'post',
                     url: '/label/add',
@@ -1166,15 +1493,15 @@ $(function () {
                     dataType: 'json',
                     contentType: 'application/json;charset=utf-8'
                 }, false, '', function (res) {
-                    if(res.code == 200){
-                        if(i == label1.length - 1){
+                    if (res.code == 200) {
+                        if (i == label1.length - 1) {
                             alert(res.msg)
                             $('#add-form-label')[0].reset();
                             $('#add-type-label').val($.session.get
                             ('type'))
-                            if(label_name!="物质标签"){
+                            if (label_name != "物质标签") {
                                 getLabelList();
-                            }else{
+                            } else {
                                 $ajax({
                                     type: 'post',
                                     url: '/label/wuzhiList',
@@ -1191,7 +1518,7 @@ $(function () {
                     }
                 })
             }
-        }else{
+        } else {
             this_params = params
             $ajax({
                 type: 'post',
@@ -1203,11 +1530,11 @@ $(function () {
                 contentType: 'application/json;charset=utf-8'
             }, false, '', function (res) {
                 alert(res.msg)
-                if(res.code == 200){
+                if (res.code == 200) {
                     $('#add-form-label')[0].reset();
-                    if(label_name!="物质标签"){
+                    if (label_name != "物质标签") {
                         getLabelList();
-                    }else{
+                    } else {
                         $ajax({
                             type: 'post',
                             url: '/label/wuzhiList',
@@ -1230,16 +1557,16 @@ function fileShow(id) {
     $ajax({
         type: 'post',
         url: '/file_table/getList',
-        data:{
-            otherId:id,
-            type:"原料商品",
+        data: {
+            otherId: id,
+            type: "原料商品",
         }
     }, false, '', function (res) {
         if (res.code == 200) {
             setShowFileTable(res.data);
             $('#show-file-modal').modal('show');
-            otherId=id;
-        }else{
+            otherId = id;
+        } else {
             return;
         }
         console.log(res)
@@ -1250,16 +1577,16 @@ function inciShow(id) {
     $ajax({
         type: 'post',
         url: '/commodity_inci/getListById',
-        data:{
-            id:id,
+        data: {
+            id: id,
         }
     }, false, '', function (res) {
         if (res.code == 200) {
             setINCITable(res.data);
             $("#show-table-inci").bootstrapTable('hideColumn', 'id');
             $('#show-inci-modal').modal('show');
-            commodity_id=id;
-        }else{
+            commodity_id = id;
+        } else {
             return;
         }
         console.log(res)
@@ -1278,7 +1605,7 @@ function setTable(data) {
         classes: 'table table-hover table table-bordered',
         idField: 'id',
         pagination: true,
-        pageSize : 15,//单页记录数
+        pageSize: 15,//单页记录数
         clickToSelect: true,
         locale: 'zh-CN',
         toolbar: '#table-toolbar',
@@ -1299,11 +1626,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
 
             }, {
@@ -1312,11 +1639,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 120,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rawSubmissionCode',
@@ -1324,24 +1651,24 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 80,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
-            },{
+            }, {
                 field: 'inciPin',
                 title: 'INCI中文名称及含量',
                 align: 'center',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     // return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:inciShow("+ row.id +")'>"+ value +"</span></div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='" + row.id + "' style='text-decoration:underline;' onclick='javascript:inciShow(" + row.id + ")'>" + value + "</span></div>";
                 }
             }, {
                 field: 'chengbenPin',
@@ -1349,11 +1676,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'productionPlace',
@@ -1361,11 +1688,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'brandName',
@@ -1373,11 +1700,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 130,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'abbreviation',
@@ -1385,11 +1712,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 90,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'substanceLabel',
@@ -1397,11 +1724,11 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'solubility',
@@ -1409,19 +1736,19 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 180,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
-            },  {
+            }, {
                 field: '',
                 title: '目录画册',
                 align: 'center',
                 sortable: true,
                 width: 120,
-                formatter:function(value, row , index){
+                formatter: function (value, row, index) {
                     return '<button onclick="javascript:fileShow(' + row.id + ')" class="btn-xs btn-primary">&nbsp;查看</button> '
                 }
             }
@@ -1478,11 +1805,11 @@ function setCosmeticRawTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'productionPlace',
@@ -1490,11 +1817,11 @@ function setCosmeticRawTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'brandName',
@@ -1502,11 +1829,11 @@ function setCosmeticRawTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'website',
@@ -1514,11 +1841,11 @@ function setCosmeticRawTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 100,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             },
         ],
@@ -1565,7 +1892,7 @@ function setSupplierTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -1577,7 +1904,7 @@ function setSupplierTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -1589,7 +1916,7 @@ function setSupplierTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -1601,7 +1928,7 @@ function setSupplierTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -1613,7 +1940,7 @@ function setSupplierTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -1664,7 +1991,7 @@ function setLabelTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
@@ -1676,13 +2003,13 @@ function setLabelTable(data) {
                 sortable: true,
                 width: 100,
                 formatter: function (value, row, index) {
-                    if(value == null || value == ''){
+                    if (value == null || value == '') {
                         value = '-'
                     }
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 },
                 cellStyle: function (value, row, index) {
-                    if(row.label1==row.label2 || row.label1==row.label3){
+                    if (row.label1 == row.label2 || row.label1 == row.label3) {
                         return {css: {"background-color": "#f08080"}};
                     }
                     return '';
@@ -1737,28 +2064,30 @@ function setLabelTable(data) {
     })
 }
 
-function dataURLtoBlob(dataurl,name) {//name:文件名
-    var mime = name.substring(name.lastIndexOf('.')+1)//后缀名
+function dataURLtoBlob(dataurl, name) {//name:文件名
+    var mime = name.substring(name.lastIndexOf('.') + 1)//后缀名
     var bstr = atob(dataurl), n = bstr.length, u8arr = new Uint8Array(n);
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
     }
-    return new Blob([u8arr], { type: mime });
+    return new Blob([u8arr], {type: mime});
 }
-function downloadFile(url,name='默认文件名'){
+
+function downloadFile(url, name = '默认文件名') {
     var a = document.createElement("a")//创建a标签触发点击下载
-    a.setAttribute("href",url)//附上
-    a.setAttribute("download",name)
-    a.setAttribute("target","_blank")
+    a.setAttribute("href", url)//附上
+    a.setAttribute("download", name)
+    a.setAttribute("target", "_blank")
     let clickEvent = document.createEvent("MouseEvents");
     clickEvent.initEvent("click", true, true);
     a.dispatchEvent(clickEvent);
 }
+
 //主函数
-function downloadFileByBase64(name,base64){
-    var myBlob = dataURLtoBlob(base64,name)
+function downloadFileByBase64(name, base64) {
+    var myBlob = dataURLtoBlob(base64, name)
     var myUrl = URL.createObjectURL(myBlob)
-    downloadFile(myUrl,name)
+    downloadFile(myUrl, name)
 }
 
 //获取后缀
@@ -1812,7 +2141,7 @@ function base64ToBlob(code) {
     for (let i = 0; i < rawLength; ++i) {
         uInt8Array[i] = raw.charCodeAt(i)
     }
-    return new Blob([uInt8Array], { type: 'application/pdf' })
+    return new Blob([uInt8Array], {type: 'application/pdf'})
 }
 
 function setShowFileTable(data) {
@@ -1882,11 +2211,11 @@ function setINCITable(data) {
                 align: 'center',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'chineseName',
@@ -1894,11 +2223,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'englishName',
@@ -1906,23 +2235,23 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
-            },{
+            }, {
                 field: 'cas',
                 title: 'CAS',
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'content',
@@ -1930,23 +2259,23 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"%</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "%</div>";
                 }
-            },  {
+            }, {
                 field: 'rinsingProducts',
                 title: '淋洗类产品最高历史使用量（%）',
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"%</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "%</div>";
                 }
             }, {
                 field: 'residentProducts',
@@ -1954,11 +2283,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"%</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "%</div>";
                 }
             }, {
                 field: 'rawRemarks',
@@ -1966,11 +2295,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'purpose',
@@ -1978,11 +2307,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'riskSubstance',
@@ -1990,11 +2319,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'safetyRisk',
@@ -2002,11 +2331,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'safetyAssessment',
@@ -2014,11 +2343,11 @@ function setINCITable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'id',
@@ -2051,8 +2380,8 @@ function setINCIAddTable(data) {
         classes: 'table table-hover',
         idField: 'id',
         pagination: true,
-        search: true,
-        searchAlign: 'left',
+        // search: true,
+        // searchAlign: 'left',
         clickToSelect: true,
         locale: 'zh-CN',
         columns: [
@@ -2065,7 +2394,7 @@ function setINCIAddTable(data) {
                 formatter: function (value, row, index) {
                     return '<input type="text" class="form-control" />'
                 }
-            },{
+            }, {
                 field: 'content',
                 title: '成分含量',
                 align: 'left',
@@ -2080,11 +2409,11 @@ function setINCIAddTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'chineseName',
@@ -2092,11 +2421,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'englishName',
@@ -2104,11 +2433,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rinsingProducts',
@@ -2116,11 +2445,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'residentProducts',
@@ -2128,11 +2457,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'rawRemarks',
@@ -2140,11 +2469,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'purpose',
@@ -2152,11 +2481,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'riskSubstance',
@@ -2164,11 +2493,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'safetyRisk',
@@ -2176,11 +2505,11 @@ function setINCIAddTable(data) {
                 align: 'left',
                 sortable: true,
                 width: 200,
-                formatter:function(value, row , index){
-                    if(value == null || value == ''){
+                formatter: function (value, row, index) {
+                    if (value == null || value == '') {
                         value = '-'
                     }
-                    return "<div title='"+value+"'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\""+row.id+"\",true)'>"+value+"</div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }
             }, {
                 field: 'id',
@@ -2216,8 +2545,8 @@ function getRows(tableEl) {
                 result.push({
                     index: index,
                     data: tableData[index],
-                    cas:cas,
-                    content:content
+                    cas: cas,
+                    content: content
                 })
             }
         }

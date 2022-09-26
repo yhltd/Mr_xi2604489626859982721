@@ -90,6 +90,24 @@ public class LabelController {
             return ResultInfo.error("错误!");
         }
     }
+    /**
+     * 查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getListByWuLiwuli")
+    public ResultInfo getListByWuLiwuli( String label1) {
+        try {
+            List<Label> getListByWuLiwuli = iLabelService.getListByWuLiwuli(label1);
+            return ResultInfo.success("获取成功", getListByWuLiwuli);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+
 
     /**
      * 查询

@@ -194,11 +194,10 @@ $(function () {
 })
 
 function setTable(data) {
-    if ($('#labelTable').html != '') {
+
+    if ($('#labelTable').html != '' ) {
         $('#labelTable').bootstrapTable('load', data);
     }
-
-
 
     $('#labelTable').bootstrapTable({
         data: data,
@@ -228,6 +227,7 @@ function setTable(data) {
                 align: 'center',
                 sortable: true,
                 width: 200,
+                visible: $.session.get('label') != "功效标签" && $.session.get('label') != "原料标签",
                 formatter: function (value, row, index) {
                     return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'>" + value + "</div>";
                 }

@@ -63,4 +63,5 @@ public interface ILabelService extends IService<Label> {
 
     List<Label> getListByWuLi();
 
+    List<Label> getListByWuLiwuli(String label1);
 }

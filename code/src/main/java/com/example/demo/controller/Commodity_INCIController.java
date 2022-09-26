@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Commodity_INCI;
+import com.example.demo.entity.INCI_Information;
 import com.example.demo.service.ICommodity_INCIService;
+import com.example.demo.service.INCI_InformationService;
 import com.example.demo.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,10 @@ public class Commodity_INCIController {
 
     @Autowired
     ICommodity_INCIService iCommodity_INCIService;
+    @Autowired
+    INCI_InformationService inci_informationService;
+    @Autowired
+    ICommodity_INCIService iCommodity_inciService;
 
     /**
      * 查询
@@ -189,6 +195,58 @@ public class Commodity_INCIController {
         try {
             iCommodity_INCIService.insert(commodityId,cas,content,inciId);
                 return ResultInfo.success("添加失败", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("添加失败：{}", e.getMessage());
+            return ResultInfo.error("添加失败");
+        }
+    }
+
+    /**
+     * 添加
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/incichn")
+    public ResultInfo incichn(String inci_chn1,String inci_chn2,String inci_chn,int id,HttpSession session) {
+        PowerUtil powerUtil = PowerUtil.getPowerUtil(session);
+        if (!powerUtil.isAdd("录入原料商品")) {
+            return ResultInfo.error(401, "无权限");
+        }
+//        int a=0;
+//        int a1=0;
+//        int a2=0;
+//        for(int i=0;i<inci_chn.split("、").length;i++){
+//            a=i;
+//        }
+//        for(int i=0;i<inci_chn1.split("、").length;i++){
+//            a1=i;
+//        }
+//        for(int i=0;i<inci_chn2.split("、").length;i++){
+//            a2=i;
+//        }
+        try {
+            if (inci_chn1 != "" && inci_chn1 != "" && inci_chn2 != ""){
+                if(inci_chn.split("、").length == inci_chn1.split("、").length && inci_chn.split("、").length == inci_chn2.split("、").length && inci_chn1.split("、").length == inci_chn2.split("、").length){
+                    for(int i=0;i<inci_chn.split("、").length;i++){
+                        List<INCI_Information>list=inci_informationService.getListByChnName(inci_chn.split("、")[i]);
+                        if (list.size()>0) {
+                            iCommodity_inciService.insert(id,inci_chn1.split("、")[i],inci_chn2.split("、")[i],list.get(0).getId());
+                        }
+                    }
+                    return ResultInfo.success("添加成功");
+                }
+            }else{
+                return ResultInfo.success("INIC中文名称，CAS，成分含量不能为空");
+            }
+
+//            for(int i=0;i<inci_chn.split("、").length;i++){
+//                List<INCI_Information>list=inci_informationService.getListByChnName(inci_chn.split("、")[i]);
+//                if (list.size()>0) {
+//                    iCommodity_inciService.insert(id,"","",list.get(0).getId());
+//                }
+//            }
+            return ResultInfo.success("INIC中文名称，CAS，成分含量输入的个数不一致");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("添加失败：{}", e.getMessage());

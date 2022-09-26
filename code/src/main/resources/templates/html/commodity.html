@@ -418,6 +418,13 @@
             <div class="modal-header">
                 <div class="modal-title">选择标签信息</div>
             </div>
+<!--            <div class="">-->
+<!--                <input id="label1_a" type="text" class="form-control" placeholder="输入不想显示的标签" autocomplete="off"  style="width: 400px; margin-left: 10px;float: left;margin-top: 3px" >-->
+<!--                <button id="select-btn5" class="btn btn-primary" style="float: left;margin-left: 10px;margin-top: 3px">-->
+<!--                    <i class="bi bi-search icon"></i>-->
+<!--                    查询-->
+<!--                </button>-->
+<!--            </div>-->
             <div class="modal-body">
                 <input id="showLabelInfoId" type="hidden"/>
                 <table id="show-table-label"></table>
@@ -538,14 +545,19 @@
             <div class="modal-header">
                 <div class="modal-title">INCI信息</div>
             </div>
+
             <div class="modal-body">
-                <input id="showINCIInfoId" type="hidden"/>
                 <table id="show-table-inci"></table>
             </div>
+
             <div class="border-top" style="padding: 15px;">
                 <button id="inci-submit-btn" type="button" class="btn btn-primary">
                     <i class="bi bi-plus-square icon"></i>
                     新增
+                </button>
+                <button id="inci-submit-btn2" type="button" class="btn btn-primary">
+                    <i class="bi bi-plus-square icon"></i>
+                    新增中文名称
                 </button>
                 <button id="inci-delete-btn" type="button" class="btn btn-primary">
                     <i class="bi bi-trash icon"></i>
@@ -567,6 +579,19 @@
             <div class="modal-header">
                 <div class="modal-title">选择INCI信息</div>
             </div>
+            <div class="">
+                <input id="chineseName_a" type="text" class="form-control" placeholder="INCI名称/中文名称" autocomplete="off"  style="width: 200px; margin-left: 10px;float: left;margin-top: 3px" >
+                <input id="englishName_a" type="text" class="form-control" placeholder="INCI名称/英文名称" autocomplete="off"  style="width: 200px; margin-left: 10px;float: left;margin-top: 3px" >
+                <button id="select-btn1" class="btn btn-primary" style="float: left;margin-left: 10px;margin-top: 3px">
+                    <i class="bi bi-search icon"></i>
+                    模糊查询
+                </button>
+                <button id="select-btn2" class="btn btn-primary" style="float: left;margin-left: 10px;margin-top: 3px">
+                    <i class="bi bi-search icon"></i>
+                    精确查询
+                </button>
+
+            </div>
             <div class="modal-body">
                 <table id="add-table-inci"></table>
             </div>
@@ -576,6 +601,32 @@
                     确定
                 </button>
                 <button id="add-inci-close-btn" type="button" class="btn btn-primary left-margin">
+                    <i class="bi bi-x-circle icon"></i>
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    查询INCI信息窗体-->
+<div id="add-inci-luru" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg" style="max-width: 1200px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">INCI信息中文</div>
+            </div>
+            <div class="">
+                <textarea id="inci-chn" class="form-control" placeholder="请输入INCI中文名称，多个请用顿号分隔开"></textarea>
+                <textarea id="inci-chn1" class="form-control" placeholder="请输入CAS，多个请用顿号分隔开"></textarea>
+                <textarea id="inci-chn2" class="form-control" placeholder="请输入成分含量，多个请用顿号分隔开"></textarea>
+            </div>
+            <div class="border-top" style="padding: 15px;">
+                <button id="add-inci-submit-btn2" type="button" class="btn btn-primary">
+                    <i class="bi bi-arrow-bar-up icon"></i>
+                    确定
+                </button>
+                <button id="add-inci-close-btn2" type="button" class="btn btn-primary left-margin">
                     <i class="bi bi-x-circle icon"></i>
                     关闭
                 </button>

@@ -53,6 +53,44 @@ public class INCI_InformationController {
      *
      * @return ResultInfo
      */
+    @RequestMapping("/getlistobscure")
+    public ResultInfo getlistobscure(String chineseName_a,String englishName_a) {
+
+        try {
+            List<INCI_Information> getlistobscure = iNCI_InformationService.getlistobscure(chineseName_a,englishName_a);
+            return ResultInfo.success("获取成功", getlistobscure);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+
+
+    /**
+     * 精准查询
+     *
+     * @return ResultInfo
+     */
+    @RequestMapping("/getlistprecision")
+    public ResultInfo getlistprecision(String chineseName_a,String englishName_a) {
+        try {
+            List<INCI_Information> getlistprecision = iNCI_InformationService.getlistprecision(chineseName_a,englishName_a);
+            return ResultInfo.success("获取成功", getlistprecision);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("获取失败：{}", e.getMessage());
+            return ResultInfo.error("错误!");
+        }
+    }
+
+
+    /**
+     * 模糊查询
+     *
+     * @return ResultInfo
+     */
     @RequestMapping("/queryList")
     public ResultInfo queryList(String query,HttpSession session) {
         PowerUtil powerUtil = PowerUtil.getPowerUtil(session);

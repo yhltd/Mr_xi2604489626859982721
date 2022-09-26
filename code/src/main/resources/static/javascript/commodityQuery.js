@@ -703,7 +703,7 @@ function setTable(data) {
                     var reg = new RegExp("<br><br>","g")
                     let this_value = value.replace(reg,"<br>")
                     console.log(this_value)
-                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:xiangqingShow2("+ index +")'><span style='width:100%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;'>"+ this_value +"</span></span></div>";
+                    return "<div title='" + value + "'; style='overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width: 100%;word-wrap:break-all;word-break:break-all;' href='javascript:edit(\"" + row.id + "\",true)'><span id='"+ row.id +"' style='text-decoration:underline;' onclick='javascript:xiangqingShow2("+ index +")'>"+ this_value +"</span></div>";
                 }
             }
             // , {
